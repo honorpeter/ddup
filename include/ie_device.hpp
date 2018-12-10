@@ -21,8 +21,8 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <ie_api.h>
-#include <ie_common.h>
+#include "ie_api.h"
+#include "ie_common.h"
 
 namespace InferenceEngine {
 

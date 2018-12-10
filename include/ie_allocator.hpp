@@ -19,7 +19,7 @@
 #pragma once
 
 #include <details/ie_irelease.hpp>
-#include <ie_api.h>
+#include "ie_api.h"
 
 namespace InferenceEngine {
 

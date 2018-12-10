@@ -18,8 +18,8 @@
  */
 #pragma once
 
-#include <ie_icnn_network.hpp>
-#include <ie_iextension.h>
+#include "ie_icnn_network.hpp"
+#include "ie_iextension.h"
 #include "ie_api.h"
 #include "details/ie_no_copy.hpp"
 #include "ie_error.hpp"

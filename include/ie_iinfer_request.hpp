@@ -20,7 +20,7 @@
 #pragma once
 
 #include "ie_common.h"
-#include <ie_blob.h>
+#include "ie_blob.h"
 #include <memory>
 #include <string>
 #include <map>

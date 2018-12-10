@@ -20,9 +20,9 @@
 #include <map>
 #include <string>
 #include <memory>
-#include <ie_icnn_network.hpp>
-#include <ie_iexecutable_network.hpp>
-#include <ie_plugin.hpp>
+#include "ie_icnn_network.hpp"
+#include "ie_iexecutable_network.hpp"
+#include "ie_plugin.hpp"
 
 namespace InferenceEngine {
 
