@@ -168,7 +168,7 @@ int main(int argc, char *argv[]) {
 
     pthread_t callThd[NET_SIZE];
     for (int i = 0; i < NET_SIZE; i++) {
-        int rc = pthread_create(&callThd[i], NULL, run, (void *) &inferRequest[NET_SIZE - i]);
+        int rc = pthread_create(&callThd[i], NULL, run, (void *) &inferRequest[NET_SIZE - i - 1]);
         pthread_join(callThd[i], NULL);
     }
 
