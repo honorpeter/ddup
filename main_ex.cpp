@@ -160,12 +160,12 @@ int main(int argc, char *argv[]) {
     CNNNetReader reader[NET_SIZE];
 
     createPlugin(plugin[0],0);
-    readNet(reader[0]);
 
     for (int i = 0; i < NET_SIZE; i++) {
-        executableNetwork[i] = plugin[0].LoadNetwork(reader[0].getNetwork(), {});
+        readNet(reader[i]);
+        executableNetwork[i] = plugin[0].LoadNetwork(reader[1].getNetwork(), {});
         inferRequest[i] = executableNetwork[i].CreateInferRequest();
-        fillData(inferRequest[i], reader[0]);
+        fillData(inferRequest[i], reader[i]);
     }
 
     pthread_t callThd[NET_SIZE];
