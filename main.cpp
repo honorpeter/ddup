@@ -418,8 +418,8 @@ int main(int argc, char *argv[]) {
 
     /** Specifying the precision and layout of input data provided by the user.
      * This should be called before load of the network to the plugin **/
-    inputInfoItem.second->setPrecision(Precision::FP32);
-    inputInfoItem.second->setLayout(Layout::NHWC);
+
+
 
     /** Setting batch size using image count **/
     network.setBatchSize(8);
@@ -444,6 +444,7 @@ int main(int argc, char *argv[]) {
         outputData->setPrecision(Precision::FP32);
         outputData->setLayout(Layout::NC);
     }
+
 
     // -----------------------------------------------------------------------------------------------------
 
@@ -533,7 +534,7 @@ int main(int argc, char *argv[]) {
     // --------------------------- 4. Loading model to the plugin ------------------------------------------
     slog::info << "Loading model to the plugin" << slog::endl;
 
-    ExecutableNetwork executable_network2 = plugin2.LoadNetwork(network2, {});
+    ExecutableNetwork executable_network2 = plugin.LoadNetwork(network2, {});
     inputInfoItem2.second = {};
     outputInfo2 = {};
     network2 = {};

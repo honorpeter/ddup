@@ -56,12 +56,12 @@ int main(int argc, char *argv[]) {
     try {
         slog::info << "InferenceEngine: " << GetInferenceEngineVersion() << slog::endl;
 
-        // ------------------------------ Parsing and validation of input args ---------------------------------
+        // ------------------------------转换/验证输入参数 ---------------------------------
         if (!ParseAndCheckCommandLine(argc, argv)) {
             return 0;
         }
 
-        /** This vector stores paths to the processed images **/
+        /** 获取输入文件 **/
         std::vector<std::string> imageNames;
         parseInputFilesArguments(imageNames);
         if (imageNames.empty()) throw std::logic_error("No suitable images were found");
@@ -69,12 +69,12 @@ int main(int argc, char *argv[]) {
 
         // --------------------------- 1. Load Plugin for inference engine -------------------------------------
         slog::info << "Loading plugin" << slog::endl;
-        InferencePlugin plugin = PluginDispatcher({ FLAGS_pp, "../../../lib/intel64" , "" }).getPluginByDevice(FLAGS_d);
+        InferencePlugin plugin = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getPluginByDevice(FLAGS_d);
         if (FLAGS_p_msg) {
             static_cast<InferenceEngine::InferenceEnginePluginPtr>(plugin)->SetLogCallback(error_listener);
         }
 
-        /** Loading default extensions **/
+        /** 加载默认插件 **/
         if (FLAGS_d.find("CPU") != std::string::npos) {
             /**
              * cpu_extensions library is compiled from "extension" folder containing
@@ -98,10 +98,10 @@ int main(int argc, char *argv[]) {
 
         /** Setting plugin parameter for collecting per layer metrics **/
         if (FLAGS_pc) {
-            plugin.SetConfig({ { PluginConfigParams::KEY_PERF_COUNT, PluginConfigParams::YES } });
+            plugin.SetConfig({{PluginConfigParams::KEY_PERF_COUNT, PluginConfigParams::YES}});
         }
 
-        /** Printing plugin version **/
+        /** 打印插件版本 **/
         printPluginVersion(plugin, std::cout);
         // -----------------------------------------------------------------------------------------------------
 
@@ -113,10 +113,10 @@ int main(int argc, char *argv[]) {
                    slog::endl;
 
         CNNNetReader networkReader;
-        /** Reading network model **/
+        /** 读取模型描述文件 **/
         networkReader.ReadNetwork(FLAGS_m);
 
-        /** Extracting model name and loading weights **/
+        /** 读取模型权重文件 **/
         networkReader.ReadWeights(binFileName);
         CNNNetwork network = networkReader.getNetwork();
         // -----------------------------------------------------------------------------------------------------
@@ -126,36 +126,19 @@ int main(int argc, char *argv[]) {
         // --------------------------- Prepare input blobs -----------------------------------------------------
         slog::info << "Preparing input blobs" << slog::endl;
 
-        /** Taking information about all topology inputs **/
+        /**获取所有的输入*/
         InputsDataMap inputInfo = network.getInputsInfo();
         if (inputInfo.size() != 1) throw std::logic_error("Sample supports topologies only with 1 input");
-
+        /** 获取第一个输入*/
         auto inputInfoItem = *inputInfo.begin();
 
         /** Specifying the precision and layout of input data provided by the user.
          * This should be called before load of the network to the plugin **/
-        inputInfoItem.second->setPrecision(Precision::U8);
+        inputInfoItem.second->setPrecision(Precision::FP32);
         inputInfoItem.second->setLayout(Layout::NCHW);
 
-        std::vector<std::shared_ptr<unsigned char>> imagesData;
-        for (auto & i : imageNames) {
-            FormatReader::ReaderPtr reader(i.c_str());
-            if (reader.get() == nullptr) {
-                slog::warn << "Image " + i + " cannot be read!" << slog::endl;
-                continue;
-            }
-            /** Store image data **/
-            std::shared_ptr<unsigned char> data(
-                    reader->getData(inputInfoItem.second->getTensorDesc().getDims()[3],
-                                    inputInfoItem.second->getTensorDesc().getDims()[2]));
-            if (data.get() != nullptr) {
-                imagesData.push_back(data);
-            }
-        }
-        if (imagesData.empty()) throw std::logic_error("Valid input images were not found!");
-
         /** Setting batch size using image count **/
-        network.setBatchSize(imagesData.size());
+        network.setBatchSize(imageNames.size());
         size_t batchSize = network.getBatchSize();
         slog::info << "Batch size is " << std::to_string(batchSize) << slog::endl;
 
@@ -166,7 +149,7 @@ int main(int argc, char *argv[]) {
         // BlobMap outputBlobs;
         std::string firstOutputName;
 
-        for (auto & item : outputInfo) {
+        for (auto &item : outputInfo) {
             if (firstOutputName.empty()) {
                 firstOutputName = item.first;
             }
@@ -175,22 +158,10 @@ int main(int argc, char *argv[]) {
                 throw std::logic_error("output data pointer is not valid");
             }
 
-            item.second->setPrecision(Precision::FP32);
+            outputData->setPrecision(Precision::FP32);
+            outputData->setLayout(Layout::NCHW);
         }
 
-        const SizeVector outputDims = outputInfo.begin()->second->getDims();
-
-        bool outputCorrect = false;
-        if (outputDims.size() == 2 /* NC */) {
-            outputCorrect = true;
-        } else if (outputDims.size() == 4 /* NCHW */) {
-            /* H = W = 1 */
-            if (outputDims[2] == 1 && outputDims[3] == 1) outputCorrect = true;
-        }
-
-        if (!outputCorrect) {
-            throw std::logic_error("Incorrect output dimensions for classification model");
-        }
         // -----------------------------------------------------------------------------------------------------
 
         // --------------------------- 4. Loading model to the plugin ------------------------------------------
@@ -208,8 +179,10 @@ int main(int argc, char *argv[]) {
         // -----------------------------------------------------------------------------------------------------
 
         // --------------------------- 6. Prepare input --------------------------------------------------------
-        /** Iterate over all the input blobs **/
-        for (const auto & item : inputInfo) {
+
+
+        /** 遍历所有输入 **/
+        for (const auto &item : inputInfo) {
             /** Creating input blob **/
             Blob::Ptr input = infer_request.GetBlob(item.first);
 
@@ -217,18 +190,18 @@ int main(int argc, char *argv[]) {
             size_t num_channels = input->getTensorDesc().getDims()[1];
             size_t image_size = input->getTensorDesc().getDims()[2] * input->getTensorDesc().getDims()[3];
 
-            auto data = input->buffer().as<PrecisionTrait<Precision::U8>::value_type*>();
+            FILE *pInputFile = fopen(imageNames[0].c_str(), "rb");
+            float pInput[num_channels * image_size];
+            fread((void *) pInput, sizeof(float), num_channels * image_size, pInputFile);
+
+            slog::info << "Loading input" << imageNames[0] << " to the data" << slog::endl;
+            slog::info << "input size " << num_channels * image_size << " float" << slog::endl;
+
+            auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
 
             /** Iterate over all input images **/
-            for (size_t image_id = 0; image_id < imagesData.size(); ++image_id) {
-                /** Iterate over all pixel in image (b,g,r) **/
-                for (size_t pid = 0; pid < image_size; pid++) {
-                    /** Iterate over all channels **/
-                    for (size_t ch = 0; ch < num_channels; ++ch) {
-                        /**          [images stride + channels stride + pixel id ] all in bytes            **/
-                        data[image_id * image_size * num_channels + ch * image_size + pid ] = imagesData.at(image_id).get()[pid*num_channels + ch];
-                    }
-                }
+            for (size_t i = 0; i < (num_channels * image_size); ++i) {
+                data[i] = pInput[i];
             }
         }
         inputInfo = {};
@@ -257,58 +230,35 @@ int main(int argc, char *argv[]) {
         slog::info << "Processing output blobs" << slog::endl;
 
         const Blob::Ptr output_blob = infer_request.GetBlob(firstOutputName);
-        auto output_data = output_blob->buffer().as<PrecisionTrait<Precision::FP32>::value_type*>();
 
         /** Validating -nt value **/
         const int resultsCnt = output_blob->size() / batchSize;
         if (FLAGS_nt > resultsCnt || FLAGS_nt < 1) {
             slog::warn << "-nt " << FLAGS_nt << " is not available for this network (-nt should be less than " \
-                      << resultsCnt+1 << " and more than 0)\n            will be used maximal value : " << resultsCnt;
+ << resultsCnt + 1 << " and more than 0)\n            will be used maximal value : " << resultsCnt;
             FLAGS_nt = resultsCnt;
         }
 
         /** This vector stores id's of top N results **/
         std::vector<unsigned> results;
-        TopResults(FLAGS_nt, *output_blob, results);
-
         std::cout << std::endl << "Top " << FLAGS_nt << " results:" << std::endl << std::endl;
 
-        /** Read labels from file (e.x. AlexNet.labels) **/
-        bool labelsEnabled = false;
-        std::string labelFileName = fileNameNoExt(FLAGS_m) + ".labels";
-        std::vector<std::string> labels;
+        const LockedMemory<const void> memLocker = output_blob->cbuffer();
+        const float *output_buffer = memLocker.as<PrecisionTrait<Precision::FP32>::value_type *>();
 
-        std::ifstream inputFile;
-        inputFile.open(labelFileName, std::ios::in);
-        if (inputFile.is_open()) {
-            std::string strLine;
-            while (std::getline(inputFile, strLine)) {
-                trim(strLine);
-                labels.push_back(strLine);
-            }
-            labelsEnabled = true;
+        slog::info << "Print fea \n" << slog::endl;
+
+        for (int i = 0; i < 512; i++) {
+            float fea = *(output_buffer + i);
+            std::cout << std::endl << "_" << fea << std::endl;
         }
 
-        /** Print the result iterating over each batch **/
-        for (int image_id = 0; image_id < batchSize; ++image_id) {
-            std::cout << "Image " << imageNames[image_id] << std::endl << std::endl;
-            for (size_t id = image_id * FLAGS_nt, cnt = 0; cnt < FLAGS_nt; ++cnt, ++id) {
-                std::cout.precision(7);
-                /** Getting probability for resulting class **/
-                const auto result = output_data[results[id] + image_id*(output_blob->size() / batchSize)];
-                std::cout << std::left << std::fixed << results[id] << " " << result;
-                if (labelsEnabled) {
-                    std::cout << " label " << labels[results[id]] << std::endl;
-                } else {
-                    std::cout << " label #" << results[id] << std::endl;
-                }
-            }
-            std::cout << std::endl;
-        }
         // -----------------------------------------------------------------------------------------------------
         std::cout << std::endl << "total inference time: " << total << std::endl;
-        std::cout << "Average running time of one iteration: " << total / static_cast<double>(FLAGS_ni) << " ms" << std::endl;
-        std::cout << std::endl << "Throughput: " << 1000 * static_cast<double>(FLAGS_ni) * batchSize / total << " FPS" << std::endl;
+        std::cout << "Average running time of one iteration: " << total / static_cast<double>(FLAGS_ni) << " ms"
+                  << std::endl;
+        std::cout << std::endl << "Throughput: " << 1000 * static_cast<double>(FLAGS_ni) * batchSize / total << " FPS"
+                  << std::endl;
         std::cout << std::endl;
 
         /** Show performance results **/
@@ -316,7 +266,7 @@ int main(int argc, char *argv[]) {
             printPerformanceCounts(infer_request, std::cout);
         }
     }
-    catch (const std::exception& error) {
+    catch (const std::exception &error) {
         slog::err << "" << error.what() << slog::endl;
         return 1;
     }
