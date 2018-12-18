@@ -19,6 +19,7 @@
 #include <chrono>
 #include <memory>
 #include <string>
+#include <unistd.h>
 
 #include <inference_engine.hpp>
 #include <ext_list.hpp>
@@ -466,17 +467,19 @@ int main(int argc, char *argv[]) {
         size_t image_size = input->getTensorDesc().getDims()[2] * input->getTensorDesc().getDims()[3];
 
         FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
-        float pInput[num_channels * image_size];
-        size_t readed_num = fread((void *) pInput, sizeof(float), num_channels * image_size, pInputFile);
+        float pInput[8*224*224*3];
+        size_t readed_num = fread((void *) pInput, sizeof(float), 8*224*224*3, pInputFile);
 
         slog::info << "input size " << readed_num << " float" << slog::endl;
 
         auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
 
         /** Iterate over all input images **/
-        for (size_t i = 0; i < (num_channels * image_size); ++i) {
+        for (size_t i = 0; i < (8*224*224*3); ++i) {
             data[i] = pInput[i];
         }
+
+        fclose(pInputFile);
     }
     inputInfo = {};
 
@@ -488,20 +491,20 @@ int main(int argc, char *argv[]) {
 
     /** 读取模型权重文件 **/
     networkReader2.ReadWeights(binFileName);
-    CNNNetwork network2 = networkReader.getNetwork();
+    CNNNetwork network2 = networkReader2.getNetwork();
 
     slog::info << "Preparing input blobs" << slog::endl;
 
     /**获取所有的输入*/
     InputsDataMap inputInfo2 = network2.getInputsInfo();
-    if (inputInfo.size() != 1) throw std::logic_error("Sample supports topologies only with 1 input");
+    if (inputInfo2.size() != 1) throw std::logic_error("Sample supports topologies only with 1 input");
     /** 获取第一个输入*/
     auto inputInfoItem2 = *inputInfo2.begin();
 
     /** Specifying the precision and layout of input data provided by the user.
      * This should be called before load of the network to the plugin **/
-    inputInfoItem.second->setPrecision(Precision::FP32);
-    inputInfoItem.second->setLayout(Layout::NHWC);
+    inputInfoItem2.second->setPrecision(Precision::FP32);
+    inputInfoItem2.second->setLayout(Layout::NHWC);
 
     /** Setting batch size using image count **/
     network2.setBatchSize(8);
@@ -530,7 +533,7 @@ int main(int argc, char *argv[]) {
     // --------------------------- 4. Loading model to the plugin ------------------------------------------
     slog::info << "Loading model to the plugin" << slog::endl;
 
-    ExecutableNetwork executable_network2 = plugin2.LoadNetwork(network, {});
+    ExecutableNetwork executable_network2 = plugin2.LoadNetwork(network2, {});
     inputInfoItem2.second = {};
     outputInfo2 = {};
     network2 = {};
@@ -547,39 +550,27 @@ int main(int argc, char *argv[]) {
         size_t image_size = input->getTensorDesc().getDims()[2] * input->getTensorDesc().getDims()[3];
 
         FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
-        float pInput[num_channels * image_size];
-        size_t readed_num = fread((void *) pInput, sizeof(float), num_channels * image_size, pInputFile);
+        float pInput[8*224*224*3];
+        size_t readed_num = fread((void *) pInput, sizeof(float), 8*224*224*3, pInputFile);
 
         slog::info << "input size " << readed_num << " float" << slog::endl;
 
         auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
 
         /** Iterate over all input images **/
-        for (size_t i = 0; i < (num_channels * image_size); ++i) {
+        for (size_t i = 0; i < (8*224*224*3); ++i) {
             data[i] = pInput[i];
         }
     }
     inputInfo2 = {};
 
-
-    pthread_t callThd[2];
-
-    int rc = pthread_create(&callThd[0], NULL, run,(void *)&infer_request);
-    if (rc){
-        printf("ERROR: pthread_create() return %d\n", rc);
-        return -1;
-    }
-
-    int rc2 = pthread_create(&callThd[1], NULL, run,(void *)&infer_request2);
-    if (rc2){
-        printf("ERROR: pthread_create() return %d\n", rc);
-        return -1;
-    }
-
-    slog::info << "Execution successful" << slog::endl;
-
-    while (true){
-
+    pid_t pid;
+    if ((pid = fork()) < 0) {
+        slog::info << "fork error " << slog::endl;
+    } else if (pid > 0) {
+        run((void *) &infer_request);
+    } else {
+        run((void *) &infer_request2);
     }
     return 0;
 }
