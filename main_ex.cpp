@@ -155,13 +155,13 @@ int main(int argc, char *argv[]) {
 
     ExecutableNetwork executableNetwork[NET_SIZE];
     InferRequest inferRequest[NET_SIZE];
-    InferencePlugin plugin[NET_SIZE];
+    InferencePlugin plugin;
     CNNNetReader reader[NET_SIZE];
+    createPlugin(plugin,0);
 
     for (int i = 0; i < NET_SIZE; i++) {
-        createPlugin(plugin[i],i);
         readNet(reader[i]);
-        executableNetwork[i] = plugin[i].LoadNetwork(reader[i].getNetwork(), {});
+        executableNetwork[i] = plugin.LoadNetwork(reader[i].getNetwork(), {});
         inferRequest[i] = executableNetwork[i].CreateInferRequest();
         fillData(inferRequest[i], reader[i]);
     }
