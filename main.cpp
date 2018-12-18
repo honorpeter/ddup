@@ -59,37 +59,7 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
     return true;
 }
 
-void *run(void *t){
-    /** 插件 **/
-    InferencePlugin plugin = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getPluginByDevice(FLAGS_d);
-
-    /** 加载cpu插件 **/
-    if (FLAGS_d.find("CPU") != std::string::npos) {
-        /**
-         * cpu_extensions library is compiled from "extension" folder containing
-         * custom MKLDNNPlugin layer implementations. These layers are not supported
-         * by mkldnn, but they can be useful for inferring custom topologies.
-        **/
-        plugin.AddExtension(std::make_shared<Extensions::Cpu::CpuExtensions>());
-    }
-
-    if (!FLAGS_l.empty()) {
-        // CPU(MKLDNN) extensions are loaded as a shared library and passed as a pointer to base extension
-        auto extension_ptr = make_so_pointer<IExtension>(FLAGS_l);
-        plugin.AddExtension(extension_ptr);
-        slog::info << "CPU Extension loaded: " << FLAGS_l << slog::endl;
-    }
-    if (!FLAGS_c.empty()) {
-        // clDNN Extensions are loaded from an .xml description and OpenCL kernel files
-        plugin.SetConfig({{PluginConfigParams::KEY_CONFIG_FILE, FLAGS_c}});
-        slog::info << "GPU Extension loaded: " << FLAGS_c << slog::endl;
-    }
-
-    /** Setting plugin parameter for collecting per layer metrics **/
-    if (FLAGS_pc) {
-        plugin.SetConfig({{PluginConfigParams::KEY_PERF_COUNT, PluginConfigParams::YES}});
-    }
-    printPluginVersion(plugin, std::cout);
+void *run(void *plugin){
 
     std::string binFileName = fileNameNoExt(FLAGS_m) + ".bin";
     slog::info << "Loading network files:"
@@ -147,7 +117,7 @@ void *run(void *t){
     // --------------------------- 4. Loading model to the plugin ------------------------------------------
     slog::info << "Loading model to the plugin" << slog::endl;
 
-    ExecutableNetwork executable_network = plugin.LoadNetwork(network, {});
+    ExecutableNetwork executable_network = plugin->LoadNetwork(network, {});
     inputInfoItem.second = {};
     outputInfo = {};
     network = {};
@@ -209,6 +179,8 @@ void *run(void *t){
     if (FLAGS_pc) {
         printPerformanceCounts(infer_request, std::cout);
     }
+
+    return 0;
 }
 
 
@@ -450,9 +422,41 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
+    /** 插件 **/
+    InferencePlugin plugin = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getPluginByDevice(FLAGS_d);
+
+    /** 加载cpu插件 **/
+    if (FLAGS_d.find("CPU") != std::string::npos) {
+        /**
+         * cpu_extensions library is compiled from "extension" folder containing
+         * custom MKLDNNPlugin layer implementations. These layers are not supported
+         * by mkldnn, but they can be useful for inferring custom topologies.
+        **/
+        plugin.AddExtension(std::make_shared<Extensions::Cpu::CpuExtensions>());
+    }
+
+    if (!FLAGS_l.empty()) {
+        // CPU(MKLDNN) extensions are loaded as a shared library and passed as a pointer to base extension
+        auto extension_ptr = make_so_pointer<IExtension>(FLAGS_l);
+        plugin.AddExtension(extension_ptr);
+        slog::info << "CPU Extension loaded: " << FLAGS_l << slog::endl;
+    }
+    if (!FLAGS_c.empty()) {
+        // clDNN Extensions are loaded from an .xml description and OpenCL kernel files
+        plugin.SetConfig({{PluginConfigParams::KEY_CONFIG_FILE, FLAGS_c}});
+        slog::info << "GPU Extension loaded: " << FLAGS_c << slog::endl;
+    }
+
+    /** Setting plugin parameter for collecting per layer metrics **/
+    if (FLAGS_pc) {
+        plugin.SetConfig({{PluginConfigParams::KEY_PERF_COUNT, PluginConfigParams::YES}});
+    }
+    printPluginVersion(plugin, std::cout);
+
+
     pthread_t callThd[2];
     for(long t=0; t<2; t++){
-        int rc = pthread_create(&callThd[t], NULL, run,NULL);
+        int rc = pthread_create(&callThd[t], NULL, run,&plugin);
         if (rc){
             printf("ERROR: pthread_create() return %d\n", rc);
             return -1;
@@ -460,5 +464,9 @@ int main(int argc, char *argv[]) {
     }
 
     slog::info << "Execution successful" << slog::endl;
+
+    while (true){
+
+    }
     return 0;
 }
