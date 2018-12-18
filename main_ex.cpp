@@ -143,7 +143,7 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
 }
 
 
-const int NET_SIZE = 2;
+const int NET_SIZE = 1;
 
 int main(int argc, char *argv[]) {
     slog::info << "InferenceEngine: " << GetInferenceEngineVersion() << slog::endl;
