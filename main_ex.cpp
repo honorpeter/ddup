@@ -143,7 +143,7 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
 }
 
 
-const int NET_SIZE = 2;
+const int NET_SIZE = 1;
 
 int main(int argc, char *argv[]) {
     slog::info << "InferenceEngine: " << GetInferenceEngineVersion() << slog::endl;
@@ -162,7 +162,7 @@ int main(int argc, char *argv[]) {
     readNet(reader[0]);
 
     for (int i = 0; i < NET_SIZE; i++) {
-        executableNetwork[i] = plugin[0].LoadNetwork(reader[0].getNetwork(), {{PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::YES}});
+        executableNetwork[i] = plugin[0].LoadNetwork(reader[0].getNetwork(),{});
         inferRequest[i] = executableNetwork[i].CreateInferRequest();
         fillData(inferRequest[i], reader[0]);
     }
