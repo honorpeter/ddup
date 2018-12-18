@@ -61,95 +61,7 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
 
 void *run(void *p){
 
-    InferencePlugin *plugin = (InferencePlugin *)p;
-
-    std::string binFileName = fileNameNoExt(FLAGS_m) + ".bin";
-    slog::info << "Loading network files:"
-                  "\n\t" << FLAGS_m <<
-               "\n\t" << binFileName <<
-               slog::endl;
-
-    CNNNetReader networkReader;
-    /** 读取模型描述文件 **/
-    networkReader.ReadNetwork(FLAGS_m);
-
-    /** 读取模型权重文件 **/
-    networkReader.ReadWeights(binFileName);
-    CNNNetwork network = networkReader.getNetwork();
-
-    slog::info << "Preparing input blobs" << slog::endl;
-
-    /**获取所有的输入*/
-    InputsDataMap inputInfo = network.getInputsInfo();
-    if (inputInfo.size() != 1) throw std::logic_error("Sample supports topologies only with 1 input");
-    /** 获取第一个输入*/
-    auto inputInfoItem = *inputInfo.begin();
-
-    /** Specifying the precision and layout of input data provided by the user.
-     * This should be called before load of the network to the plugin **/
-    inputInfoItem.second->setPrecision(Precision::FP32);
-    inputInfoItem.second->setLayout(Layout::NHWC);
-
-    /** Setting batch size using image count **/
-    network.setBatchSize(8);
-    size_t batchSize = network.getBatchSize();
-    slog::info << "Batch size is " << std::to_string(batchSize) << slog::endl;
-
-    // ------------------------------ Prepare output blobs -------------------------------------------------
-    slog::info << "Preparing output blobs" << slog::endl;
-
-    OutputsDataMap outputInfo(network.getOutputsInfo());
-    // BlobMap outputBlobs;
-    std::string firstOutputName;
-
-    for (auto &item : outputInfo) {
-        if (firstOutputName.empty()) {
-            firstOutputName = item.first;
-        }
-        DataPtr outputData = item.second;
-        if (!outputData) {
-            throw std::logic_error("output data pointer is not valid");
-        }
-        outputData->setPrecision(Precision::FP32);
-        outputData->setLayout(Layout::NC);
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-
-    // --------------------------- 4. Loading model to the plugin ------------------------------------------
-    slog::info << "Loading model to the plugin" << slog::endl;
-
-    ExecutableNetwork executable_network = plugin->LoadNetwork(network, {});
-    inputInfoItem.second = {};
-    outputInfo = {};
-    network = {};
-    networkReader = {};
-
-    InferRequest infer_request = executable_network.CreateInferRequest();
-
-    /** 遍历所有输入 **/
-    for (const auto &item : inputInfo) {
-        /** Creating input blob **/
-        Blob::Ptr input = infer_request.GetBlob(item.first);
-
-        /** Filling input tensor with images. First b channel, then g and r channels **/
-        size_t num_channels = input->getTensorDesc().getDims()[1];
-        size_t image_size = input->getTensorDesc().getDims()[2] * input->getTensorDesc().getDims()[3];
-
-        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
-        float pInput[num_channels * image_size];
-        size_t readed_num = fread((void *) pInput, sizeof(float), num_channels * image_size, pInputFile);
-
-        slog::info << "input size " << readed_num << " float" << slog::endl;
-
-        auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
-
-        /** Iterate over all input images **/
-        for (size_t i = 0; i < (num_channels * image_size); ++i) {
-            data[i] = pInput[i];
-        }
-    }
-    inputInfo = {};
+    InferRequest *infer_request = (InferRequest *)p;
 
     // --------------------------- 7. Do inference ---------------------------------------------------------
     slog::info << "Starting inference (" << FLAGS_ni << " iterations)" << slog::endl;
@@ -162,7 +74,7 @@ void *run(void *p){
     /** Start inference & calc performance **/
     for (int iter = 0; iter < FLAGS_ni; ++iter) {
         auto t0 = Time::now();
-        infer_request.Infer();
+        infer_request->Infer();
         auto t1 = Time::now();
         fsec fs = t1 - t0;
         ms d = std::chrono::duration_cast<ms>(fs);
@@ -173,14 +85,9 @@ void *run(void *p){
     std::cout << std::endl << "total inference time: " << total << std::endl;
     std::cout << "Average running time of one iteration: " << total / static_cast<double>(FLAGS_ni) << " ms"
               << std::endl;
-    std::cout << std::endl << "Throughput: " << 1000 * static_cast<double>(FLAGS_ni) * batchSize / total << " FPS"
+    std::cout << std::endl << "Throughput: " << 1000 * static_cast<double>(FLAGS_ni) * 8 / total << " FPS"
               << std::endl;
     std::cout << std::endl;
-
-    /** Show performance results **/
-    if (FLAGS_pc) {
-        printPerformanceCounts(infer_request, std::cout);
-    }
 
     return 0;
 }
@@ -424,7 +331,7 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    /** 插件 **/
+    /** 插件1 **/
     InferencePlugin plugin = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getPluginByDevice(FLAGS_d);
 
     /** 加载cpu插件 **/
@@ -455,14 +362,218 @@ int main(int argc, char *argv[]) {
     }
     printPluginVersion(plugin, std::cout);
 
+    /** 插件2 **/
+    InferencePlugin plugin2 = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getPluginByDevice(FLAGS_d);
+
+    /** 加载cpu插件 **/
+    if (FLAGS_d.find("CPU") != std::string::npos) {
+        /**
+         * cpu_extensions library is compiled from "extension" folder containing
+         * custom MKLDNNPlugin layer implementations. These layers are not supported
+         * by mkldnn, but they can be useful for inferring custom topologies.
+        **/
+        plugin2.AddExtension(std::make_shared<Extensions::Cpu::CpuExtensions>());
+    }
+
+    if (!FLAGS_l.empty()) {
+        // CPU(MKLDNN) extensions are loaded as a shared library and passed as a pointer to base extension
+        auto extension_ptr = make_so_pointer<IExtension>(FLAGS_l);
+        plugin2.AddExtension(extension_ptr);
+        slog::info << "CPU Extension loaded: " << FLAGS_l << slog::endl;
+    }
+    if (!FLAGS_c.empty()) {
+        // clDNN Extensions are loaded from an .xml description and OpenCL kernel files
+        plugin2.SetConfig({{PluginConfigParams::KEY_CONFIG_FILE, FLAGS_c}});
+        slog::info << "GPU Extension loaded: " << FLAGS_c << slog::endl;
+    }
+
+    /** Setting plugin parameter for collecting per layer metrics **/
+    if (FLAGS_pc) {
+        plugin2.SetConfig({{PluginConfigParams::KEY_PERF_COUNT, PluginConfigParams::YES}});
+    }
+    printPluginVersion(plugin2, std::cout);
+
+    std::string binFileName = fileNameNoExt(FLAGS_m) + ".bin";
+    slog::info << "Loading network files:"
+                  "\n\t" << FLAGS_m <<
+               "\n\t" << binFileName <<
+               slog::endl;
+
+    CNNNetReader networkReader;
+    /** 读取模型描述文件 **/
+    networkReader.ReadNetwork(FLAGS_m);
+
+    /** 读取模型权重文件 **/
+    networkReader.ReadWeights(binFileName);
+    CNNNetwork network = networkReader.getNetwork();
+
+    slog::info << "Preparing input blobs" << slog::endl;
+
+    /**获取所有的输入*/
+    InputsDataMap inputInfo = network.getInputsInfo();
+    if (inputInfo.size() != 1) throw std::logic_error("Sample supports topologies only with 1 input");
+    /** 获取第一个输入*/
+    auto inputInfoItem = *inputInfo.begin();
+
+    /** Specifying the precision and layout of input data provided by the user.
+     * This should be called before load of the network to the plugin **/
+    inputInfoItem.second->setPrecision(Precision::FP32);
+    inputInfoItem.second->setLayout(Layout::NHWC);
+
+    /** Setting batch size using image count **/
+    network.setBatchSize(8);
+    size_t batchSize = network.getBatchSize();
+    slog::info << "Batch size is " << std::to_string(batchSize) << slog::endl;
+
+    // ------------------------------ Prepare output blobs -------------------------------------------------
+    slog::info << "Preparing output blobs" << slog::endl;
+
+    OutputsDataMap outputInfo(network.getOutputsInfo());
+    // BlobMap outputBlobs;
+    std::string firstOutputName;
+
+    for (auto &item : outputInfo) {
+        if (firstOutputName.empty()) {
+            firstOutputName = item.first;
+        }
+        DataPtr outputData = item.second;
+        if (!outputData) {
+            throw std::logic_error("output data pointer is not valid");
+        }
+        outputData->setPrecision(Precision::FP32);
+        outputData->setLayout(Layout::NC);
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+
+    // --------------------------- 4. Loading model to the plugin ------------------------------------------
+    slog::info << "Loading model to the plugin" << slog::endl;
+
+    ExecutableNetwork executable_network = plugin.LoadNetwork(network, {});
+    inputInfoItem.second = {};
+    outputInfo = {};
+    network = {};
+    networkReader = {};
+
+    InferRequest infer_request = executable_network.CreateInferRequest();
+    /** 遍历所有输入 **/
+    for (const auto &item : inputInfo) {
+        /** Creating input blob **/
+        Blob::Ptr input = infer_request.GetBlob(item.first);
+
+        /** Filling input tensor with images. First b channel, then g and r channels **/
+        size_t num_channels = input->getTensorDesc().getDims()[1];
+        size_t image_size = input->getTensorDesc().getDims()[2] * input->getTensorDesc().getDims()[3];
+
+        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
+        float pInput[num_channels * image_size];
+        size_t readed_num = fread((void *) pInput, sizeof(float), num_channels * image_size, pInputFile);
+
+        slog::info << "input size " << readed_num << " float" << slog::endl;
+
+        auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
+
+        /** Iterate over all input images **/
+        for (size_t i = 0; i < (num_channels * image_size); ++i) {
+            data[i] = pInput[i];
+        }
+    }
+    inputInfo = {};
+
+
+    //  ------------- 网络2 ---------------
+    CNNNetReader networkReader2;
+    /** 读取模型描述文件 **/
+    networkReader2.ReadNetwork(FLAGS_m);
+
+    /** 读取模型权重文件 **/
+    networkReader2.ReadWeights(binFileName);
+    CNNNetwork network2 = networkReader.getNetwork();
+
+    slog::info << "Preparing input blobs" << slog::endl;
+
+    /**获取所有的输入*/
+    InputsDataMap inputInfo2 = network2.getInputsInfo();
+    if (inputInfo.size() != 1) throw std::logic_error("Sample supports topologies only with 1 input");
+    /** 获取第一个输入*/
+    auto inputInfoItem2 = *inputInfo2.begin();
+
+    /** Specifying the precision and layout of input data provided by the user.
+     * This should be called before load of the network to the plugin **/
+    inputInfoItem.second->setPrecision(Precision::FP32);
+    inputInfoItem.second->setLayout(Layout::NHWC);
+
+    /** Setting batch size using image count **/
+    network2.setBatchSize(8);
+
+    // ------------------------------ Prepare output blobs -------------------------------------------------
+    slog::info << "Preparing output blobs" << slog::endl;
+
+    OutputsDataMap outputInfo2(network2.getOutputsInfo());
+    // BlobMap outputBlobs;
+    std::string firstOutputName2;
+
+    for (auto &item : outputInfo2) {
+        if (firstOutputName.empty()) {
+            firstOutputName = item.first;
+        }
+        DataPtr outputData = item.second;
+        if (!outputData) {
+            throw std::logic_error("output data pointer is not valid");
+        }
+        outputData->setPrecision(Precision::FP32);
+        outputData->setLayout(Layout::NC);
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+
+    // --------------------------- 4. Loading model to the plugin ------------------------------------------
+    slog::info << "Loading model to the plugin" << slog::endl;
+
+    ExecutableNetwork executable_network2 = plugin2.LoadNetwork(network, {});
+    inputInfoItem2.second = {};
+    outputInfo2 = {};
+    network2 = {};
+    networkReader2 = {};
+
+    InferRequest infer_request2 = executable_network2.CreateInferRequest();
+    /** 遍历所有输入 **/
+    for (const auto &item : inputInfo2) {
+        /** Creating input blob **/
+        Blob::Ptr input = infer_request2.GetBlob(item.first);
+
+        /** Filling input tensor with images. First b channel, then g and r channels **/
+        size_t num_channels = input->getTensorDesc().getDims()[1];
+        size_t image_size = input->getTensorDesc().getDims()[2] * input->getTensorDesc().getDims()[3];
+
+        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
+        float pInput[num_channels * image_size];
+        size_t readed_num = fread((void *) pInput, sizeof(float), num_channels * image_size, pInputFile);
+
+        slog::info << "input size " << readed_num << " float" << slog::endl;
+
+        auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
+
+        /** Iterate over all input images **/
+        for (size_t i = 0; i < (num_channels * image_size); ++i) {
+            data[i] = pInput[i];
+        }
+    }
+    inputInfo2 = {};
+
 
     pthread_t callThd[2];
-    for(long t=0; t<2; t++){
-        int rc = pthread_create(&callThd[t], NULL, run,(void *)&plugin);
-        if (rc){
-            printf("ERROR: pthread_create() return %d\n", rc);
-            return -1;
-        }
+
+    int rc = pthread_create(&callThd[0], NULL, run,(void *)&infer_request);
+    if (rc){
+        printf("ERROR: pthread_create() return %d\n", rc);
+        return -1;
+    }
+
+    int rc2 = pthread_create(&callThd[1], NULL, run,(void *)&infer_request2);
+    if (rc2){
+        printf("ERROR: pthread_create() return %d\n", rc);
+        return -1;
     }
 
     slog::info << "Execution successful" << slog::endl;
