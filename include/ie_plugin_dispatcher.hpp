@@ -84,6 +84,10 @@ public:
         }
 
         std::stringstream err;
+        printf("\ndevice name :");
+        for (std::string& name : result.names) {
+            printf("%s ", name.c_str());
+        }
         for (std::string& name : result.names) {
             try {
                 return getPluginByName(name);
