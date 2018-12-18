@@ -25,7 +25,9 @@ using namespace InferenceEngine;
 ConsoleErrorListener error_listener;
 
 void createPlugin(InferencePlugin &plugin, int index) {
-    plugin = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getPluginByDevice(FLAGS_d);
+
+    InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(TargetDevice::eCPU);
+    plugin = InferencePlugin(engine_ptr);
     if (index == 0) {
         plugin.AddExtension(std::make_shared<Extensions::Cpu::CpuExtensions>());
     }
@@ -143,7 +145,7 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
 }
 
 
-const int NET_SIZE = 1;
+const int NET_SIZE = 2;
 
 int main(int argc, char *argv[]) {
     slog::info << "InferenceEngine: " << GetInferenceEngineVersion() << slog::endl;
@@ -160,19 +162,19 @@ int main(int argc, char *argv[]) {
 
     createPlugin(plugin[0],0);
     readNet(reader[0]);
-    executableNetwork[0] = plugin[0].LoadNetwork(reader[0].getNetwork(),{});
 
     for (int i = 0; i < NET_SIZE; i++) {
-        inferRequest[i] = executableNetwork[0].CreateInferRequest();
+        executableNetwork[i] = plugin[0].LoadNetwork(reader[0].getNetwork(),{});
+        inferRequest[i] = executableNetwork[i].CreateInferRequest();
         fillData(inferRequest[i], reader[0]);
     }
 
     pthread_t callThd[NET_SIZE];
     for (int i = 0; i < NET_SIZE; i++) {
         int rc = pthread_create(&callThd[i], NULL, run, (void *) &inferRequest[NET_SIZE - i - 1]);
+        pthread_join(callThd[i], NULL);
     }
     for (int i = 0; i < NET_SIZE; i++) {
-        pthread_join(callThd[i], NULL);
     }
 
 
