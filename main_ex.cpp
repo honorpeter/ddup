@@ -26,10 +26,10 @@ ConsoleErrorListener error_listener;
 
 void createPlugin(InferencePlugin &plugin, int index) {
 
-    InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(TargetDevice::eCPU);
+    InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(TargetDevice::eBalanced);
     plugin = InferencePlugin(engine_ptr);
     if (index == 0) {
-        plugin.AddExtension(std::make_shared<Extensions::Cpu::CpuExtensions>());
+        engine_ptr.AddExtension(std::make_shared<Extensions::Cpu::CpuExtensions>());
     }
     plugin.SetConfig({{PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::YES}});
     printPluginVersion(plugin, std::cout);
