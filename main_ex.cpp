@@ -24,9 +24,11 @@ using namespace InferenceEngine;
 
 ConsoleErrorListener error_listener;
 
-void createPlugin(InferencePlugin &plugin) {
+void createPlugin(InferencePlugin &plugin, int index) {
     plugin = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getPluginByDevice(FLAGS_d);
-    plugin.AddExtension(std::make_shared<Extensions::Cpu::CpuExtensions>());
+    if (index == 0) {
+        plugin.AddExtension(std::make_shared<Extensions::Cpu::CpuExtensions>());
+    }
     plugin.SetConfig({{PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::YES}});
     printPluginVersion(plugin, std::cout);
 }
@@ -157,7 +159,7 @@ int main(int argc, char *argv[]) {
     CNNNetReader reader[NET_SIZE];
 
     for (int i = 0; i < NET_SIZE; i++) {
-        createPlugin(plugin[i]);
+        createPlugin(plugin[i],i);
         readNet(reader[i]);
         executableNetwork[i] = plugin[i].LoadNetwork(reader[i].getNetwork(), {});
         inferRequest[i] = executableNetwork[i].CreateInferRequest();
