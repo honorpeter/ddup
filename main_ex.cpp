@@ -161,7 +161,7 @@ int main(int argc, char *argv[]) {
 
     for (int i = 0; i < NET_SIZE; i++) {
         CNNNetwork network = reader[0].getNetwork();
-        network.setTargetDevice(TargetDevice::eCPU);
+        network.setTargetDevice(TargetDevice::eBalanced);
         executableNetwork[i] = plugin[0].LoadNetwork(network,{});
         inferRequest[i] = executableNetwork[i].CreateInferRequest();
         fillData(inferRequest[i], reader[0]);
