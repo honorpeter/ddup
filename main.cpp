@@ -59,7 +59,9 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
     return true;
 }
 
-void *run(void *plugin){
+void *run(void *p){
+
+    InferencePlugin *plugin = (InferencePlugin *)p;
 
     std::string binFileName = fileNameNoExt(FLAGS_m) + ".bin";
     slog::info << "Loading network files:"
@@ -456,7 +458,7 @@ int main(int argc, char *argv[]) {
 
     pthread_t callThd[2];
     for(long t=0; t<2; t++){
-        int rc = pthread_create(&callThd[t], NULL, run,&plugin);
+        int rc = pthread_create(&callThd[t], NULL, run,(void *)&plugin);
         if (rc){
             printf("ERROR: pthread_create() return %d\n", rc);
             return -1;
