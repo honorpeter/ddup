@@ -163,7 +163,7 @@ int main(int argc, char *argv[]) {
 
     for (int i = 0; i < NET_SIZE; i++) {
         readNet(reader[i]);
-        executableNetwork[i] = plugin[0].LoadNetwork(reader[1].getNetwork(), {});
+        executableNetwork[i] = plugin[0].LoadNetwork(reader[i].getNetwork(), {});
         inferRequest[i] = executableNetwork[i].CreateInferRequest();
         fillData(inferRequest[i], reader[i]);
     }
