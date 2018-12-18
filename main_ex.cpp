@@ -26,7 +26,7 @@ ConsoleErrorListener error_listener;
 
 void createPlugin(InferencePlugin &plugin, int index) {
 
-    InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(TargetDevice::eBalanced);
+    InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(TargetDevice::eCPU);
     plugin = InferencePlugin(engine_ptr);
     printPluginVersion(plugin, std::cout);
 }
