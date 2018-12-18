@@ -59,7 +59,7 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
     return true;
 }
 
-void *run(void){
+void *run(void *t){
     /** 插件 **/
     InferencePlugin plugin = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getPluginByDevice(FLAGS_d);
 
@@ -452,7 +452,7 @@ int main(int argc, char *argv[]) {
 
     pthread_t callThd[2];
     for(long t=0; t<2; t++){
-        int rc = pthread_create(&callThd[t], NULL, (void *)run,NULL);
+        int rc = pthread_create(&callThd[t], NULL, run,NULL);
         if (rc){
             printf("ERROR: pthread_create() return %d\n", rc);
             return -1;
