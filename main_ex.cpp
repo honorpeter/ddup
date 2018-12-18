@@ -158,12 +158,13 @@ int main(int argc, char *argv[]) {
     InferencePlugin plugin[NET_SIZE];
     CNNNetReader reader[NET_SIZE];
 
+    createPlugin(plugin[0],0);
+    readNet(reader[0]);
+
+    executableNetwork[0] = plugin[0].LoadNetwork(reader[0].getNetwork(), {});
     for (int i = 0; i < NET_SIZE; i++) {
-        createPlugin(plugin[i],0);
-        readNet(reader[i]);
-        executableNetwork[i] = plugin[i].LoadNetwork(reader[i].getNetwork(), {});
-        inferRequest[i] = executableNetwork[i].CreateInferRequest();
-        fillData(inferRequest[i], reader[i]);
+        inferRequest[i] = executableNetwork[0].CreateInferRequest();
+        fillData(inferRequest[i], reader[0]);
     }
 
     pthread_t callThd[NET_SIZE];
