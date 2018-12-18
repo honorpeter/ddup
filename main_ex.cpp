@@ -29,7 +29,7 @@ void createPlugin(InferencePlugin &plugin, int index) {
     if (index == 0) {
         plugin.AddExtension(std::make_shared<Extensions::Cpu::CpuExtensions>());
     }
-    plugin.SetConfig({{PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::NO}});
+    plugin.SetConfig({{PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::YES}});
     printPluginVersion(plugin, std::cout);
 }
 
