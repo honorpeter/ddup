@@ -564,13 +564,22 @@ int main(int argc, char *argv[]) {
     }
     inputInfo2 = {};
 
-    pid_t pid;
-    if ((pid = fork()) < 0) {
-        slog::info << "fork error " << slog::endl;
-    } else if (pid > 0) {
-        run((void *) &infer_request);
-    } else {
-        run((void *) &infer_request2);
+    pthread_t callThd[2];
+    int rc = pthread_create(&callThd[0], NULL, run,(void *)&infer_request);
+    if (rc){
+        printf("ERROR: pthread_create() return %d\n", rc);
+        return -1;
     }
+
+    int rc2 = pthread_create(&callThd[1], NULL, run,(void *)&infer_request2);
+    if (rc2){
+        printf("ERROR: pthread_create() return %d\n", rc);
+        return -1;
+    }
+
+    slog::info << "Execution successful" << slog::endl;
+
+    pthread_join(callThd[0],NULL);
+    pthread_join(callThd[1],NULL);
     return 0;
 }
