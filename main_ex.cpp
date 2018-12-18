@@ -30,7 +30,6 @@ void createPlugin(InferencePlugin &plugin, int index) {
         plugin.AddExtension(std::make_shared<Extensions::Cpu::CpuExtensions>());
     }
     plugin.SetConfig({{PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::YES}});
-    //plugin.SetConfig({{PluginConfigParams::KEY_DEVICE_ID, "1"}});
     printPluginVersion(plugin, std::cout);
 }
 
@@ -163,7 +162,7 @@ int main(int argc, char *argv[]) {
     readNet(reader[0]);
 
     for (int i = 0; i < NET_SIZE; i++) {
-        executableNetwork[i] = plugin[0].LoadNetwork(reader[0].getNetwork(), {});
+        executableNetwork[i] = plugin[0].LoadNetwork(reader[0].getNetwork(), {PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::YES});
         inferRequest[i] = executableNetwork[i].CreateInferRequest();
         fillData(inferRequest[i], reader[0]);
     }
