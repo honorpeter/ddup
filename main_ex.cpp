@@ -164,10 +164,7 @@ int main(int argc, char *argv[]) {
 
     cpu_set_t mask;
     CPU_ZERO(&mask);
-    for (int i = 0; i < 14; i++) {
-        CPU_SET(i,&mask);
-    }
-    for (int i = 28; i < 42; i++) {
+    for (int i = 0; i < 28; i++) {
         CPU_SET(i,&mask);
     }
 
