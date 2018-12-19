@@ -28,7 +28,7 @@ void createPlugin(InferencePlugin &plugin) {
 
     InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(TargetDevice::eCPU);
     plugin = InferencePlugin(engine_ptr);
-    plugin.SetConfig({{PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::NO}});
+    plugin.SetConfig({{PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::YES}});
     printPluginVersion(plugin, std::cout);
 }
 
