@@ -99,7 +99,7 @@ void *run(void *p){
     /** Start inference & calc performance **/
     for (int iter = 0; iter < FLAGS_ni; ++iter) {
         auto t0 = Time::now();
-        infer_request->StartAsync();
+        infer_request->Infer();
         auto t1 = Time::now();
         fsec fs = t1 - t0;
         ms d = std::chrono::duration_cast<ms>(fs);
