@@ -167,16 +167,16 @@ int main(int argc, char *argv[]) {
 
     createPlugin(plugin[0]);
     readNet(reader[0]);
-    executableNetwork[0] = plugin[0].LoadNetwork(reader[0].getNetwork(),{});
 
     for (int i = 0; i < NET_SIZE; i++) {
-        inferRequest[i] = executableNetwork[0].CreateInferRequest();
+        executableNetwork[i] = plugin[0].LoadNetwork(reader[0].getNetwork(),{});
+        inferRequest[i] = executableNetwork[i].CreateInferRequest();
         fillData(inferRequest[i], reader[0]);
     }
 
     pthread_t callThd[NET_SIZE];
     for (int i = 0; i < NET_SIZE; i++) {
-        int rc = pthread_create(&callThd[i], NULL, run, (void *) &inferRequest[NET_SIZE - i - 1]);
+        int rc = pthread_create(&callThd[i], NULL, run, (void *) &inferRequest[i]);
     }
     for (int i = 0; i < NET_SIZE; i++) {
         pthread_join(callThd[i], NULL);
