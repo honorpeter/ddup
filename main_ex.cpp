@@ -162,10 +162,10 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    int a = 10;
     cpu_set_t mask;
     CPU_ZERO(&mask);
-    CPU_SET(a,&mask);
+    CPU_SET(1,&mask);
+    CPU_SET(0,&mask);
 
     if (sched_setaffinity(0, sizeof(mask), &mask) <0) {
         slog::info << "sched_setaffinity" << slog::endl;
