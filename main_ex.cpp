@@ -141,9 +141,16 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
 }
 
 
-const int NET_SIZE = 2;
+const int NET_SIZE = 1;
 
-
+/**
+ * 背景:在有两个物理核的服务器上,使用MKLDNNPlugin插件加载一个网络,在推断过程中发现只使用了一个物理核,另一个物理核处于空闲状态。
+ * 参考官方文档中的:It creates an executable network from a network object. The executable network is associated with single hardware device. It's possible to create as many networks as needed and to use them simultaneously (up to the limitation of the hardware resources)
+ * 所以使用同一个插件加载第二个网络,但是在推断第二个网络的过程中发现第二个网络会使用所有的cpu资源,而第一个网络仍然像之前说的只使用一个物理核
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char *argv[]) {
     slog::info << "InferenceEngine: " << GetInferenceEngineVersion() << slog::endl;
 
