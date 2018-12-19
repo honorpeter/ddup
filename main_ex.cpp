@@ -24,7 +24,7 @@ using namespace InferenceEngine;
 
 ConsoleErrorListener error_listener;
 
-void createPlugin(InferencePlugin &plugin, int index) {
+void createPlugin(InferencePlugin &plugin) {
 
     InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(TargetDevice::eCPU);
     plugin = InferencePlugin(engine_ptr);
@@ -143,6 +143,7 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
 
 const int NET_SIZE = 2;
 
+
 int main(int argc, char *argv[]) {
     slog::info << "InferenceEngine: " << GetInferenceEngineVersion() << slog::endl;
 
@@ -156,13 +157,11 @@ int main(int argc, char *argv[]) {
     InferencePlugin plugin[NET_SIZE];
     CNNNetReader reader[NET_SIZE];
 
-    createPlugin(plugin[0],0);
+    createPlugin(plugin[0];
     readNet(reader[0]);
 
     for (int i = 0; i < NET_SIZE; i++) {
-        CNNNetwork network = reader[0].getNetwork();
-        network.setTargetDevice(TargetDevice::eBalanced);
-        executableNetwork[i] = plugin[0].LoadNetwork(network,{});
+        executableNetwork[i] = plugin[0].LoadNetwork(reader[0].getNetwork(),{});
         inferRequest[i] = executableNetwork[i].CreateInferRequest();
         fillData(inferRequest[i], reader[0]);
     }
