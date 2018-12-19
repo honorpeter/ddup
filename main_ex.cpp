@@ -157,7 +157,7 @@ int main(int argc, char *argv[]) {
     InferencePlugin plugin[NET_SIZE];
     CNNNetReader reader[NET_SIZE];
 
-    createPlugin(plugin[0];
+    createPlugin(plugin[0]);
     readNet(reader[0]);
 
     for (int i = 0; i < NET_SIZE; i++) {
