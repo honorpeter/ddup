@@ -28,6 +28,7 @@ void createPlugin(InferencePlugin &plugin) {
 
     InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(TargetDevice::eCPU);
     plugin = InferencePlugin(engine_ptr);
+    plugin.SetConfig({{PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::NO}});
     printPluginVersion(plugin, std::cout);
 }
 
@@ -141,7 +142,7 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
 }
 
 
-const int NET_SIZE = 1;
+const int NET_SIZE = 2;
 
 /**
  * 背景:在有两个物理核的服务器上,使用MKLDNNPlugin插件加载一个网络,在推断过程中发现只使用了一个物理核,另一个物理核处于空闲状态。
@@ -176,11 +177,10 @@ int main(int argc, char *argv[]) {
     pthread_t callThd[NET_SIZE];
     for (int i = 0; i < NET_SIZE; i++) {
         int rc = pthread_create(&callThd[i], NULL, run, (void *) &inferRequest[NET_SIZE - i - 1]);
-        pthread_join(callThd[i], NULL);
     }
     for (int i = 0; i < NET_SIZE; i++) {
+        pthread_join(callThd[i], NULL);
     }
-
 
     slog::info << "Execution successful" << slog::endl;
     return 0;
