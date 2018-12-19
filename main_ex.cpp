@@ -99,12 +99,14 @@ void *run(void *p){
     /** Start inference & calc performance **/
     for (int iter = 0; iter < FLAGS_ni; ++iter) {
         auto t0 = Time::now();
-        infer_request->Infer();
+        infer_request->StartAsync();
         auto t1 = Time::now();
         fsec fs = t1 - t0;
         ms d = std::chrono::duration_cast<ms>(fs);
         total += d.count();
     }
+
+
 
     // -----------------------------------------------------------------------------------------------------
     std::cout << std::endl << "total inference time: " << total << std::endl;
@@ -177,9 +179,9 @@ int main(int argc, char *argv[]) {
     pthread_t callThd[NET_SIZE];
     for (int i = 0; i < NET_SIZE; i++) {
         int rc = pthread_create(&callThd[i], NULL, run, (void *) &inferRequest[NET_SIZE - 1 - i]);
+        pthread_join(callThd[i], NULL);
     }
     for (int i = 0; i < NET_SIZE; i++) {
-        pthread_join(callThd[i], NULL);
     }
 
     slog::info << "Execution successful" << slog::endl;
