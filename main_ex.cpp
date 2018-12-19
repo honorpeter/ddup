@@ -17,6 +17,7 @@
 #include <samples/slog.hpp>
 #include <samples/args_helper.hpp>
 #include <pthread.h>
+#include <sched.h>
 
 #include "classification_sample.h"
 
@@ -142,7 +143,7 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
 }
 
 
-const int NET_SIZE = 3;
+const int NET_SIZE = 1;
 
 /**
  * 背景:在有两个物理核的服务器上,使用MKLDNNPlugin插件加载一个网络,在推断过程中发现只使用了一个物理核,另一个物理核处于空闲状态。
@@ -158,6 +159,11 @@ int main(int argc, char *argv[]) {
     /** 参数转换/验证 */
     if (!ParseAndCheckCommandLine(argc, argv)) {
         return 0;
+    }
+
+    unsigned long mask = 72053196259835904;
+    if (sched_setaffinity(0, sizeof(mask), &mask) <0) {
+        slog::info << "sched_setaffinity" << slog::endl;
     }
 
     ExecutableNetwork executableNetwork[NET_SIZE];
