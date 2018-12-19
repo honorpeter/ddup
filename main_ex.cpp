@@ -18,6 +18,7 @@
 #include <samples/args_helper.hpp>
 #include <pthread.h>
 #include <sched.h>
+#include<ctype.h>
 
 #include "classification_sample.h"
 
@@ -161,7 +162,11 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    unsigned long mask = 72053196259835904;
+    int a = 10;
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+    CPU_SET(a,&mask);
+
     if (sched_setaffinity(0, sizeof(mask), &mask) <0) {
         slog::info << "sched_setaffinity" << slog::endl;
     }
