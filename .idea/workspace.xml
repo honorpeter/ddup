@@ -11,7 +11,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50bfea4d-0ef2-49cf-b3e0-d0f6fdde8009" name="Default Changelist" comment="" />
+    <list default="true" id="50bfea4d-0ef2-49cf-b3e0-d0f6fdde8009" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_ex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main_ex.cpp" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -59,7 +62,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="2232" />
+          <entry key="cpp" value="2242" />
           <entry key="hpp" value="59" />
           <entry key="txt" value="67" />
         </counts>
@@ -68,7 +71,7 @@
         <counts>
           <entry key="CMakeLists.txt" value="50" />
           <entry key="Doxygen file" value="6" />
-          <entry key="ObjectiveC" value="2285" />
+          <entry key="ObjectiveC" value="2295" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
@@ -84,8 +87,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_ex.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="482">
-              <caret line="171" column="30" selection-start-line="171" selection-start-column="30" selection-end-line="171" selection-end-column="30" />
+            <state relative-caret-position="210">
+              <caret line="30" column="86" selection-start-line="30" selection-start-column="86" selection-end-line="30" selection-end-column="86" />
             </state>
           </provider>
         </entry>
@@ -283,14 +286,7 @@
       <updated>1544433512274</updated>
       <workItem from="1544433513616" duration="4032000" />
       <workItem from="1544502194028" duration="12064000" />
-      <workItem from="1544773942692" duration="26121000" />
-    </task>
-    <task id="LOCAL-00001" summary="多线程版本">
-      <created>1545116058814</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1545116058814</updated>
+      <workItem from="1544773942692" duration="26652000" />
     </task>
     <task id="LOCAL-00002" summary="多线程版本">
       <created>1545116443407</created>
@@ -614,11 +610,32 @@
       <option name="project" value="LOCAL" />
       <updated>1545191687637</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="多线程版本">
+      <created>1545192017446</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1545192017446</updated>
+    </task>
+    <task id="LOCAL-00049" summary="多线程版本">
+      <created>1545192159047</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1545192159047</updated>
+    </task>
+    <task id="LOCAL-00050" summary="多线程版本">
+      <created>1545193941798</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1545193941810</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42217000" />
+    <option name="totallyTimeSpent" value="42748000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -999,8 +1016,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_ex.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="171" column="30" selection-start-line="171" selection-start-column="30" selection-end-line="171" selection-end-column="30" />
+        <state relative-caret-position="210">
+          <caret line="30" column="86" selection-start-line="30" selection-start-column="86" selection-end-line="30" selection-end-column="86" />
         </state>
       </provider>
     </entry>
