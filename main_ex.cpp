@@ -36,6 +36,12 @@ void createPlugin(InferencePlugin &plugin) {
     printPluginVersion(plugin, std::cout);
 }
 
+void print_head_from_arr(float *head, int size) {
+    for (int j = 0; j < 20; ++j) {
+        slog::info << " " << *(head + j);
+    }
+}
+
 void readNet(CNNNetReader &networkReader) {
     std::string binFileName = fileNameNoExt(FLAGS_m) + ".bin";
 
@@ -140,11 +146,14 @@ void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
 }
 
 void ex_pic(float *phead, int size) {
+    slog::info << "Star to ex_pic" << slog::endl;
 
     /** 图片路径 **/
     const char *img_dir = FLAGS_i.c_str();
     /** 读取图片 **/
     cv::Mat image = cv::imread(img_dir);
+
+    slog::info << "Star to resize" << slog::endl;
 
     cv::Mat resized;
     cv::Mat rgb;
@@ -157,6 +166,8 @@ void ex_pic(float *phead, int size) {
     int delta_green = 256 * 256;
     int delta_blue = 256 * 256 * 2;
 
+    slog::info << "Star to load mean.bin file" << slog::endl;
+
     float mean_arr[mean_data_size];
     /** 读取均值化文件 **/
     FILE *pInputFile = fopen("/home/topn-demo/C2319_Mean.binimg", "rb");
@@ -166,6 +177,9 @@ void ex_pic(float *phead, int size) {
     read_num = fread(&height, 4, 1, pInputFile);
     read_num = fread(&channel, 4, 1, pInputFile);
     read_num = fread((void *) mean_arr, sizeof(float), mean_data_size, pInputFile);
+
+    slog::info << "End to load mean.bin file #" << width << "_" << height << "_" << channel << slog::endl;
+    print_head_from_arr(mean_arr, 20);
 
     if (read_num != rgb.rows * rgb.cols * rgb.channels()) {
         slog::info << "dim error ! the mean file data length is not equal image size" << slog::endl;
@@ -228,10 +242,6 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         float pInput[8 * 224 * 224 * 3];
         ex_pic(pInput, 8 * 224 * 224 * 3);
 
-        slog::info << "after ex_pic fea:" << slog::endl;
-        for (int j = 0; j < 20; ++j) {
-            slog::info << " " << pInput[j];
-        }
         slog::info << slog::endl;
         auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
 
