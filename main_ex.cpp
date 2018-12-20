@@ -13,6 +13,7 @@
 #include <ext_list.hpp>
 #include <format_reader_ptr.h>
 
+#include <opencv2/opencv.hpp>
 #include <samples/common.hpp>
 #include <samples/slog.hpp>
 #include <samples/args_helper.hpp>
@@ -28,7 +29,8 @@ ConsoleErrorListener error_listener;
 
 void createPlugin(InferencePlugin &plugin) {
 
-    InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(TargetDevice::eCPU);
+    InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(
+            TargetDevice::eCPU);
     plugin = InferencePlugin(engine_ptr);
     plugin.SetConfig({{PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::YES}});
     printPluginVersion(plugin, std::cout);
@@ -66,29 +68,9 @@ void readNet(CNNNetReader &networkReader) {
     }
 }
 
-void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
+void *run(void *p) {
 
-    InputsDataMap inputInfo = reader.getNetwork().getInputsInfo();
-    for (const auto &item : inputInfo) {
-        Blob::Ptr input = inferRequest.GetBlob(item.first);
-
-        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
-        float pInput[8 * 224 * 224 * 3];
-        size_t readed_num = fread((void *) pInput, sizeof(float), 8 * 224 * 224 * 3, pInputFile);
-        slog::info << "input size " << readed_num << " float" << slog::endl;
-
-        auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
-
-        for (size_t i = 0; i < (8 * 224 * 224 * 3); ++i) {
-            data[i] = pInput[i];
-        }
-        fclose(pInputFile);
-    }
-}
-
-void *run(void *p){
-
-    InferRequest *infer_request = (InferRequest *)p;
+    InferRequest *infer_request = (InferRequest *) p;
 
     // --------------------------- 7. Do inference ---------------------------------------------------------
     slog::info << "Starting inference (" << FLAGS_ni << " iterations)" << slog::endl;
@@ -143,6 +125,117 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
     return true;
 }
 
+void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
+
+    int delta_green = 224 * 224;
+    int delta_blue = 224 * 224 * 2;
+
+    for (int i = 0; i < image.rows; ++i) {
+        for (int z = 0; z < image.cols; ++z) {
+            *(phead + offset) = image.at<cv::Vec3f>(i, z)[0];
+            *(phead + offset + delta_green) = image.at<cv::Vec3f>(i, z)[1];
+            *(phead + offset + delta_blue) = image.at<cv::Vec3f>(i, z)[2];
+        }
+    }
+}
+
+void ex_pic(float *phead, int size) {
+
+    /** 图片路径 **/
+    const char *img_dir = FLAGS_i.c_str();
+    /** 读取图片 **/
+    cv::Mat image = cv::imread(img_dir);
+
+    cv::Mat resized;
+    cv::Mat rgb;
+    /** 图片大小转换 **/
+    cv::resize(image, resized, cv::Size(256, 256));
+    /** bgr -> rgb **/
+    cv::cvtColor(resized, rgb, cv::COLOR_BGR2RGB);
+
+    size_t mean_data_size = 256 * 256 * 3;
+    int delta_green = 256 * 256;
+    int delta_blue = 256 * 256 * 2;
+
+    float mean_arr[mean_data_size];
+    /** 读取均值化文件 **/
+    FILE *pInputFile = fopen("/home/topn-demo/C2319_Mean.binimg", "rb");
+    size_t read_num = fread((void *) mean_arr, sizeof(float), mean_data_size, pInputFile);
+
+    if (read_num != rgb.rows * rgb.cols * rgb.channels()) {
+        slog::info << "dim error ! the mean file data length is not equal image size" << slog::endl;
+        throw std::logic_error("dim error ! the mean file data length is not equal image size");
+    }
+
+    /** 均值化 再减去 均值 **/
+    for (int i = 0; i < rgb.rows; ++i) {
+        for (int z = 0; z < rgb.cols; ++z) {
+            rgb.at<cv::Vec3f>(i, z)[0] = (rgb.at<cv::Vec3f>(i, z)[0] - mean_arr[i * z + z]) / 255.0f;
+            rgb.at<cv::Vec3f>(i, z)[1] = (rgb.at<cv::Vec3f>(i, z)[1] - mean_arr[i * z + z + delta_green]) / 255.0f;
+            rgb.at<cv::Vec3f>(i, z)[2] = (rgb.at<cv::Vec3f>(i, z)[2] - mean_arr[i * z + z + delta_blue]) / 255.0f;
+        }
+    }
+
+    /** 图像剪裁 **/
+    cv::Mat crop_0_0;
+    cv::Mat crop_11_0;
+    cv::Mat crop_21_32;
+    cv::Mat crop_32_32;
+    cv::Rect rect_0_0(0, 0, 224, 224);
+    cv::Rect rect_11_0(11, 0, 224, 224);
+    cv::Rect rect_21_32(21, 32, 224, 224);
+    cv::Rect rect_32_32(32, 32, 224, 224);
+    crop_0_0 = rgb(rect_0_0);
+    crop_11_0 = rgb(rect_11_0);
+    crop_21_32 = rgb(rect_21_32);
+    crop_32_32 = rgb(rect_32_32);
+
+    cv::Mat flip_1;
+    cv::Mat flip_2;
+    cv::Mat flip_3;
+    cv::Mat flip_4;
+    cv::flip(crop_0_0, flip_1, 0);
+    cv::flip(crop_11_0, flip_2, 0);
+    cv::flip(crop_21_32, flip_3, 0);
+    cv::flip(crop_32_32, flip_4, 0);
+
+    if (size < 8 * 224 * 224 * 3) {
+        throw std::logic_error("dim error ! the input  data length is not equal batch image size");
+    }
+    fill_image_2_arr(phead, crop_0_0, 0);
+    fill_image_2_arr(phead, crop_11_0, 224 * 224 * 3);
+    fill_image_2_arr(phead, crop_21_32, 2 * 224 * 224 * 3);
+    fill_image_2_arr(phead, crop_32_32, 3 * 224 * 224 * 3);
+    fill_image_2_arr(phead, flip_1, 4 * 224 * 224 * 3);
+    fill_image_2_arr(phead, flip_2, 5 * 224 * 224 * 3);
+    fill_image_2_arr(phead, flip_3, 6 * 224 * 224 * 3);
+    fill_image_2_arr(phead, flip_4, 7 * 224 * 224 * 3);
+
+}
+
+void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
+
+    InputsDataMap inputInfo = reader.getNetwork().getInputsInfo();
+    for (const auto &item : inputInfo) {
+        Blob::Ptr input = inferRequest.GetBlob(item.first);
+
+        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
+        float pInput[8 * 224 * 224 * 3];
+        ex_pic(pInput, 8 * 224 * 224 * 3);
+
+        slog::info << "after ex_pic fea:" << slog::endl;
+        for (int j = 0; j < 20; ++j) {
+            slog::info << " " << pInput[j];
+        }
+        slog::info << slog::endl;
+        auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
+
+        for (size_t i = 0; i < (8 * 224 * 224 * 3); ++i) {
+            data[i] = pInput[i];
+        }
+        fclose(pInputFile);
+    }
+}
 
 const int NET_SIZE = 1;
 
@@ -162,29 +255,17 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    cpu_set_t mask;
-    CPU_ZERO(&mask);
-//    for (int i = 0; i < 14; i++) {
-//        CPU_SET(i,&mask);
-//    }
-    for (int i = 0; i < 42; i++) {
-        CPU_SET(i,&mask);
-    }
-
-    if (sched_setaffinity(0, sizeof(mask), &mask) <0) {
-        slog::info << "sched_setaffinity" << slog::endl;
-    }
-
     ExecutableNetwork executableNetwork[NET_SIZE];
     InferRequest inferRequest[NET_SIZE];
     InferencePlugin plugin[NET_SIZE];
     CNNNetReader reader[NET_SIZE];
 
+
     createPlugin(plugin[0]);
     readNet(reader[0]);
 
     for (int i = 0; i < NET_SIZE; i++) {
-        executableNetwork[i] = plugin[0].LoadNetwork(reader[0].getNetwork(),{});
+        executableNetwork[i] = plugin[0].LoadNetwork(reader[0].getNetwork(), {});
         inferRequest[i] = executableNetwork[i].CreateInferRequest();
         fillData(inferRequest[i], reader[0]);
     }
