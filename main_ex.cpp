@@ -150,10 +150,10 @@ void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
 
 void crop(cv::Mat &src, float *pdst, int x_offset, int y_offset, int width, int height) {
     for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
+        for (int x = 0; x < width; x+=3) {
             pdst[y * height + x] = src.at<cv::Vec3f>(x + x_offset, y + y_offset)[0];
-            pdst[y * height + x + width * height] = src.at<cv::Vec3f>(x + x_offset, y + y_offset)[1];
-            pdst[y * height + x + width * height * 2] = src.at<cv::Vec3f>(x + x_offset, y + y_offset)[2];
+            pdst[y * height + x + 1] = src.at<cv::Vec3f>(x + x_offset, y + y_offset)[1];
+            pdst[y * height + x + 2] = src.at<cv::Vec3f>(x + x_offset, y + y_offset)[2];
         }
     }
 }
@@ -212,9 +212,6 @@ void ex_pic(float *phead, int size) {
         }
     }
 
-    cv::Mat rgb_flip;
-    cv::flip(rgb, rgb_flip, 0);
-
     slog::info << "Star to crop image" << slog::endl;
     float crop_0_0[224 * 224 * 3];
     crop(rgb, crop_0_0, 0, 0, 224, 224);
@@ -230,9 +227,6 @@ void ex_pic(float *phead, int size) {
     print_head_from_arr(crop_32_32, 20);
 
     slog::info << "Star to flip image" << slog::endl;
-    float flip_crop_0_0[224 * 224 * 3];
-    crop(rgb_flip, flip_crop_0_0, 32, 0, 224, 224);
-    print_head_from_arr(flip_crop_0_0, 20);
 
     if (size < 8 * 224 * 224 * 3) {
         throw std::logic_error("dim error ! the input  data length is not equal batch image size");
