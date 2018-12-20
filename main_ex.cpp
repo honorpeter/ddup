@@ -13,8 +13,7 @@
 #include <ext_list.hpp>
 #include <format_reader_ptr.h>
 
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+#include <opencv2/opencv.hpp>
 #include <samples/common.hpp>
 #include <samples/slog.hpp>
 #include <samples/args_helper.hpp>
@@ -149,15 +148,11 @@ void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
     }
 }
 
-void crop(float *p_dst_head, const float *p_src_head, int w_offset, int h_offset) {
-    for (int y = 0; y < 224; ++y) {
-        for (int x = 0; x < 224; ++x) {
-            *(p_dst_head + y * 224 + x) = *(p_src_head + (h_offset + y) * 256 + w_offset + x);
-            *(p_dst_head + y * 224 + x + 224 * 224) = *(p_src_head + (h_offset + y) * 256 + w_offset + x + 256 * 256);
-            *(p_dst_head + y * 224 + x + 224 * 224 * 2) = *(p_src_head + (h_offset + y) * 256 + w_offset + x +
-                                                            256 * 256 * 2);
-        }
-    }
+void crop(cv::Mat &src, cv::Mat &dst, int x_offset, int y_offset, int width, int height) {
+    cv::Rect rect(x_offset, y_offset, width, height);
+    cv::Mat tmp;
+    dst.copyTo(tmp);
+    dst = tmp(rect);
 }
 
 void ex_pic(float *phead, int size) {
@@ -166,13 +161,16 @@ void ex_pic(float *phead, int size) {
     /** 图片路径 **/
     const char *img_dir = FLAGS_i.c_str();
     /** 读取图片 **/
-    IplImage *Img_src = cvLoadImage(img_dir);
+    cv::Mat image = cv::imread(img_dir);
 
     slog::info << "Star to resize" << slog::endl;
 
+    cv::Mat resized;
+    cv::Mat rgb;
     /** 图片大小转换 **/
-    IplImage *resized = cvCreateImage(cvSize(256, 256), IPL_DEPTH_8U, 3);
-    cvResize(Img_src, resized);
+    cv::resize(image, resized, cv::Size(256, 256));
+    /** bgr -> rgb **/
+    cv::cvtColor(resized, rgb, cv::COLOR_BGR2RGB);
 
     size_t mean_data_size = 256 * 256 * 3;
     int delta_green = 256 * 256;
@@ -194,43 +192,85 @@ void ex_pic(float *phead, int size) {
                << slog::endl;
     print_head_from_arr(mean_arr, 20);
 
-    int img_size = resized->width * resized->height;
-    if (read_num != img_size * resized->nChannels) {
+    if (read_num != rgb.rows * rgb.cols * rgb.channels()) {
         slog::info << "dim error ! the mean file data length is not equal image size" << slog::endl;
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
     }
 
-    float mean[img_size * 3];
-    float *pRMem = &mean[0];
-    float *pGMem = pRMem + img_size;
-    float *pBMem = pRMem + 2 * img_size;
-
-    /** 均值化**/
-    const auto *pSrcRow = (const unsigned char *) (resized->imageData);
-    for (int y = 0; y < resized->height; ++y, pSrcRow += resized->widthStep) {
-        const unsigned char *pCurSrc = pSrcRow;
-        for (int x = 0; x < resized->width; ++x, pCurSrc += 3, ++pRMem, ++pGMem, ++pBMem) {
-            *pRMem = (pCurSrc[2]) / 255.0f;
-            *pGMem = (pCurSrc[1]) / 255.0f;
-            *pBMem = (pCurSrc[0]) / 255.0f;
+    /** 均值化 再减去 均值 **/
+    for (int i = 0; i < rgb.rows; ++i) {
+        for (int z = 0; z < rgb.cols; ++z) {
+            rgb.at<cv::Vec3f>(i, z)[0] = (rgb.at<cv::Vec3f>(i, z)[0] - mean_arr[i * z + z]) / 255.0f;
+            rgb.at<cv::Vec3f>(i, z)[1] = (rgb.at<cv::Vec3f>(i, z)[1] - mean_arr[i * z + z + delta_green]) / 255.0f;
+            rgb.at<cv::Vec3f>(i, z)[2] = (rgb.at<cv::Vec3f>(i, z)[2] - mean_arr[i * z + z + delta_blue]) / 255.0f;
+            if (i < 2 && z < 2) {
+                print_head_from_arr(&rgb.at<cv::Vec3f>(i, z)[0], 3);
+            }
         }
     }
 
-    /** 减去均值权重 **/
-    for (int i = 0; i < img_size * 3; ++i) {
-        mean[i] = mean[i] - mean_arr[i] / 255.0f;
-    }
+    slog::info << "Star to crop image" << slog::endl;
 
     /** 图像剪裁 **/
-    slog::info << "Star to crop image" << slog::endl;
-    float crop_0_0[224 * 224 * 3];
-    crop(crop_0_0, mean, 0, 0);
-    print_head_from_arr(crop_0_0, 20);
+    cv::Mat tmp;
+    cv::Mat crop_0_0;
+    cv::Mat crop_11_0;
+    cv::Mat crop_21_32;
+    cv::Mat crop_32_32;
+    cv::Rect rect_0_0(0, 0, 224, 224);
+    cv::Rect rect_11_0(11, 0, 224, 224);
+    cv::Rect rect_21_32(21, 32, 224, 224);
+    cv::Rect rect_32_32(32, 32, 224, 224);
+    crop(rgb, crop_0_0, 0, 0, 224, 224);
+    print_head_from_arr(&crop_0_0.at<cv::Vec3f>(0, 0)[0], 3);
+    slog::info << "size #" << crop_0_0.rows << "_" << crop_0_0.cols << "_" << crop_0_0.channels() << slog::endl;
+
+//    rgb.copyTo(tmp);
+//    crop_11_0 = tmp(rect_11_0);
+//    print_head_from_arr(&crop_11_0.at<cv::Vec3f>(0, 0)[0], 3);
+//    slog::info << "size #" << crop_11_0.rows << "_" << crop_11_0.cols << "_" << crop_11_0.channels() << slog::endl;
+//
+//    rgb.copyTo(tmp);
+//    crop_21_32 = tmp(rect_21_32);
+//    print_head_from_arr(&crop_21_32.at<cv::Vec3f>(0, 0)[0], 3);
+//    slog::info << "size #" << crop_21_32.rows << "_" << crop_21_32.cols << "_" << crop_21_32.channels() << slog::endl;
+//
+//    rgb.copyTo(tmp);
+//    crop_32_32 = tmp(rect_32_32);
+//    print_head_from_arr(&crop_32_32.at<cv::Vec3f>(0, 0)[0], 3);
+//    slog::info << "size #" << crop_32_32.rows << "_" << crop_32_32.cols << "_" << crop_32_32.channels() << slog::endl;
+//
+//    slog::info << "End to crop image" << slog::endl;
+//    slog::info << "Star to flip image" << slog::endl;
+
+//    cv::Mat flip_1;
+//    cv::Mat flip_2;
+//    cv::Mat flip_3;
+//    cv::Mat flip_4;
+//    cv::flip(crop_0_0, flip_1, 0);
+//    slog::info << "size #" << flip_1.rows << "_" << flip_1.cols << "_" << flip_1.channels() << slog::endl;
+//    print_head_from_arr(&flip_1.at<cv::Vec3f>(0, 0)[0], 3);
+//    cv::flip(crop_11_0, flip_2, 0);
+//    print_head_from_arr(&flip_2.at<cv::Vec3f>(0, 0)[0], 3);
+//    cv::flip(crop_21_32, flip_3, 0);
+//    print_head_from_arr(&flip_3.at<cv::Vec3f>(0, 0)[0], 3);
+//    cv::flip(crop_32_32, flip_4, 0);
+//    print_head_from_arr(&flip_4.at<cv::Vec3f>(0, 0)[0], 3);
+
     slog::info << "End to flip image" << slog::endl;
 
     if (size < 8 * 224 * 224 * 3) {
         throw std::logic_error("dim error ! the input  data length is not equal batch image size");
     }
+//    fill_image_2_arr(phead, crop_0_0, 0);
+//    fill_image_2_arr(phead, crop_11_0, 224 * 224 * 3);
+//    fill_image_2_arr(phead, crop_21_32, 2 * 224 * 224 * 3);
+//    fill_image_2_arr(phead, crop_32_32, 3 * 224 * 224 * 3);
+//    fill_image_2_arr(phead, flip_1, 4 * 224 * 224 * 3);
+//    fill_image_2_arr(phead, flip_2, 5 * 224 * 224 * 3);
+//    fill_image_2_arr(phead, flip_3, 6 * 224 * 224 * 3);
+//    fill_image_2_arr(phead, flip_4, 7 * 224 * 224 * 3);
+
     exit(0);
 }
 

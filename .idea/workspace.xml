@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/main_ex.cpp" line="34" />
-  </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
       <config projectName="ddup" targetName="ddup" />
@@ -43,7 +40,7 @@
           <entry key="Makefile" value="1" />
           <entry key="chrono" value="1" />
           <entry key="cpp" value="9" />
-          <entry key="h" value="24" />
+          <entry key="h" value="27" />
           <entry key="hpp" value="54" />
           <entry key="iterator" value="1" />
           <entry key="map" value="2" />
@@ -59,13 +56,13 @@
         <counts>
           <entry key="CMakeLists.txt" value="4" />
           <entry key="Makefile" value="1" />
-          <entry key="ObjectiveC" value="98" />
+          <entry key="ObjectiveC" value="101" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="4701" />
+          <entry key="cpp" value="5440" />
           <entry key="hpp" value="60" />
           <entry key="txt" value="98" />
         </counts>
@@ -73,8 +70,8 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="81" />
-          <entry key="Doxygen file" value="7" />
-          <entry key="ObjectiveC" value="4754" />
+          <entry key="Doxygen file" value="8" />
+          <entry key="ObjectiveC" value="5492" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
@@ -90,12 +87,37 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_ex.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10">
-              <caret line="220" lean-forward="true" selection-start-line="220" selection-end-line="220" />
+            <state relative-caret-position="282">
+              <caret line="152" column="32" selection-start-line="152" selection-start-column="32" selection-end-line="152" selection-end-column="32" />
               <folding>
                 <element signature="e#45#63#0" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/include/opencv2/core/types_c.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="251">
+              <caret line="325" column="9" selection-start-line="325" selection-start-column="9" selection-end-line="325" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/include/opencv2/imgcodecs/imgcodecs_c.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="268">
+              <caret line="76" column="82" lean-forward="true" selection-start-line="76" selection-start-column="82" selection-end-line="76" selection-end-column="82" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/include/opencv/cv.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-294" />
           </provider>
         </entry>
       </file>
@@ -136,19 +158,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/include/samples/slog.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="60" column="23" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file:///usr/local/include/opencv2/core/types.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="455" column="12" selection-start-line="455" selection-start-column="12" selection-end-line="455" selection-end-column="12" />
+            <state relative-caret-position="251">
+              <caret line="1783" column="12" selection-start-line="1783" selection-start-column="12" selection-end-line="1783" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -163,24 +176,6 @@
                 <element signature="e#85880#85894#0" expanded="true" />
                 <element signature="e#95142#95156#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/local/include/opencv2/core/matx.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="420" column="22" selection-start-line="420" selection-start-column="22" selection-end-line="420" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/local/include/opencv2/core/cvdef.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="271" column="9" selection-start-line="271" selection-start-column="9" selection-end-line="271" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -202,8 +197,8 @@
       <find>function</find>
       <find>function(</find>
       <find>KMP_AFFINITY</find>
-      <find>Preparing output blobs</find>
       <find>vec3f</find>
+      <find>Preparing output blobs</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -322,28 +317,7 @@
       <updated>1544433512274</updated>
       <workItem from="1544433513616" duration="4032000" />
       <workItem from="1544502194028" duration="12064000" />
-      <workItem from="1544773942692" duration="46092000" />
-    </task>
-    <task id="LOCAL-00055" summary="多线程版本">
-      <created>1545195879685</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1545195879685</updated>
-    </task>
-    <task id="LOCAL-00056" summary="多线程版本">
-      <created>1545196323014</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1545196323014</updated>
-    </task>
-    <task id="LOCAL-00057" summary="多线程版本">
-      <created>1545196433341</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1545196433341</updated>
+      <workItem from="1544773942692" duration="51384000" />
     </task>
     <task id="LOCAL-00058" summary="多线程版本">
       <created>1545205311866</created>
@@ -667,17 +641,38 @@
       <option name="project" value="LOCAL" />
       <updated>1545300170178</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="多线程版本">
+      <created>1545302236759</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1545302236759</updated>
+    </task>
+    <task id="LOCAL-00105" summary="多线程版本">
+      <created>1545302303799</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1545302303799</updated>
+    </task>
+    <task id="LOCAL-00106" summary="多线程版本">
+      <created>1545310462852</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1545310462852</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62188000" />
+    <option name="totallyTimeSpent" value="67480000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18383405" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18383405" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Messages" weight="0.32891566" />
@@ -726,30 +721,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/include/ie_precision.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="12" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/ie_blob.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
-          <caret line="223" column="22" selection-start-line="223" selection-start-column="22" selection-end-line="223" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/ie_locked_memory.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="104" column="42" selection-start-line="104" selection-start-column="26" selection-end-line="104" selection-end-column="42" />
-          <folding>
-            <element signature="e#11115#11205#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/details/ie_no_copy.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="268">
@@ -1031,13 +1002,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/include/opencv2/core/types.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="455" column="12" selection-start-line="455" selection-start-column="12" selection-end-line="455" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/samples/slog.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -1085,10 +1049,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/local/include/opencv2/core/types.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="1783" column="12" selection-start-line="1783" selection-start-column="12" selection-end-line="1783" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/opencv/cv.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-294" />
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/opencv2/imgcodecs/imgcodecs_c.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="76" column="82" lean-forward="true" selection-start-line="76" selection-start-column="82" selection-end-line="76" selection-end-column="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/opencv2/core/types_c.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="325" column="9" selection-start-line="325" selection-start-column="9" selection-end-line="325" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main_ex.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10">
-          <caret line="220" lean-forward="true" selection-start-line="220" selection-end-line="220" />
+        <state relative-caret-position="282">
+          <caret line="152" column="32" selection-start-line="152" selection-start-column="32" selection-end-line="152" selection-end-column="32" />
           <folding>
             <element signature="e#45#63#0" expanded="true" />
           </folding>
