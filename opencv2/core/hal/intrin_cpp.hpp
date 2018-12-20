@@ -48,7 +48,7 @@
 #include <limits>
 #include <cstring>
 #include <algorithm>
-#include "opencv2/core/saturate.hpp"
+#include "../saturate.hpp"
 
 namespace cv
 {

@@ -13,13 +13,13 @@
 #include <map>
 #include <unordered_map>
 
-#include <opencv2/gapi/opencv_includes.hpp>
-#include <opencv2/gapi/gcommon.hpp>
-#include <opencv2/gapi/gkernel.hpp>
-#include <opencv2/gapi/garg.hpp>
-#include <opencv2/gapi/own/types.hpp>
+#include "../opencv_includes.hpp"
+#include "../gcommon.hpp"
+#include "../gkernel.hpp"
+#include "../garg.hpp"
+#include "../own/types.hpp"
 
-#include <opencv2/gapi/fluid/gfluidbuffer.hpp>
+#include "gfluidbuffer.hpp"
 
 // FIXME: namespace scheme for backends?
 namespace cv {

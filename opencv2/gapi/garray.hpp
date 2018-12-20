@@ -13,12 +13,12 @@
 #include <vector>
 #include <memory>
 
-#include <opencv2/gapi/own/exports.hpp>
-#include <opencv2/gapi/opencv_includes.hpp>
+#include "own/exports.hpp"
+#include "opencv_includes.hpp"
 
-#include <opencv2/gapi/util/variant.hpp>
-#include <opencv2/gapi/util/throw.hpp>
-#include "opencv2/gapi/own/assert.hpp"
+#include "util/variant.hpp"
+#include "util/throw.hpp"
+#include "own/assert.hpp"
 
 namespace cv
 {

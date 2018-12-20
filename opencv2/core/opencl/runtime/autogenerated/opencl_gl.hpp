@@ -18,7 +18,7 @@
 #define clGetGLTextureInfo clGetGLTextureInfo_
 
 #if defined __APPLE__
-#include <OpenCL/cl_gl.h>
+#include <OpenCL/opencl.h>
 #else
 #include <CL/cl_gl.h>
 #endif

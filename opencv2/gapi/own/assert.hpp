@@ -15,7 +15,7 @@
 #else
 #include <stdexcept>
 #include <sstream>
-#include "opencv2/gapi/util/throw.hpp"
+#include "../util/throw.hpp"
 
 namespace detail
 {

@@ -45,7 +45,7 @@
 #ifndef OPENCV_CORE_FAST_MATH_HPP
 #define OPENCV_CORE_FAST_MATH_HPP
 
-#include "opencv2/core/cvdef.h"
+#include "cvdef.h"
 
 #if ((defined _MSC_VER && defined _M_X64) || (defined __GNUC__ && defined __x86_64__ \
     && defined __SSE2__ && !defined __APPLE__)) && !defined(__CUDACC__)

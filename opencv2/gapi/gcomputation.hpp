@@ -10,11 +10,11 @@
 
 #include <functional>
 
-#include "opencv2/gapi/util/util.hpp"
-#include "opencv2/gapi/gcommon.hpp"
-#include "opencv2/gapi/gproto.hpp"
-#include "opencv2/gapi/garg.hpp"
-#include "opencv2/gapi/gcompiled.hpp"
+#include "util/util.hpp"
+#include "gcommon.hpp"
+#include "gproto.hpp"
+#include "garg.hpp"
+#include "gcompiled.hpp"
 
 namespace cv {
 

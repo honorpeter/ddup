@@ -12,11 +12,11 @@
 #include <vector>       // std::vector
 #include <type_traits>  // decay
 
-#include <opencv2/gapi/opencv_includes.hpp>
+#include "opencv_includes.hpp"
 
-#include "opencv2/gapi/util/any.hpp"
-#include "opencv2/gapi/own/exports.hpp"
-#include "opencv2/gapi/own/assert.hpp"
+#include "util/any.hpp"
+#include "own/exports.hpp"
+#include "own/assert.hpp"
 
 namespace cv {
 

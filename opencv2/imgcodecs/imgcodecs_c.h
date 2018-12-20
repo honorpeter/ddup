@@ -42,7 +42,7 @@
 #ifndef OPENCV_IMGCODECS_H
 #define OPENCV_IMGCODECS_H
 
-#include "opencv2/core/core_c.h"
+#include "../core/core_c.h"
 
 #ifdef __cplusplus
 extern "C" {

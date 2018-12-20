@@ -44,7 +44,7 @@
 #define __OPENCV_PVL_UTIL_HPP__
 
 
-#include "opencv2/core.hpp"
+#include "../core.hpp"
 #include "pvl_types.h"
 
 

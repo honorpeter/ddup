@@ -43,7 +43,7 @@
 #ifndef OPENCV_STITCHING_AUTOCALIB_HPP
 #define OPENCV_STITCHING_AUTOCALIB_HPP
 
-#include "opencv2/core.hpp"
+#include "../../core.hpp"
 #include "matchers.hpp"
 
 namespace cv {

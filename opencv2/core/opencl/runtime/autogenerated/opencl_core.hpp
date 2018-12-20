@@ -96,7 +96,7 @@
 #define clWaitForEvents clWaitForEvents_
 
 #if defined __APPLE__
-#include <OpenCL/cl.h>
+#include <OpenCL/opencl.h>
 #else
 #include <CL/cl.h>
 #endif

@@ -44,7 +44,7 @@
 #ifndef OPENCV_HIST_COST_HPP
 #define OPENCV_HIST_COST_HPP
 
-#include "opencv2/imgproc.hpp"
+#include "../imgproc.hpp"
 
 namespace cv
 {

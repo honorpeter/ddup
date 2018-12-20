@@ -44,7 +44,7 @@
 #ifndef OPENCV_TRACKING_C_H
 #define OPENCV_TRACKING_C_H
 
-#include "opencv2/imgproc/types_c.h"
+#include "../imgproc/types_c.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -42,8 +42,8 @@
 #ifndef OPENCV_HIGHGUI_H
 #define OPENCV_HIGHGUI_H
 
-#include "opencv2/core/core_c.h"
-#include "opencv2/imgproc/imgproc_c.h"
+#include "../core/core_c.h"
+#include "../imgproc/imgproc_c.h"
 #ifdef HAVE_OPENCV_IMGCODECS
 #include "opencv2/imgcodecs/imgcodecs_c.h"
 #endif

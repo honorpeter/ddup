@@ -46,7 +46,7 @@
 #define OPENCV_HAL_INTRIN_NEON_HPP
 
 #include <algorithm>
-#include "opencv2/core/utility.hpp"
+#include "../utility.hpp"
 
 namespace cv
 {

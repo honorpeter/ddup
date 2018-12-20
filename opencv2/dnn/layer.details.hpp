@@ -5,7 +5,7 @@
 #ifndef OPENCV_DNN_LAYER_DETAILS_HPP
 #define OPENCV_DNN_LAYER_DETAILS_HPP
 
-#include <opencv2/dnn/layer.hpp>
+#include "layer.hpp"
 
 namespace cv {
 namespace dnn {

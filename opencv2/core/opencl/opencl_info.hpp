@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-#include <opencv2/core.hpp>
-#include <opencv2/core/ocl.hpp>
+#include "../../core.hpp"
+#include "../ocl.hpp"
 
 #ifndef DUMP_CONFIG_PROPERTY
 #define DUMP_CONFIG_PROPERTY(...)

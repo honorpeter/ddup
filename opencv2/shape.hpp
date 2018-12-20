@@ -43,10 +43,10 @@
 #ifndef OPENCV_SHAPE_HPP
 #define OPENCV_SHAPE_HPP
 
-#include "opencv2/shape/emdL1.hpp"
-#include "opencv2/shape/shape_transformer.hpp"
-#include "opencv2/shape/hist_cost.hpp"
-#include "opencv2/shape/shape_distance.hpp"
+#include "shape/emdL1.hpp"
+#include "shape/shape_transformer.hpp"
+#include "shape/hist_cost.hpp"
+#include "shape/shape_distance.hpp"
 
 /**
   @defgroup shape Shape Distance and Matching

@@ -10,11 +10,11 @@
 
 #include <utility> // std::tuple
 
-#include <opencv2/imgproc.hpp>
+#include "../imgproc.hpp"
 
-#include "opencv2/gapi/gmat.hpp"
-#include "opencv2/gapi/gscalar.hpp"
-#include "opencv2/gapi/gkernel.hpp"
+#include "gmat.hpp"
+#include "gscalar.hpp"
+#include "gkernel.hpp"
 
 /** \defgroup gapi_core G-API core (basic) functionality
 @{

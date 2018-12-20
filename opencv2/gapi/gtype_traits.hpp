@@ -11,11 +11,11 @@
 #include <vector>
 #include <type_traits>
 
-#include <opencv2/gapi/gmat.hpp>
-#include <opencv2/gapi/gscalar.hpp>
-#include <opencv2/gapi/garray.hpp>
-#include <opencv2/gapi/gcommon.hpp>
-#include <opencv2/gapi/own/convert.hpp>
+#include "gmat.hpp"
+#include "gscalar.hpp"
+#include "garray.hpp"
+#include "gcommon.hpp"
+#include "own/convert.hpp"
 
 namespace cv
 {

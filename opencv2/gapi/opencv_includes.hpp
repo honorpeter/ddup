@@ -10,10 +10,10 @@
 #define OPENCV_GAPI_OPENCV_INCLUDES_HPP
 
 #if !defined(GAPI_STANDALONE)
-#  include <opencv2/core/mat.hpp>
-#  include <opencv2/core/cvdef.h>
-#  include <opencv2/core/types.hpp>
-#  include <opencv2/core/base.hpp>
+#  include "../core/mat.hpp"
+#  include "../core/cvdef.h"
+#  include "../core/types.hpp"
+#  include "../core/base.hpp"
 #else   // Without OpenCV
 #  include <opencv2/gapi/own/cvdefs.hpp>
 #endif // !defined(GAPI_STANDALONE)

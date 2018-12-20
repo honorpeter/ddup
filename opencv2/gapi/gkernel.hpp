@@ -16,13 +16,13 @@
 #include <utility> // tuple
 #include <type_traits> // false_type, true_type
 
-#include <opencv2/gapi/gcommon.hpp> // CompileArgTag
-#include <opencv2/gapi/util/util.hpp> // Seq
-#include <opencv2/gapi/gcall.hpp>
-#include <opencv2/gapi/garg.hpp>      // GArg
-#include <opencv2/gapi/gmetaarg.hpp>  // GMetaArg
-#include <opencv2/gapi/gtype_traits.hpp> // GTypeTraits
-#include <opencv2/gapi/util/compiler_hints.hpp> //suppress_unused_warning
+#include "gcommon.hpp" // CompileArgTag
+#include "util/util.hpp" // Seq
+#include "gcall.hpp"
+#include "garg.hpp"      // GArg
+#include "gmetaarg.hpp"  // GMetaArg
+#include "gtype_traits.hpp" // GTypeTraits
+#include "util/compiler_hints.hpp" //suppress_unused_warning
 
 
 namespace cv {

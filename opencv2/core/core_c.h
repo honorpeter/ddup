@@ -45,7 +45,7 @@
 #ifndef OPENCV_CORE_C_H
 #define OPENCV_CORE_C_H
 
-#include "opencv2/core/types_c.h"
+#include "types_c.h"
 
 #ifdef __cplusplus
 #  ifdef _MSC_VER
@@ -2775,7 +2775,7 @@ struct CV_EXPORTS CvType
 
 //! @}
 
-#include "opencv2/core/utility.hpp"
+#include "utility.hpp"
 
 namespace cv
 {

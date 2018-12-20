@@ -5,7 +5,7 @@
 #ifndef OPENCV_TRACE_HPP
 #define OPENCV_TRACE_HPP
 
-#include <opencv2/core/cvdef.h>
+#include "../cvdef.h"
 
 //! @addtogroup core_logging
 // This section describes OpenCV tracing utilities.

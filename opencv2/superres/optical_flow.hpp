@@ -43,7 +43,7 @@
 #ifndef OPENCV_SUPERRES_OPTICAL_FLOW_HPP
 #define OPENCV_SUPERRES_OPTICAL_FLOW_HPP
 
-#include "opencv2/core.hpp"
+#include "../core.hpp"
 
 namespace cv
 {

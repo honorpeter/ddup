@@ -8,7 +8,7 @@
 #ifndef OPENCV_GAPI_GAPI_OWN_SCALAR_HPP
 #define OPENCV_GAPI_GAPI_OWN_SCALAR_HPP
 
-#include <opencv2/gapi/own/exports.hpp>
+#include "exports.hpp"
 
 namespace cv
 {

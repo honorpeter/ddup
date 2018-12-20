@@ -43,7 +43,7 @@
 #ifndef OPENCV_VIDEOSTAB_LOG_HPP
 #define OPENCV_VIDEOSTAB_LOG_HPP
 
-#include "opencv2/core.hpp"
+#include "../core.hpp"
 
 namespace cv
 {

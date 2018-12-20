@@ -45,12 +45,12 @@
 
 #include <vector>
 #include <fstream>
-#include "opencv2/core.hpp"
-#include "opencv2/features2d.hpp"
-#include "opencv2/opencv_modules.hpp"
-#include "opencv2/videostab/optical_flow.hpp"
-#include "opencv2/videostab/motion_core.hpp"
-#include "opencv2/videostab/outlier_rejection.hpp"
+#include "../core.hpp"
+#include "../features2d.hpp"
+#include "../opencv_modules.hpp"
+#include "optical_flow.hpp"
+#include "motion_core.hpp"
+#include "outlier_rejection.hpp"
 
 #ifdef HAVE_OPENCV_CUDAIMGPROC
 #  include "opencv2/cudaimgproc.hpp"

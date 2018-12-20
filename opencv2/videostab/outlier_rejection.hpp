@@ -44,8 +44,8 @@
 #define OPENCV_VIDEOSTAB_OUTLIER_REJECTION_HPP
 
 #include <vector>
-#include "opencv2/core.hpp"
-#include "opencv2/videostab/motion_core.hpp"
+#include "../core.hpp"
+#include "motion_core.hpp"
 
 namespace cv
 {

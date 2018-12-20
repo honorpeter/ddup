@@ -43,11 +43,11 @@
 #define OPENCV_DNN_DNN_HPP
 
 #include <vector>
-#include <opencv2/core.hpp>
+#include "../core.hpp"
 
-#include "../dnn/version.hpp"
+#include "version.hpp"
 
-#include <opencv2/dnn/dict.hpp>
+#include "dict.hpp"
 
 namespace cv {
 namespace dnn {
@@ -954,7 +954,7 @@ CV__DNN_INLINE_NS_END
 }
 }
 
-#include <opencv2/dnn/layer.hpp>
-#include <opencv2/dnn/dnn.inl.hpp>
+#include "layer.hpp"
+#include "dnn.inl.hpp"
 
 #endif  /* OPENCV_DNN_DNN_HPP */

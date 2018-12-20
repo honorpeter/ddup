@@ -11,12 +11,12 @@
 #include <ostream>
 #include <memory>                 // std::shared_ptr
 
-#include <opencv2/gapi/opencv_includes.hpp>
-#include <opencv2/gapi/gcommon.hpp> // GShape
+#include "opencv_includes.hpp"
+#include "gcommon.hpp" // GShape
 
-#include "opencv2/gapi/own/types.hpp" // cv::gapi::own::Size
-#include "opencv2/gapi/own/convert.hpp" // to_own
-#include "opencv2/gapi/own/assert.hpp"
+#include "own/types.hpp" // cv::gapi::own::Size
+#include "own/convert.hpp" // to_own
+#include "own/assert.hpp"
 
 // TODO GAPI_EXPORTS or so
 namespace cv

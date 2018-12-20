@@ -90,7 +90,7 @@ namespace cv { namespace debug_build_guard { } using namespace debug_build_guard
 #undef Complex
 
 #include <limits.h>
-#include "opencv2/core/hal/interface.h"
+#include "hal/interface.h"
 
 #if defined __ICL
 #  define CV_ICC   __ICL

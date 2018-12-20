@@ -79,7 +79,7 @@
 #  define HAVE_IPL
 #endif
 
-#include "opencv2/core/cvdef.h"
+#include "cvdef.h"
 
 #ifndef SKIP_INCLUDES
 #include <assert.h>
@@ -121,7 +121,7 @@
 #endif
 
 #ifdef __cplusplus
-#  include "opencv2/core.hpp"
+#  include "../core.hpp"
 #endif
 
 /** @addtogroup core_c

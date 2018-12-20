@@ -48,7 +48,7 @@
 #include <cmath>
 #include <float.h>
 #include <stdlib.h>
-#include "opencv2/core/cvdef.h"
+#include "../cvdef.h"
 
 #define OPENCV_HAL_ADD(a, b) ((a) + (b))
 #define OPENCV_HAL_AND(a, b) ((a) & (b))
@@ -160,7 +160,7 @@ using namespace CV_CPU_OPTIMIZATION_HAL_NAMESPACE;
 #else
 
 #define CV_SIMD128_CPP 1
-#include "opencv2/core/hal/intrin_cpp.hpp"
+#include "intrin_cpp.hpp"
 
 #endif
 

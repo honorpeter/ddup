@@ -10,10 +10,10 @@
 
 #include <ostream>
 
-#include <opencv2/gapi/opencv_includes.hpp>
-#include <opencv2/gapi/gcommon.hpp> // GShape
-#include <opencv2/gapi/util/optional.hpp>
-#include "opencv2/gapi/own/scalar.hpp"
+#include "opencv_includes.hpp"
+#include "gcommon.hpp" // GShape
+#include "util/optional.hpp"
+#include "own/scalar.hpp"
 
 namespace cv
 {
