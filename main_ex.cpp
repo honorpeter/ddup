@@ -205,6 +205,7 @@ void ex_pic(float *phead, int size) {
     slog::info << "Star to crop image" << slog::endl;
 
     /** 图像剪裁 **/
+    cv::Mat tmp;
     cv::Mat crop_0_0;
     cv::Mat crop_11_0;
     cv::Mat crop_21_32;
@@ -213,16 +214,23 @@ void ex_pic(float *phead, int size) {
     cv::Rect rect_11_0(11, 0, 224, 224);
     cv::Rect rect_21_32(21, 32, 224, 224);
     cv::Rect rect_32_32(32, 32, 224, 224);
-    crop_0_0 = rgb(rect_0_0);
+    rgb.copyTo(tmp);
+    crop_0_0 = tmp((rect_0_0));
     print_head_from_arr(&crop_0_0.at<cv::Vec3f>(0, 0)[0], 3);
     slog::info << "size #" << crop_0_0.rows << "_" << crop_0_0.cols << "_" << crop_0_0.channels() << slog::endl;
-    crop_11_0 = rgb(rect_11_0);
+
+    rgb.copyTo(tmp);
+    crop_11_0 = tmp(rect_11_0);
     print_head_from_arr(&crop_11_0.at<cv::Vec3f>(0, 0)[0], 3);
     slog::info << "size #" << crop_11_0.rows << "_" << crop_11_0.cols << "_" << crop_11_0.channels() << slog::endl;
-    crop_21_32 = rgb(rect_21_32);
+
+    rgb.copyTo(tmp);
+    crop_21_32 = tmp(rect_21_32);
     print_head_from_arr(&crop_21_32.at<cv::Vec3f>(0, 0)[0], 3);
     slog::info << "size #" << crop_21_32.rows << "_" << crop_21_32.cols << "_" << crop_21_32.channels() << slog::endl;
-    crop_32_32 = rgb(rect_32_32);
+
+    rgb.copyTo(tmp);
+    crop_32_32 = tmp(rect_32_32);
     print_head_from_arr(&crop_32_32.at<cv::Vec3f>(0, 0)[0], 3);
     slog::info << "size #" << crop_32_32.rows << "_" << crop_32_32.cols << "_" << crop_32_32.channels() << slog::endl;
 
@@ -256,7 +264,6 @@ void ex_pic(float *phead, int size) {
 //    fill_image_2_arr(phead, flip_2, 5 * 224 * 224 * 3);
 //    fill_image_2_arr(phead, flip_3, 6 * 224 * 224 * 3);
 //    fill_image_2_arr(phead, flip_4, 7 * 224 * 224 * 3);
-
 }
 
 void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
