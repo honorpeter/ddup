@@ -160,6 +160,10 @@ void ex_pic(float *phead, int size) {
     float mean_arr[mean_data_size];
     /** 读取均值化文件 **/
     FILE *pInputFile = fopen("/home/topn-demo/C2319_Mean.binimg", "rb");
+    int width, height, channel;
+    fread(&width, 4, 1, pInputFile);
+    fread(&height, 4, 1, pInputFile);
+    fread(&channel, 4, 1, pInputFile);
     size_t read_num = fread((void *) mean_arr, sizeof(float), mean_data_size, pInputFile);
 
     if (read_num != rgb.rows * rgb.cols * rgb.channels()) {
