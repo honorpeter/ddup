@@ -178,7 +178,8 @@ void ex_pic(float *phead, int size) {
     read_num = fread(&channel, 4, 1, pInputFile);
     read_num = fread((void *) mean_arr, sizeof(float), mean_data_size, pInputFile);
 
-    slog::info << "End to load mean.bin file #" << width << "_" << height << "_" << channel << slog::endl;
+    slog::info << "End to load mean.bin file #" << width << "_" << height << "_" << channel << " readNum#" << read_num
+               << slog::endl;
     print_head_from_arr(mean_arr, 20);
 
     if (read_num != rgb.rows * rgb.cols * rgb.channels()) {
