@@ -215,7 +215,7 @@ void ex_pic(float *phead, int size) {
     cv::Rect rect_21_32(21, 32, 224, 224);
     cv::Rect rect_32_32(32, 32, 224, 224);
     rgb.copyTo(tmp);
-    crop_0_0 = tmp((rect_0_0));
+    crop_0_0 = tmp(rect_0_0);
     print_head_from_arr(&crop_0_0.at<cv::Vec3f>(0, 0)[0], 3);
     slog::info << "size #" << crop_0_0.rows << "_" << crop_0_0.cols << "_" << crop_0_0.channels() << slog::endl;
 
