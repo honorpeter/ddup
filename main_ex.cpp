@@ -215,12 +215,16 @@ void ex_pic(float *phead, int size) {
     cv::Rect rect_32_32(32, 32, 224, 224);
     crop_0_0 = rgb(rect_0_0);
     print_head_from_arr(&crop_0_0.at<cv::Vec3f>(0, 0)[0], 3);
+    slog::info << "size #" << crop_0_0.rows << "_" << crop_0_0.cols << "_" << crop_0_0.channels() << slog::endl;
     crop_11_0 = rgb(rect_11_0);
     print_head_from_arr(&crop_11_0.at<cv::Vec3f>(0, 0)[0], 3);
+    slog::info << "size #" << crop_11_0.rows << "_" << crop_11_0.cols << "_" << crop_11_0.channels() << slog::endl;
     crop_21_32 = rgb(rect_21_32);
     print_head_from_arr(&crop_21_32.at<cv::Vec3f>(0, 0)[0], 3);
+    slog::info << "size #" << crop_21_32.rows << "_" << crop_21_32.cols << "_" << crop_21_32.channels() << slog::endl;
     crop_32_32 = rgb(rect_32_32);
     print_head_from_arr(&crop_32_32.at<cv::Vec3f>(0, 0)[0], 3);
+    slog::info << "size #" << crop_32_32.rows << "_" << crop_32_32.cols << "_" << crop_32_32.channels() << slog::endl;
 
     slog::info << "End to crop image" << slog::endl;
     slog::info << "Star to flip image" << slog::endl;
@@ -230,6 +234,7 @@ void ex_pic(float *phead, int size) {
     cv::Mat flip_3;
     cv::Mat flip_4;
     cv::flip(crop_0_0, flip_1, 0);
+    slog::info << "size #" << flip_1.rows << "_" << flip_1.cols << "_" << flip_1.channels() << slog::endl;
     print_head_from_arr(&flip_1.at<cv::Vec3f>(0, 0)[0], 3);
     cv::flip(crop_11_0, flip_2, 0);
     print_head_from_arr(&flip_2.at<cv::Vec3f>(0, 0)[0], 3);
