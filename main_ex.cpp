@@ -37,9 +37,10 @@ void createPlugin(InferencePlugin &plugin) {
 }
 
 void print_head_from_arr(float *head, int size) {
-    for (int j = 0; j < 20; ++j) {
+    for (int j = 0; j < size; ++j) {
         slog::info << " " << *(head + j);
     }
+    slog::info << slog::endl;
 }
 
 void readNet(CNNNetReader &networkReader) {
@@ -243,7 +244,6 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         float pInput[8 * 224 * 224 * 3];
         ex_pic(pInput, 8 * 224 * 224 * 3);
 
-        slog::info << slog::endl;
         auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
 
         for (size_t i = 0; i < (8 * 224 * 224 * 3); ++i) {

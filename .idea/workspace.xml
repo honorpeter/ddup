@@ -65,7 +65,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="4391" />
+          <entry key="cpp" value="4413" />
           <entry key="hpp" value="59" />
           <entry key="txt" value="98" />
         </counts>
@@ -74,7 +74,7 @@
         <counts>
           <entry key="CMakeLists.txt" value="81" />
           <entry key="Doxygen file" value="6" />
-          <entry key="ObjectiveC" value="4444" />
+          <entry key="ObjectiveC" value="4466" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
@@ -90,8 +90,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_ex.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="426">
-              <caret line="181" selection-start-line="181" selection-end-line="182" />
+            <state relative-caret-position="305">
+              <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
               <folding>
                 <element signature="e#45#63#0" expanded="true" />
               </folding>
@@ -229,10 +229,9 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="276" />
     <option name="y" value="23" />
-    <option name="width" value="1164" />
-    <option name="height" value="825" />
+    <option name="width" value="1440" />
+    <option name="height" value="823" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -323,21 +322,7 @@
       <updated>1544433512274</updated>
       <workItem from="1544433513616" duration="4032000" />
       <workItem from="1544502194028" duration="12064000" />
-      <workItem from="1544773942692" duration="43539000" />
-    </task>
-    <task id="LOCAL-00044" summary="多线程版本">
-      <created>1545189554088</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1545189554088</updated>
-    </task>
-    <task id="LOCAL-00045" summary="多线程版本">
-      <created>1545191004060</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1545191004060</updated>
+      <workItem from="1544773942692" duration="43821000" />
     </task>
     <task id="LOCAL-00046" summary="多线程版本">
       <created>1545191640754</created>
@@ -668,11 +653,25 @@
       <option name="project" value="LOCAL" />
       <updated>1545298096092</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="多线程版本">
+      <created>1545298686524</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1545298686524</updated>
+    </task>
+    <task id="LOCAL-00094" summary="多线程版本">
+      <created>1545298854918</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1545298854918</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59635000" />
+    <option name="totallyTimeSpent" value="59917000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1088,8 +1087,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_ex.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="181" selection-start-line="181" selection-end-line="182" />
+        <state relative-caret-position="305">
+          <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
           <folding>
             <element signature="e#45#63#0" expanded="true" />
           </folding>
