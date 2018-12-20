@@ -229,19 +229,19 @@ void ex_pic(float *phead, int size) {
     slog::info << "End to crop image" << slog::endl;
     slog::info << "Star to flip image" << slog::endl;
 
-    cv::Mat flip_1;
-    cv::Mat flip_2;
-    cv::Mat flip_3;
-    cv::Mat flip_4;
-    cv::flip(crop_0_0, flip_1, 0);
-    slog::info << "size #" << flip_1.rows << "_" << flip_1.cols << "_" << flip_1.channels() << slog::endl;
-    print_head_from_arr(&flip_1.at<cv::Vec3f>(0, 0)[0], 3);
-    cv::flip(crop_11_0, flip_2, 0);
-    print_head_from_arr(&flip_2.at<cv::Vec3f>(0, 0)[0], 3);
-    cv::flip(crop_21_32, flip_3, 0);
-    print_head_from_arr(&flip_3.at<cv::Vec3f>(0, 0)[0], 3);
-    cv::flip(crop_32_32, flip_4, 0);
-    print_head_from_arr(&flip_4.at<cv::Vec3f>(0, 0)[0], 3);
+//    cv::Mat flip_1;
+//    cv::Mat flip_2;
+//    cv::Mat flip_3;
+//    cv::Mat flip_4;
+//    cv::flip(crop_0_0, flip_1, 0);
+//    slog::info << "size #" << flip_1.rows << "_" << flip_1.cols << "_" << flip_1.channels() << slog::endl;
+//    print_head_from_arr(&flip_1.at<cv::Vec3f>(0, 0)[0], 3);
+//    cv::flip(crop_11_0, flip_2, 0);
+//    print_head_from_arr(&flip_2.at<cv::Vec3f>(0, 0)[0], 3);
+//    cv::flip(crop_21_32, flip_3, 0);
+//    print_head_from_arr(&flip_3.at<cv::Vec3f>(0, 0)[0], 3);
+//    cv::flip(crop_32_32, flip_4, 0);
+//    print_head_from_arr(&flip_4.at<cv::Vec3f>(0, 0)[0], 3);
 
     slog::info << "End to flip image" << slog::endl;
 
@@ -252,10 +252,10 @@ void ex_pic(float *phead, int size) {
     fill_image_2_arr(phead, crop_11_0, 224 * 224 * 3);
     fill_image_2_arr(phead, crop_21_32, 2 * 224 * 224 * 3);
     fill_image_2_arr(phead, crop_32_32, 3 * 224 * 224 * 3);
-    fill_image_2_arr(phead, flip_1, 4 * 224 * 224 * 3);
-    fill_image_2_arr(phead, flip_2, 5 * 224 * 224 * 3);
-    fill_image_2_arr(phead, flip_3, 6 * 224 * 224 * 3);
-    fill_image_2_arr(phead, flip_4, 7 * 224 * 224 * 3);
+//    fill_image_2_arr(phead, flip_1, 4 * 224 * 224 * 3);
+//    fill_image_2_arr(phead, flip_2, 5 * 224 * 224 * 3);
+//    fill_image_2_arr(phead, flip_3, 6 * 224 * 224 * 3);
+//    fill_image_2_arr(phead, flip_4, 7 * 224 * 224 * 3);
 
 }
 
@@ -268,6 +268,7 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
         float pInput[8 * 224 * 224 * 3];
         ex_pic(pInput, 8 * 224 * 224 * 3);
+        print_head_from_arr(pInput, 20);
 
         auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
 
