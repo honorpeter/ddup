@@ -200,6 +200,8 @@ void ex_pic(float *phead, int size) {
         }
     }
 
+    slog::info << "Star to crop image" << slog::endl;
+
     /** 图像剪裁 **/
     cv::Mat crop_0_0;
     cv::Mat crop_11_0;
@@ -213,6 +215,8 @@ void ex_pic(float *phead, int size) {
     crop_11_0 = rgb(rect_11_0);
     crop_21_32 = rgb(rect_21_32);
     crop_32_32 = rgb(rect_32_32);
+
+    slog::info << "Star to flip image" << slog::endl;
 
     cv::Mat flip_1;
     cv::Mat flip_2;
