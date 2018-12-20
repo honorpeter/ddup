@@ -212,6 +212,9 @@ void ex_pic(float *phead, int size) {
         }
     }
 
+    cv::Mat rgb_flip;
+    cv::flip(rgb, rgb_flip, 0);
+
     slog::info << "Star to crop image" << slog::endl;
     float crop_0_0[224 * 224 * 3];
     crop(rgb, crop_0_0, 0, 0, 224, 224);
@@ -225,7 +228,11 @@ void ex_pic(float *phead, int size) {
     float crop_32_32[224 * 224 * 3];
     crop(rgb, crop_32_32, 32, 32, 224, 224);
     print_head_from_arr(crop_32_32, 20);
-    slog::info << "End to flip image" << slog::endl;
+
+    slog::info << "Star to flip image" << slog::endl;
+    float flip_crop_0_0[224 * 224 * 3];
+    crop(rgb_flip, flip_crop_0_0, 32, 0, 224, 224);
+    print_head_from_arr(flip_crop_0_0, 20);
 
     if (size < 8 * 224 * 224 * 3) {
         throw std::logic_error("dim error ! the input  data length is not equal batch image size");
