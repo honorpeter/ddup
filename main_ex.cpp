@@ -134,6 +134,8 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
 
 void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
 
+    slog::info << "Star fill data offset#" << offset << slog::endl;
+
     int delta_green = 224 * 224;
     int delta_blue = 224 * 224 * 2;
 
