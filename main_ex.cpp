@@ -219,6 +219,12 @@ void ex_pic(float *phead, int size) {
     float crop_11_0[224 * 224 * 3];
     crop(rgb, crop_11_0, 11, 0, 224, 224);
     print_head_from_arr(crop_11_0, 20);
+    float crop_21_32[224 * 224 * 3];
+    crop(rgb, crop_21_32, 21, 32, 224, 224);
+    print_head_from_arr(crop_21_32, 20);
+    float crop_32_32[224 * 224 * 3];
+    crop(rgb, crop_32_32, 32, 32, 224, 224);
+    print_head_from_arr(crop_32_32, 20);
     slog::info << "End to flip image" << slog::endl;
 
     if (size < 8 * 224 * 224 * 3) {
