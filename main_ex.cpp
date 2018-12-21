@@ -181,7 +181,6 @@ void ex_pic(float *phead, int size) {
     const char *img_dir = FLAGS_i.c_str();
     /** 读取图片 **/
     cv::Mat image = cv::imread(img_dir);
-    print_image_head(image, 10);
 
     slog::info << "Star to resize" << slog::endl;
 
@@ -217,14 +216,11 @@ void ex_pic(float *phead, int size) {
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
     }
 
-    print_image_head(rgb, 10);
+    print_image_head(rgb, 5);
     /** 均值化 再减去 均值 **/
-    slog::info << "The 0_1:" << slog::endl;
-
-    print_head_from_arr(&rgb.at<cv::Vec3b>(0, 1)[0], 3);
-    float tmp[256 * 256 * 3];
-    for (int y = 0; y < rgb.rows; ++y) {
-        for (int x = 0; x < rgb.cols; ++x) {
+    float tmp[mean_data_size];
+    for (int y = 0; y < 256; ++y) {
+        for (int x = 0; x < 256; ++x) {
             if (y < 10 && x < 10) {
                 printf("%d_%d %d: %hhu - %f \n", y, x, y * width + x, rgb.at<cv::Vec3b>(y, x)[0],
                        mean_arr[y * width + x]);
