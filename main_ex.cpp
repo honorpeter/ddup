@@ -43,6 +43,14 @@ void print_head_from_arr(float *head, int size) {
     slog::info << slog::endl;
 }
 
+void print_image_head(cv::Mat &image, int size) {
+    for (int y = 0; y < size; ++y) {
+        for (int x = 0; x < size; ++x) {
+            print_head_from_arr(&image.at<cv::Vec3f>(x, y)[0], 3);
+        }
+    }
+}
+
 void readNet(CNNNetReader &networkReader) {
     std::string binFileName = fileNameNoExt(FLAGS_m) + ".bin";
 
@@ -150,7 +158,7 @@ void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
 
 void crop(cv::Mat &src, float *pdst, int x_offset, int y_offset, int width, int height) {
     for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; x+=3) {
+        for (int x = 0; x < width; x += 3) {
             pdst[y * height + x] = src.at<cv::Vec3f>(x + x_offset, y + y_offset)[0];
             pdst[y * height + x + 1] = src.at<cv::Vec3f>(x + x_offset, y + y_offset)[1];
             pdst[y * height + x + 2] = src.at<cv::Vec3f>(x + x_offset, y + y_offset)[2];
@@ -166,6 +174,7 @@ void ex_pic(float *phead, int size) {
     /** 读取图片 **/
     cv::Mat image = cv::imread(img_dir);
 
+    print_image_head(image, 10);
     slog::info << "Star to resize" << slog::endl;
 
     cv::Mat resized;
@@ -211,6 +220,8 @@ void ex_pic(float *phead, int size) {
             }
         }
     }
+
+    cv::flip(rgb, rgb_flip, 0);
 
     slog::info << "Star to crop image" << slog::endl;
     float crop_0_0[224 * 224 * 3];
