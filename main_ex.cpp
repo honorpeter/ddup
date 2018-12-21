@@ -222,6 +222,7 @@ void ex_pic(float *phead, int size) {
     slog::info << "The 0_1:" << slog::endl;
 
     print_head_from_arr(&rgb.at<cv::Vec3b>(0, 1)[0], 3);
+    float tmp[256 * 256 * 3];
     for (int y = 0; y < rgb.rows; ++y) {
         for (int x = 0; x < rgb.cols; ++x) {
             if (y < 10 && x < 10) {
@@ -232,11 +233,11 @@ void ex_pic(float *phead, int size) {
                 printf("%d_%d %d: %hhu - %f \n", y, x, y * width + x + delta_blue, rgb.at<cv::Vec3b>(y, x)[2],
                        mean_arr[y * width + x + delta_blue]);
             }
-            rgb.at<cv::Vec3f>(y, x)[0] = (rgb.at<cv::Vec3b>(y, x)[0] - mean_arr[y * width + x]) / 255.0f;
-            rgb.at<cv::Vec3f>(y, x)[1] = (rgb.at<cv::Vec3b>(y, x)[1] - mean_arr[y * width + x + delta_green]) / 255.0f;
-            rgb.at<cv::Vec3f>(y, x)[2] = (rgb.at<cv::Vec3b>(y, x)[2] - mean_arr[y * width + x + delta_blue]) / 255.0f;
+            tmp[y * width + x] = (rgb.at<cv::Vec3b>(y, x)[0] - mean_arr[y * width + x]) / 255.0f;
+            tmp[y * width + x + delta_green] = (rgb.at<cv::Vec3b>(y, x)[1] - mean_arr[y * width + x + delta_green]) / 255.0f;
+            tmp[y * width + x + delta_blue] = (rgb.at<cv::Vec3b>(y, x)[2] - mean_arr[y * width + x + delta_blue]) / 255.0f;
             if (y < 10 && x < 10) {
-                print_head_from_arr(&rgb.at<cv::Vec3f>(y, x)[0], 3);
+                print_head_from_arr(tmp, 10);
             }
         }
     }
