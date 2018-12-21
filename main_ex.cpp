@@ -219,13 +219,13 @@ void ex_pic(float *phead, int size) {
     }
 
     /** 均值化 再减去 均值 **/
-    for (int i = 0; i < rgb.rows; ++i) {
-        for (int z = 0; z < rgb.cols; ++z) {
-            rgb.at<cv::Vec3f>(i, z)[0] = (rgb.at<cv::Vec3b>(i, z)[0] - mean_arr[i * z + z]) / 255.0f;
-            rgb.at<cv::Vec3f>(i, z)[1] = (rgb.at<cv::Vec3b>(i, z)[1] - mean_arr[i * z + z + delta_green]) / 255.0f;
-            rgb.at<cv::Vec3f>(i, z)[2] = (rgb.at<cv::Vec3b>(i, z)[2] - mean_arr[i * z + z + delta_blue]) / 255.0f;
-            if (i < 2 && z < 2) {
-                print_head_from_arr(&rgb.at<cv::Vec3f>(i, z)[0], 3);
+    for (int y = 0;  y < rgb.rows; ++y) {
+        for (int x = 0; x < rgb.cols; ++x) {
+            rgb.at<cv::Vec3f>(y, x)[0] = (rgb.at<cv::Vec3b>(y, x)[0] - mean_arr[y * width + x]) / 255.0f;
+            rgb.at<cv::Vec3f>(y, x)[1] = (rgb.at<cv::Vec3b>(y, x)[1] - mean_arr[y * width + x + delta_green]) / 255.0f;
+            rgb.at<cv::Vec3f>(y, x)[2] = (rgb.at<cv::Vec3b>(y, x)[2] - mean_arr[y * width + x + delta_blue]) / 255.0f;
+            if (y < 2 && x < 2) {
+                print_head_from_arr(&rgb.at<cv::Vec3f>(y, x)[0], 3);
             }
         }
     }
