@@ -221,8 +221,6 @@ void ex_pic(float *phead, int size) {
         }
     }
 
-    cv::flip(rgb, rgb_flip, 0);
-
     slog::info << "Star to crop image" << slog::endl;
     float crop_0_0[224 * 224 * 3];
     crop(rgb, crop_0_0, 0, 0, 224, 224);
