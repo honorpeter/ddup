@@ -190,7 +190,6 @@ void ex_pic(float *phead, int size) {
     cv::resize(image, resized, cv::Size(256, 256));
     /** bgr -> rgb **/
     cv::cvtColor(resized, rgb, cv::COLOR_BGR2RGB);
-    print_image_head(resized, 10);
     print_image_head(rgb, 10);
 
     size_t mean_data_size = 256 * 256 * 3;
@@ -221,14 +220,15 @@ void ex_pic(float *phead, int size) {
     /** 均值化 再减去 均值 **/
     for (int y = 0;  y < rgb.rows; ++y) {
         for (int x = 0; x < rgb.cols; ++x) {
-            printf("%d_%d : %hhu - %f \n", y, x, rgb.at<cv::Vec3b>(y, x)[0], mean_arr[y * width + x]);
+            if (y < 10 && x < 10) {
+                printf("%d_%d : %hhu - %f \n", y, x, rgb.at<cv::Vec3b>(y, x)[0], mean_arr[y * width + x]);
+                printf("%d_%d : %hhu - %f \n", y, x, rgb.at<cv::Vec3b>(y, x)[1], mean_arr[y * width + x + delta_green]);
+                printf("%d_%d : %hhu - %f \n", y, x, rgb.at<cv::Vec3b>(y, x)[2], mean_arr[y * width + x + delta_blue]);
+            }
             rgb.at<cv::Vec3f>(y, x)[0] = (rgb.at<cv::Vec3b>(y, x)[0] - mean_arr[y * width + x]) / 255.0f;
-            printf("%d_%d : %hhu - %f \n", y, x, rgb.at<cv::Vec3b>(y, x)[1], mean_arr[y * width + x + delta_green]);
             rgb.at<cv::Vec3f>(y, x)[1] = (rgb.at<cv::Vec3b>(y, x)[1] - mean_arr[y * width + x + delta_green]) / 255.0f;
-            printf("%d_%d : %hhu - %f \n", y, x, rgb.at<cv::Vec3b>(y, x)[2], mean_arr[y * width + x + delta_blue]);
             rgb.at<cv::Vec3f>(y, x)[2] = (rgb.at<cv::Vec3b>(y, x)[2] - mean_arr[y * width + x + delta_blue]) / 255.0f;
-            if (y < 2 && x < 2) {
-
+            if (y < 10 && x < 10) {
                 print_head_from_arr(&rgb.at<cv::Vec3f>(y, x)[0], 3);
             }
         }
