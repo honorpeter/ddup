@@ -190,7 +190,8 @@ void ex_pic(float *phead, int size) {
     cv::resize(image, resized, cv::Size(256, 256));
     /** bgr -> rgb **/
     cv::cvtColor(resized, rgb, cv::COLOR_BGR2RGB);
-    print_image_head(image, 10);
+    print_image_head(resized, 10);
+    print_image_head(rgb, 10);
 
     size_t mean_data_size = 256 * 256 * 3;
     int delta_green = 256 * 256;
