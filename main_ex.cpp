@@ -53,6 +53,7 @@ void print_head_from_arr(unsigned char *head, int size) {
 void print_image_head(cv::Mat &image, int size) {
     for (int y = 0; y < size; ++y) {
         for (int x = 0; x < size; ++x) {
+            printf("%d_%d: %hhu  \n", y, x, image.at<cv::Vec3b>(y, x)[0]);
             print_head_from_arr(&image.at<cv::Vec3b>(y, x)[0], 3);
         }
     }
@@ -190,7 +191,6 @@ void ex_pic(float *phead, int size) {
     cv::resize(image, resized, cv::Size(256, 256));
     /** bgr -> rgb **/
     cv::cvtColor(resized, rgb, cv::COLOR_BGR2RGB);
-    print_image_head(rgb, 10);
 
     size_t mean_data_size = 256 * 256 * 3;
     int delta_green = 256 * 256;
@@ -217,6 +217,7 @@ void ex_pic(float *phead, int size) {
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
     }
 
+    print_image_head(rgb, 10);
     /** 均值化 再减去 均值 **/
     for (int y = 0; y < rgb.rows; ++y) {
         for (int x = 0; x < rgb.cols; ++x) {
