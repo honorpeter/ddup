@@ -43,10 +43,17 @@ void print_head_from_arr(float *head, int size) {
     slog::info << slog::endl;
 }
 
+void print_head_from_arr(unsigned char *head, int size) {
+    for (int j = 0; j < size; ++j) {
+        slog::info << " " << *(head + j);
+    }
+    slog::info << slog::endl;
+}
+
 void print_image_head(cv::Mat &image, int size) {
     for (int y = 0; y < size; ++y) {
         for (int x = 0; x < size; ++x) {
-            print_head_from_arr(&image.at<cv::Vec3f>(x, y)[0], 3);
+            print_head_from_arr(&image.at<cv::Vec3b>(x, y)[0], 3);
         }
     }
 }
