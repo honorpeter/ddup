@@ -45,9 +45,9 @@ void print_head_from_arr(float *head, int size) {
 
 void print_head_from_arr(unsigned char *head, int size) {
     for (int j = 0; j < size; ++j) {
-        slog::info << " " << *(head + j);
+        printf("%hhu ", *(head + j));
     }
-    slog::info << slog::endl;
+    printf("\n ");
 }
 
 void print_image_head(cv::Mat &image, int size) {

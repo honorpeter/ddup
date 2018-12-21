@@ -41,8 +41,9 @@
           <entry key="chrono" value="1" />
           <entry key="cpp" value="9" />
           <entry key="h" value="27" />
-          <entry key="hpp" value="54" />
+          <entry key="hpp" value="55" />
           <entry key="iterator" value="1" />
+          <entry key="jpg" value="1" />
           <entry key="map" value="2" />
           <entry key="md" value="1" />
           <entry key="memory" value="3" />
@@ -55,14 +56,15 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CMakeLists.txt" value="5" />
+          <entry key="Image" value="1" />
           <entry key="Makefile" value="1" />
-          <entry key="ObjectiveC" value="101" />
+          <entry key="ObjectiveC" value="102" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="5935" />
+          <entry key="cpp" value="5972" />
           <entry key="hpp" value="60" />
           <entry key="txt" value="98" />
         </counts>
@@ -71,7 +73,7 @@
         <counts>
           <entry key="CMakeLists.txt" value="81" />
           <entry key="Doxygen file" value="8" />
-          <entry key="ObjectiveC" value="5987" />
+          <entry key="ObjectiveC" value="6024" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
@@ -87,11 +89,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_ex.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="176" column="32" selection-start-line="176" selection-start-column="32" selection-end-line="176" selection-end-column="32" />
+            <state relative-caret-position="320">
+              <caret line="49" column="18" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="18" />
               <folding>
                 <element signature="e#45#63#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/include/opencv2/core/matx.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="468">
+              <caret line="425" column="23" selection-start-line="425" selection-start-column="23" selection-end-line="425" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -144,15 +155,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="251">
               <caret line="1065" column="18" selection-start-line="1065" selection-start-column="18" selection-end-line="1065" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/include/cpp/ie_executable_network.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="75" column="17" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -311,28 +313,7 @@
       <updated>1544433512274</updated>
       <workItem from="1544433513616" duration="4032000" />
       <workItem from="1544502194028" duration="12064000" />
-      <workItem from="1544773942692" duration="54096000" />
-    </task>
-    <task id="LOCAL-00064" summary="多线程版本">
-      <created>1545207819570</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1545207819570</updated>
-    </task>
-    <task id="LOCAL-00065" summary="多线程版本">
-      <created>1545207989241</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1545207989241</updated>
-    </task>
-    <task id="LOCAL-00066" summary="多线程版本">
-      <created>1545215130065</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1545215130065</updated>
+      <workItem from="1544773942692" duration="54521000" />
     </task>
     <task id="LOCAL-00067" summary="多线程版本">
       <created>1545216367460</created>
@@ -656,11 +637,32 @@
       <option name="project" value="LOCAL" />
       <updated>1545312675288</updated>
     </task>
-    <option name="localTasksCounter" value="113" />
+    <task id="LOCAL-00113" summary="多线程版本">
+      <created>1545368210114</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1545368210114</updated>
+    </task>
+    <task id="LOCAL-00114" summary="多线程版本">
+      <created>1545368284554</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1545368284554</updated>
+    </task>
+    <task id="LOCAL-00115" summary="多线程版本">
+      <created>1545368504410</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1545368504410</updated>
+    </task>
+    <option name="localTasksCounter" value="116" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70192000" />
+    <option name="totallyTimeSpent" value="70617000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -715,13 +717,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/include/details/ie_no_copy.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/details/ie_irelease.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
@@ -982,13 +977,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/include/opencv2/core/matx.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="420" column="22" selection-start-line="420" selection-start-column="22" selection-end-line="420" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/samples/slog.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -1069,10 +1057,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/img/1.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file:///usr/local/include/opencv2/core/matx.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="425" column="23" selection-start-line="425" selection-start-column="23" selection-end-line="425" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main_ex.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="176" column="32" selection-start-line="176" selection-start-column="32" selection-end-line="176" selection-end-column="32" />
+        <state relative-caret-position="320">
+          <caret line="49" column="18" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="18" />
           <folding>
             <element signature="e#45#63#0" expanded="true" />
           </folding>
