@@ -53,7 +53,7 @@ void print_head_from_arr(unsigned char *head, int size) {
 void print_image_head(cv::Mat &image, int size) {
     for (int y = 0; y < size; ++y) {
         for (int x = 0; x < size; ++x) {
-            print_head_from_arr(&image.at<cv::Vec3b>(x, y)[0], 3);
+            print_head_from_arr(&image.at<cv::Vec3b>(y, x)[0], 3);
         }
     }
 }
@@ -180,8 +180,8 @@ void ex_pic(float *phead, int size) {
     const char *img_dir = FLAGS_i.c_str();
     /** 读取图片 **/
     cv::Mat image = cv::imread(img_dir);
-
     print_image_head(image, 10);
+
     slog::info << "Star to resize" << slog::endl;
 
     cv::Mat resized;
@@ -190,6 +190,7 @@ void ex_pic(float *phead, int size) {
     cv::resize(image, resized, cv::Size(256, 256));
     /** bgr -> rgb **/
     cv::cvtColor(resized, rgb, cv::COLOR_BGR2RGB);
+    print_image_head(image, 10);
 
     size_t mean_data_size = 256 * 256 * 3;
     int delta_green = 256 * 256;
