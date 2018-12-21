@@ -219,6 +219,9 @@ void ex_pic(float *phead, int size) {
 
     print_image_head(rgb, 10);
     /** 均值化 再减去 均值 **/
+    slog::info << "The 0_1:" << slog::endl;
+
+    print_head_from_arr(&rgb.at<cv::Vec3b>(0, 1)[0], 3);
     for (int y = 0; y < rgb.rows; ++y) {
         for (int x = 0; x < rgb.cols; ++x) {
             if (y < 10 && x < 10) {
