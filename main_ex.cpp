@@ -27,9 +27,9 @@ using namespace InferenceEngine;
 
 ConsoleErrorListener error_listener;
 
-inline float sub_mean(cv::Mat &image, float *mean_arr, int x, int y, int width, int c) {
+inline float sub_mean(cv::Mat &image, float *mean_arr, int x, int y, int width, int c, int mean_delta_a) {
     unsigned char r = image.at<cv::Vec3b>(y, x)[c];
-    float mean_r = mean_arr[y * width + x];
+    float mean_r = mean_arr[y * width + x + mean_delta_a * width * width];
     return (r - mean_r) / 255.0f;
 }
 
@@ -219,9 +219,9 @@ void ex_pic(float *phead, int size) {
     float d_mean[width * height * channel];
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            float rs = sub_mean(resized, mean_arr, x, y, width, 2);
-            float gs = sub_mean(resized, mean_arr, x, y, width, 1);
-            float bs = sub_mean(resized, mean_arr, x, y, width, 0);
+            float rs = sub_mean(resized, mean_arr, x, y, width, 2, 0);
+            float gs = sub_mean(resized, mean_arr, x, y, width, 1, 1);
+            float bs = sub_mean(resized, mean_arr, x, y, width, 0, 2);
             d_mean[y * width + x] = rs;
             d_mean[y * width + x + width * height] = gs;
             d_mean[y * width + x + width * height * 2] = bs;
