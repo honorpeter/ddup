@@ -173,16 +173,22 @@ void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
 
 inline void crop(const float *psrc, float *&pdst, int x_offset, int y_offset, int width, int height, int debug) {
     for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width * 3; x += 3) {
-            for (int c = 0; c < 3; ++c) {
-                int src_index = y * width + x + c;
-                int offset_index = (y + y_offset) * 256 + x + x_offset + c * 256 * 256;
-                if (y == 0 && x < 10 && debug) {
-                    printf("src_dst_value:%d_%d_%f\n", src_index, offset_index, *(psrc + offset_index));
-                    fflush(stdout);
-                }
-                *(pdst + src_index) = *(psrc + offset_index);
+        for (int x = 0; x < width; ++x) {
+            int r_index = y * width + x;
+            int g_index = r_index + 1;
+            int b_index = r_index + 2;
+            int r_offset_index = (y + y_offset) * 256 + x + x_offset;
+            int g_offset_index = (y + y_offset) * 256 + x + x_offset + 256 * 256;
+            int b_offset_index = (y + y_offset) * 256 + x + x_offset + 256 * 256 * 2;
+            if (y == 0 && x < 10 && debug) {
+                printf("rsrc_dst_value:%d_%d_%f\n", r_index, r_offset_index, *(psrc + r_offset_index));
+                printf("gsrc_dst_value:%d_%d_%f\n", g_index, g_offset_index, *(psrc + g_offset_index));
+                printf("bsrc_dst_value:%d_%d_%f\n", b_index, b_offset_index, *(psrc + b_offset_index));
+                fflush(stdout);
             }
+            *(pdst + r_index) = *(psrc + r_offset_index);
+            *(pdst + g_index) = *(psrc + g_offset_index);
+            *(pdst + b_index) = *(psrc + b_offset_index);
         }
     }
     pdst += width * height * 3;
