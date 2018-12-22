@@ -43,7 +43,7 @@ void createPlugin(InferencePlugin &plugin) {
 }
 
 void print_head_from_arr(float *head, int size) {
-    for (int j = 0; j < size; ++j) {
+    for (int j = 0-size; j < size; ++j) {
         slog::info << " " << *(head + j);
     }
     slog::info << slog::endl;
