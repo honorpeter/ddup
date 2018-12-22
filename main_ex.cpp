@@ -206,13 +206,23 @@ void ex_pic(float *phead, int size) {
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
     }
 
+    float d_mean[width * height * channel];
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             unsigned char r = resized.at<cv::Vec3b>(y, x)[2];
-            float mean = mean_arr[y * width + x];
-            float rs = (r - mean) / 255.0f;
+            float mean_r = mean_arr[y * width + x];
+            float rs = (r - mean_r) / 255.0f;
+            unsigned char g = resized.at<cv::Vec3b>(y, x)[1];
+            float mean_g = mean_arr[y * width + x + width * height];
+            float gs = (g - mean_g) / 255.0f;
+            unsigned char b = resized.at<cv::Vec3b>(y, x)[0];
+            float mean_b = mean_arr[y * width + x + width * height * 2];
+            float bs = (b - mean_b) / 255.0f;
+            d_mean[y * width + x] = rs;
+            d_mean[y * width + x + width * height] = gs;
+            d_mean[y * width + x + width * height * 2] = bs;
             if (y == 0 && x < 10) {
-                printf("Calu the second tuple,(%hhu - %f)/255.0f= %f\n", r, mean, rs);
+                printf("Calu the second tuple,(%hhu - %f)/255.0f= %f\n", r, mean_r, rs);
             }
         }
     }

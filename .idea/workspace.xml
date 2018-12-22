@@ -41,7 +41,7 @@
           <entry key="chrono" value="1" />
           <entry key="cpp" value="9" />
           <entry key="h" value="27" />
-          <entry key="hpp" value="55" />
+          <entry key="hpp" value="56" />
           <entry key="iterator" value="1" />
           <entry key="jpg" value="1" />
           <entry key="map" value="2" />
@@ -58,13 +58,13 @@
           <entry key="CMakeLists.txt" value="5" />
           <entry key="Image" value="1" />
           <entry key="Makefile" value="1" />
-          <entry key="ObjectiveC" value="102" />
+          <entry key="ObjectiveC" value="103" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="6559" />
+          <entry key="cpp" value="6785" />
           <entry key="hpp" value="61" />
           <entry key="txt" value="98" />
         </counts>
@@ -73,7 +73,7 @@
         <counts>
           <entry key="CMakeLists.txt" value="81" />
           <entry key="Doxygen file" value="11" />
-          <entry key="ObjectiveC" value="6609" />
+          <entry key="ObjectiveC" value="6835" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
@@ -89,11 +89,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_ex.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="212" column="99" selection-start-line="212" selection-start-column="99" selection-end-line="212" selection-end-column="99" />
+            <state relative-caret-position="474">
+              <caret line="222" column="60" selection-start-line="222" selection-start-column="60" selection-end-line="222" selection-end-column="60" />
               <folding>
                 <element signature="e#45#63#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/include/samples/slog.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
             </state>
           </provider>
         </entry>
@@ -155,15 +164,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="251">
               <caret line="1065" column="18" selection-start-line="1065" selection-start-column="18" selection-end-line="1065" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/local/include/opencv2/core/types.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="1783" column="12" selection-start-line="1783" selection-start-column="12" selection-end-line="1783" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -313,28 +313,7 @@
       <updated>1544433512274</updated>
       <workItem from="1544433513616" duration="4032000" />
       <workItem from="1544502194028" duration="12064000" />
-      <workItem from="1544773942692" duration="60361000" />
-    </task>
-    <task id="LOCAL-00082" summary="多线程版本">
-      <created>1545224789445</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1545224789446</updated>
-    </task>
-    <task id="LOCAL-00083" summary="多线程版本">
-      <created>1545227035973</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1545227035973</updated>
-    </task>
-    <task id="LOCAL-00084" summary="多线程版本">
-      <created>1545227304263</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1545227304264</updated>
+      <workItem from="1544773942692" duration="61135000" />
     </task>
     <task id="LOCAL-00085" summary="多线程版本">
       <created>1545227360099</created>
@@ -658,11 +637,32 @@
       <option name="project" value="LOCAL" />
       <updated>1545448534586</updated>
     </task>
-    <option name="localTasksCounter" value="131" />
+    <task id="LOCAL-00131" summary="多线程版本">
+      <created>1545449174749</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1545449174749</updated>
+    </task>
+    <task id="LOCAL-00132" summary="多线程版本">
+      <created>1545449227156</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1545449227157</updated>
+    </task>
+    <task id="LOCAL-00133" summary="多线程版本">
+      <created>1545449609527</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1545449609527</updated>
+    </task>
+    <option name="localTasksCounter" value="134" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76457000" />
+    <option name="totallyTimeSpent" value="77231000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -977,13 +977,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/samples/slog.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="60" column="23" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/cpp/ie_plugin_cpp.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="457">
@@ -1067,10 +1060,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/include/samples/slog.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main_ex.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="212" column="99" selection-start-line="212" selection-start-column="99" selection-end-line="212" selection-end-column="99" />
+        <state relative-caret-position="474">
+          <caret line="222" column="60" selection-start-line="222" selection-start-column="60" selection-end-line="222" selection-end-column="60" />
           <folding>
             <element signature="e#45#63#0" expanded="true" />
           </folding>
