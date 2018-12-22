@@ -191,7 +191,7 @@ inline void crop(const float *psrc, float *&pdst, int x_offset, int y_offset, in
             *(pdst + b_index) = *(psrc + b_offset_index);
         }
     }
-    pdst += width * height * 3;
+//    pdst += width * height * 3;
 }
 
 inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h, int debug) {
