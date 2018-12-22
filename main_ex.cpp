@@ -206,10 +206,16 @@ void ex_pic(float *phead, int size) {
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
     }
 
-    unsigned char r = resized.at<cv::Vec3b>(0, 1)[2];
-    float mean = mean_arr[1];
-    float rs = (r - mean) / 255.0f;
-    slog::info << "Calu the second tuple,(" << r << "-" << mean << ")/255.0f=" << rs << slog::endl;
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            unsigned char r = resized.at<cv::Vec3b>(y, x)[2];
+            float mean = mean_arr[y * width + x];
+            float rs = (r - mean) / 255.0f;
+            if (y == 0 && x < 10) {
+                printf("Calu the second tuple,(%hhu - %f)/255.0f= %f\n", r, mean, rs);
+            }
+        }
+    }
 
     exit(0);
 }
