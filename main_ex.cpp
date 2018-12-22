@@ -27,6 +27,12 @@ using namespace InferenceEngine;
 
 ConsoleErrorListener error_listener;
 
+inline float sub_mean(cv::Mat &image, float *mean_arr, int x, int y, int width, int c) {
+    unsigned char r = image.at<cv::Vec3b>(y, x)[c];
+    float mean_r = mean_arr[y * width + x];
+    return (r - mean_r) / 255.0f;
+}
+
 void createPlugin(InferencePlugin &plugin) {
 
     InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(
@@ -198,7 +204,7 @@ void ex_pic(float *phead, int size) {
     slog::info << "load mean.bin #" << width << "_" << height << "_" << channel << slog::endl;
 
     float mean_arr[width * height * channel];
-    read_num = fread((void *) mean_arr, sizeof(float), (size_t) width * height * channel, pInputFile);
+    read_num = fread((void *) mean_arr, sizeof(float), (size_t)width * height * channel, pInputFile);
     print_head_from_arr(mean_arr, 20);
 
     if (width * height * channel != resized.rows * resized.cols * resized.channels()) {
@@ -206,27 +212,18 @@ void ex_pic(float *phead, int size) {
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
     }
 
-    cv::Mat d_mean(height, width, CV_32FC3);
+    float d_mean[width * height * channel];
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            unsigned char r = resized.at<cv::Vec3b>(y, x)[2];
-            float mean_r = mean_arr[y * width + x];
-            float rs = (r - mean_r) / 255.0f;
-            unsigned char g = resized.at<cv::Vec3b>(y, x)[1];
-            float mean_g = mean_arr[y * width + x + width * height];
-            float gs = (g - mean_g) / 255.0f;
-            unsigned char b = resized.at<cv::Vec3b>(y, x)[0];
-            float mean_b = mean_arr[y * width + x + width * height * 2];
-            float bs = (b - mean_b) / 255.0f;
-            d_mean.at<cv::Vec3f>(y, x)[0] = rs;
-            d_mean.at<cv::Vec3f>(y, x)[1] = gs;
-            d_mean.at<cv::Vec3f>(y, x)[2] = bs;
-            if (y == 0 && x < 10) {
-                printf("Calu the second tuple,(%hhu - %f)/255.0f= %f\n", r, mean_r, rs);
-            }
+            float rs = sub_mean(resized, mean_arr, x, y, width, 2);
+            float gs = sub_mean(resized, mean_arr, x, y, width, 1);
+            float bs = sub_mean(resized, mean_arr, x, y, width, 0);
+            d_mean[y * width + x] = rs;
+            d_mean[y * width + x + width * height] = gs;
+            d_mean[y * width + x + width * height * 2] = bs;
         }
     }
-    print_image_head(d_mean, 10);
+    print_head_from_arr(d_mean, 10);
 
     exit(0);
 }
