@@ -14,7 +14,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50bfea4d-0ef2-49cf-b3e0-d0f6fdde8009" name="Default Changelist" comment="" />
+    <list default="true" id="50bfea4d-0ef2-49cf-b3e0-d0f6fdde8009" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/main_ex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main_ex.cpp" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -64,7 +66,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="8480" />
+          <entry key="cpp" value="8772" />
           <entry key="hpp" value="61" />
           <entry key="txt" value="98" />
         </counts>
@@ -73,7 +75,7 @@
         <counts>
           <entry key="CMakeLists.txt" value="81" />
           <entry key="Doxygen file" value="11" />
-          <entry key="ObjectiveC" value="8530" />
+          <entry key="ObjectiveC" value="8822" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
@@ -89,8 +91,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_ex.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="188" column="22" selection-start-line="188" selection-start-column="22" selection-end-line="188" selection-end-column="22" />
+            <state relative-caret-position="587">
+              <caret line="223" column="59" selection-start-line="223" selection-start-column="59" selection-end-line="223" selection-end-column="59" />
               <folding>
                 <element signature="e#45#63#0" expanded="true" />
               </folding>
@@ -315,28 +317,7 @@
       <updated>1544433512274</updated>
       <workItem from="1544433513616" duration="4032000" />
       <workItem from="1544502194028" duration="12064000" />
-      <workItem from="1544773942692" duration="73144000" />
-    </task>
-    <task id="LOCAL-00130" summary="多线程版本">
-      <created>1545448534586</created>
-      <option name="number" value="00130" />
-      <option name="presentableId" value="LOCAL-00130" />
-      <option name="project" value="LOCAL" />
-      <updated>1545448534586</updated>
-    </task>
-    <task id="LOCAL-00131" summary="多线程版本">
-      <created>1545449174749</created>
-      <option name="number" value="00131" />
-      <option name="presentableId" value="LOCAL-00131" />
-      <option name="project" value="LOCAL" />
-      <updated>1545449174749</updated>
-    </task>
-    <task id="LOCAL-00132" summary="多线程版本">
-      <created>1545449227156</created>
-      <option name="number" value="00132" />
-      <option name="presentableId" value="LOCAL-00132" />
-      <option name="project" value="LOCAL" />
-      <updated>1545449227157</updated>
+      <workItem from="1544773942692" duration="73998000" />
     </task>
     <task id="LOCAL-00133" summary="多线程版本">
       <created>1545449609527</created>
@@ -660,11 +641,32 @@
       <option name="project" value="LOCAL" />
       <updated>1545465203128</updated>
     </task>
-    <option name="localTasksCounter" value="179" />
+    <task id="LOCAL-00179" summary="多线程版本">
+      <created>1545465461282</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1545465461282</updated>
+    </task>
+    <task id="LOCAL-00180" summary="多线程版本">
+      <created>1545465525397</created>
+      <option name="number" value="00180" />
+      <option name="presentableId" value="LOCAL-00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1545465525397</updated>
+    </task>
+    <task id="LOCAL-00181" summary="多线程版本">
+      <created>1545465549838</created>
+      <option name="number" value="00181" />
+      <option name="presentableId" value="LOCAL-00181" />
+      <option name="project" value="LOCAL" />
+      <updated>1545465549838</updated>
+    </task>
+    <option name="localTasksCounter" value="182" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89240000" />
+    <option name="totallyTimeSpent" value="90094000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1071,8 +1073,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_ex.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="188" column="22" selection-start-line="188" selection-start-column="22" selection-end-line="188" selection-end-column="22" />
+        <state relative-caret-position="587">
+          <caret line="223" column="59" selection-start-line="223" selection-start-column="59" selection-end-line="223" selection-end-column="59" />
           <folding>
             <element signature="e#45#63#0" expanded="true" />
           </folding>

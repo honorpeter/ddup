@@ -199,14 +199,14 @@ inline void crop(const float *psrc, float *&pdst, int x_offset, int y_offset, in
 
 inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h, int debug) {
     for (int y = 0; y < tuple_h; ++y) {
-        for (int x = 0; x < tuple_w * 3 / 2; x += 3) {
+        for (int x = 0; x < tuple_w * 3 / 2 + 1; x += 3) {
             int rline_index = x;
             int gline_index = x + 1;
             int bline_index = x + 2;
             int rows = tuple_w * 3;
             int r_mirror = rows - rline_index - 1 - 2;
-            int g_mirror = rows - gline_index - 1 - 1;
-            int b_mirror = rows - bline_index - 1;
+            int g_mirror = rows - rline_index - 1 - 1;
+            int b_mirror = rows - rline_index - 1;
             int pre_r_index = y * tuple_w + rline_index;
             int pre_g_index = y * tuple_w + gline_index;
             int pre_b_index = y * tuple_w + bline_index;
@@ -214,9 +214,12 @@ inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h, int debug
             int last_g_index = y * tuple_w + g_mirror;
             int last_b_index = y * tuple_w + b_mirror;
             if (y == 0 && debug) {
-                printf("x:%d rpre_last_value:%d_%d_%f_%f\n", x / 3, pre_r_index, last_r_index, *(psrc + pre_r_index),*(psrc + last_r_index));
-                printf("x:%d gpre_last_value:%d_%d_%f_%f\n", x / 3, pre_g_index, last_g_index, *(psrc + pre_g_index),*(psrc + last_g_index));
-                printf("x:%d bpre_last_value:%d_%d_%f_%f\n", x / 3, pre_b_index, last_b_index, *(psrc + pre_b_index),*(psrc + last_b_index));
+                printf("x:%d rpre_last_value:%d_%d_%f_%f\n", x / 3, pre_r_index, last_r_index, *(psrc + pre_r_index),
+                       *(psrc + last_r_index));
+                printf("x:%d gpre_last_value:%d_%d_%f_%f\n", x / 3, pre_g_index, last_g_index, *(psrc + pre_g_index),
+                       *(psrc + last_g_index));
+                printf("x:%d bpre_last_value:%d_%d_%f_%f\n", x / 3, pre_b_index, last_b_index, *(psrc + pre_b_index),
+                       *(psrc + last_b_index));
                 fflush(stdout);
             }
 
