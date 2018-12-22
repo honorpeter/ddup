@@ -59,6 +59,7 @@ void print_image_head(cv::Mat &image, int size) {
     }
 }
 
+
 void readNet(CNNNetReader &networkReader) {
     std::string binFileName = fileNameNoExt(FLAGS_m) + ".bin";
 
@@ -182,80 +183,34 @@ void ex_pic(float *phead, int size) {
     /** 读取图片 **/
     cv::Mat image = cv::imread(img_dir);
 
-    slog::info << "Star to resize" << slog::endl;
-
     cv::Mat resized;
     cv::Mat rgb;
     /** 图片大小转换 **/
     cv::resize(image, resized, cv::Size(256, 256));
-    /** bgr -> rgb **/
-    cv::cvtColor(resized, rgb, cv::COLOR_BGR2RGB);
 
-    size_t mean_data_size = 256 * 256 * 3;
-    int delta_green = 256 * 256;
-    int delta_blue = 256 * 256 * 2;
-
-    slog::info << "Star to load mean.bin file" << slog::endl;
-
-    float mean_arr[mean_data_size];
     /** 读取均值化文件 **/
+    slog::info << "Star to load mean.bin file" << slog::endl;
     FILE *pInputFile = fopen("/home/topn-demo/C2319_Mean.binimg", "rb");
     int width, height, channel;
     size_t read_num;
     read_num = fread(&width, 4, 1, pInputFile);
     read_num = fread(&height, 4, 1, pInputFile);
     read_num = fread(&channel, 4, 1, pInputFile);
-    read_num = fread((void *) mean_arr, sizeof(float), mean_data_size, pInputFile);
+    slog::info << "load mean.bin #" << width << "_" << height << "_" << channel << slog::endl;
 
-    slog::info << "End to load mean.bin file #" << width << "_" << height << "_" << channel << " readNum#" << read_num
-               << slog::endl;
+    float mean_arr[width * height * channel];
+    read_num = fread((void *) mean_arr, sizeof(float), (size_t)width * height * channel, pInputFile);
     print_head_from_arr(mean_arr, 20);
 
-    if (read_num != rgb.rows * rgb.cols * rgb.channels()) {
+    if (width * height * channel != rgb.rows * rgb.cols * rgb.channels()) {
         slog::info << "dim error ! the mean file data length is not equal image size" << slog::endl;
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
     }
 
-    /** 均值化 再减去 均值 **/
-    float tmp[mean_data_size];
-    for (int y = 0; y < 256; ++y) {
-        for (int x = 0; x < 256; ++x) {
-            if (y < 10 && x < 10) {
-                printf("%d_%d %d: %hhu - %f \n", y, x, y * width + x, rgb.at<cv::Vec3b>(y, x)[0],
-                       mean_arr[y * width + x]);
-                printf("%d_%d %d: %hhu - %f \n", y, x, y * width + x + delta_green, rgb.at<cv::Vec3b>(y, x)[1],
-                       mean_arr[y * width + x + delta_green]);
-                printf("%d_%d %d: %hhu - %f \n", y, x, y * width + x + delta_blue, rgb.at<cv::Vec3b>(y, x)[2],
-                       mean_arr[y * width + x + delta_blue]);
-            }
-            tmp[y * width + x] = (rgb.at<cv::Vec3b>(y, x)[0] - mean_arr[y * width + x]) / 255.0f;
-            tmp[y * width + x + delta_green] = (rgb.at<cv::Vec3b>(y, x)[1] - mean_arr[y * width + x + delta_green]) / 255.0f;
-            tmp[y * width + x + delta_blue] = (rgb.at<cv::Vec3b>(y, x)[2] - mean_arr[y * width + x + delta_blue]) / 255.0f;
-            if (y < 10 && x < 10) {
-                print_head_from_arr(tmp, 10);
-            }
-        }
-    }
-
-    slog::info << "Star to crop image" << slog::endl;
-    float crop_0_0[224 * 224 * 3];
-    crop(rgb, crop_0_0, 0, 0, 224, 224);
-    print_head_from_arr(crop_0_0, 20);
-    float crop_11_0[224 * 224 * 3];
-    crop(rgb, crop_11_0, 11, 0, 224, 224);
-    print_head_from_arr(crop_11_0, 20);
-    float crop_21_32[224 * 224 * 3];
-    crop(rgb, crop_21_32, 21, 32, 224, 224);
-    print_head_from_arr(crop_21_32, 20);
-    float crop_32_32[224 * 224 * 3];
-    crop(rgb, crop_32_32, 32, 32, 224, 224);
-    print_head_from_arr(crop_32_32, 20);
-
-    slog::info << "Star to flip image" << slog::endl;
-
-    if (size < 8 * 224 * 224 * 3) {
-        throw std::logic_error("dim error ! the input  data length is not equal batch image size");
-    }
+    unsigned char r = resized.at<cv::Vec3b>(0, 1)[2];
+    float mean = mean_arr[1];
+    float rs = (r - mean) / 255.0f;
+    slog::info << "Calu the second tuple,(" << r << "-" << mean << ")/255.0f=" << rs << slog::endl;
 
     exit(0);
 }
