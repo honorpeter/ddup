@@ -193,7 +193,7 @@ inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h, int debug
         for (int x = 0; x < tuple_w * 3 / 2; x += 3) {
             for (int c = 0; c < 3; ++c) {
                 int line_index = x + c;
-                int rows = (tuple_w-1) * 3;
+                int rows = tuple_w * 3;
                 int mirror = rows - line_index - 1;
                 int dst_index = y * tuple_w + line_index;
                 int src_index = y * tuple_w + mirror;
@@ -255,11 +255,11 @@ void ex_pic(float *phead, int size) {
     }
     resized.release();
 
-    crop(d_mean, phead, 0, 0, 224, 224, 0);
-    crop(d_mean, phead, 0, 11, 224, 224, 0);
-    crop(d_mean, phead, 32, 21, 224, 224, 0);
-    crop(d_mean, phead, 32, 32, 224, 224, 0);
-    flip(tmp, phead, 224, 224, 1);
+    crop(d_mean, phead, 0, 0, 224, 224, 1);
+//    crop(d_mean, phead, 0, 11, 224, 224, 0);
+//    crop(d_mean, phead, 32, 21, 224, 224, 0);
+//    crop(d_mean, phead, 32, 32, 224, 224, 0);
+//    flip(tmp, phead, 224, 224, 0);
     print_head_from_arr(phead, 10);
 
 
