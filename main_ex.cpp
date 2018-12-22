@@ -184,7 +184,6 @@ void ex_pic(float *phead, int size) {
     cv::Mat image = cv::imread(img_dir);
 
     cv::Mat resized;
-    cv::Mat rgb;
     /** 图片大小转换 **/
     cv::resize(image, resized, cv::Size(256, 256));
 
@@ -202,7 +201,7 @@ void ex_pic(float *phead, int size) {
     read_num = fread((void *) mean_arr, sizeof(float), (size_t)width * height * channel, pInputFile);
     print_head_from_arr(mean_arr, 20);
 
-    if (width * height * channel != rgb.rows * rgb.cols * rgb.channels()) {
+    if (width * height * channel != resized.rows * resized.cols * resized.channels()) {
         slog::info << "dim error ! the mean file data length is not equal image size" << slog::endl;
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
     }
