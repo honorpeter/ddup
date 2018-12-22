@@ -173,7 +173,7 @@ void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
 
 inline void crop(const float *psrc, float *&pdst, int x_offset, int y_offset, int width, int height, int debug) {
     for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
+        for (int x = 0; x < width * 3; x += 3) {
             int r_index = y * width + x;
             int g_index = r_index + 1;
             int b_index = r_index + 2;
