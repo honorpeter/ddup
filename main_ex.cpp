@@ -43,7 +43,7 @@ void createPlugin(InferencePlugin &plugin) {
 }
 
 void print_head_from_arr(float *head, int size) {
-    for (int j = 0-size; j < size; ++j) {
+    for (int j = 0; j < size; ++j) {
         slog::info << " " << *(head + j);
     }
     slog::info << slog::endl;
@@ -173,7 +173,7 @@ void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
 
 inline void crop(const float *psrc, float *&pdst, int x_offset, int y_offset, int width, int height, int debug) {
     for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; x += 3) {
+        for (int x = 0; x < width * 3; x += 3) {
             for (int c = 0; c < 3; ++c) {
                 int src_index = y * width + x + c;
                 int offset_index = (y + y_offset) * 256 + x + x_offset + c * 256 * 256;
@@ -188,7 +188,16 @@ inline void crop(const float *psrc, float *&pdst, int x_offset, int y_offset, in
     pdst += width * height * 3;
 }
 
+inline void flip(float *psrc, float *&pdst, int tuple_w, int tuple_h) {
+    for (int y = 0; y < tuple_h; ++y) {
+        for (int x = 0; x < tuple_w; ++x) {
+            *(pdst + y * tuple_w + x) = *(psrc + y * tuple_w + x + tuple_w - 2 * x - 1);
+        }
+    }
+}
+
 void ex_pic(float *phead, int size) {
+    float *tmp = phead;
     slog::info << "Star to ex_pic" << slog::endl;
 
     /** 图片路径 **/
