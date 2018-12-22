@@ -209,7 +209,7 @@ inline void crop(const float *psrc, float *&pdst, int x_offset, int y_offset, in
 
 inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h, int debug) {
     for (int y = 0; y < tuple_h; ++y) {
-        for (int x = 0; x < tuple_w * 3 / 2 + 1; x += 3) {
+        for (int x = 0; x < tuple_w * 3 / 2 ; x += 3) {
             int rline_index = x;
             int gline_index = x + 1;
             int bline_index = x + 2;
