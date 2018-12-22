@@ -181,7 +181,7 @@ inline void crop(const float *psrc, float *pdst, int x_offset, int y_offset, int
                     printf("src_dst_value:%d_%d_%f\n", src_index, offset_index, *(psrc + offset_index));
                     fflush(stdout);
                 }
-                *(pdst + src_index) = *(psrc + offset_index);
+//                *(pdst + src_index) = *(psrc + offset_index);
             }
         }
     }
