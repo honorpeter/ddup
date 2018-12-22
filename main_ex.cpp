@@ -171,12 +171,12 @@ void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
     }
 }
 
-void crop(cv::Mat &src, float *pdst, int x_offset, int y_offset, int width, int height) {
+inline void crop(const float *psrc, float *pdst, int x_offset, int y_offset, int width, int height) {
     for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; x += 3) {
-            pdst[y * height + x] = src.at<cv::Vec3f>(x + x_offset, y + y_offset)[0];
-            pdst[y * height + x + 1] = src.at<cv::Vec3f>(x + x_offset, y + y_offset)[1];
-            pdst[y * height + x + 2] = src.at<cv::Vec3f>(x + x_offset, y + y_offset)[2];
+        for (int x = 0; x < width; ++x) {
+            for (int c = 0; c < 3; ++c) {
+                *(pdst + y * width + x + c) = *(psrc + (y + y_offset) * width + x + x_offset + c * 256 * 256);
+            }
         }
     }
 }
@@ -204,7 +204,7 @@ void ex_pic(float *phead, int size) {
     slog::info << "load mean.bin #" << width << "_" << height << "_" << channel << slog::endl;
 
     float mean_arr[width * height * channel];
-    read_num = fread((void *) mean_arr, sizeof(float), (size_t)width * height * channel, pInputFile);
+    read_num = fread((void *) mean_arr, sizeof(float), (size_t) width * height * channel, pInputFile);
     print_head_from_arr(mean_arr, 20);
 
     if (width * height * channel != resized.rows * resized.cols * resized.channels()) {
@@ -224,6 +224,10 @@ void ex_pic(float *phead, int size) {
         }
     }
     print_head_from_arr(d_mean, 10);
+    float crop_0_0[3 * 224 * 224];
+    crop(d_mean, crop_0_0, 0, 0, 224, 224);
+    print_head_from_arr(crop_0_0, 10);
+
 
     exit(0);
 }
