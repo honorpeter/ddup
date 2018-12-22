@@ -217,7 +217,7 @@ void ex_pic(float *phead, int size) {
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
     }
 
-    float d_mean[width * height * channel];
+    float d_mean[width * height * channel*10];
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             float rs = sub_mean(resized, mean_arr, x, y, width, 2, 0);
