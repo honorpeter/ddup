@@ -226,6 +226,7 @@ void ex_pic(float *phead, int size) {
             }
         }
     }
+    print_head_from_arr(d_mean, 10);
 
     exit(0);
 }
