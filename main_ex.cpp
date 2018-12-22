@@ -188,14 +188,21 @@ inline void crop(const float *psrc, float *&pdst, int x_offset, int y_offset, in
     pdst += width * height * 3;
 }
 
-inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h) {
+inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h, int debug) {
     for (int y = 0; y < tuple_h; ++y) {
         for (int x = 0; x < tuple_w * 3 / 2; x += 3) {
             for (int c = 0; c < 3; ++c) {
                 int line_index = x + c;
                 int rows = tuple_w * 3;
                 int mirror = rows - line_index - 1;
-                *(pdst + y * rows + line_index) = *(psrc + y * tuple_w + mirror);
+                int src_index = y * tuple_w + line_index;
+                int dst_index = y * tuple_w + mirror;
+                if (y == 0 && x < 10 && debug) {
+                    printf("line_row_mirror_src_dst_srcv_dstv:%d_%d_%d_%d_%d_%f_%f\n", line_index, rows, mirror,
+                           src_index, dst_index, *(pdst + src_index), *(psrc + dst_index));
+                    fflush(stdout);
+                }
+                *(pdst + src_index) = *(psrc + dst_index);
             }
         }
     }
@@ -250,8 +257,8 @@ void ex_pic(float *phead, int size) {
     crop(d_mean, phead, 0, 0, 224, 224, 0);
     crop(d_mean, phead, 0, 11, 224, 224, 0);
     crop(d_mean, phead, 32, 21, 224, 224, 0);
-    crop(d_mean, phead, 32, 32, 224, 224, 1);
-    flip(tmp, phead, 224, 224);
+    crop(d_mean, phead, 32, 32, 224, 224, 0);
+    flip(tmp, phead, 224, 224, 1);
     print_head_from_arr(phead, 10);
 
 
