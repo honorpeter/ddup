@@ -45,6 +45,9 @@ void createPlugin(InferencePlugin &plugin) {
 void print_head_from_arr(float *head, int size) {
     for (int j = 0; j < size; ++j) {
         slog::info << " " << *(head + j);
+        if (j / 3 == 0) {
+            slog::info << slog::endl;
+        }
     }
     slog::info << slog::endl;
 }
