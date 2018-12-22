@@ -178,10 +178,10 @@ inline void crop(const float *psrc, float *pdst, int x_offset, int y_offset, int
                 int src_index = y * width + x + c;
                 int offset_index = (y + y_offset) * 256 + x + x_offset + c * 256 * 256;
                 if (y == 0 && x < 10 && debug) {
-                    printf("src_dst_value:%d_%d_%f\n", src_index, offset_index, 0.0f);
+                    printf("src_dst_value:%d_%d_%f\n", src_index, offset_index, *(psrc + offset_index));
                     fflush(stdout);
                 }
-//                *(pdst + src_index) = *(psrc + offset_index);
+                *(pdst + src_index) = *(psrc + offset_index);
             }
         }
     }
@@ -228,10 +228,10 @@ void ex_pic(float *phead, int size) {
             d_mean[y * width + x + width * height * 2] = bs;
         }
     }
-    float crop_0_0[3 * 224 * 224];
-    float crop_11_0[3 * 224 * 224];
-    float crop_21_32[3 * 224 * 224];
-    float crop_32_32[3 * 224 * 224];
+    float crop_0_0[3 * 224 * 224]={0};
+    float crop_11_0[3 * 224 * 224]={0};
+    float crop_21_32[3 * 224 * 224]={0};
+    float crop_32_32[3 * 224 * 224]={0};
     crop(d_mean, crop_0_0, 0, 0, 224, 224, 0);
     crop(d_mean, crop_11_0, 0, 11, 224, 224, 0);
     crop(d_mean, crop_21_32, 32, 21, 224, 224, 0);
