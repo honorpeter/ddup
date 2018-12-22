@@ -198,7 +198,7 @@ void ex_pic(float *phead, int size) {
     slog::info << "load mean.bin #" << width << "_" << height << "_" << channel << slog::endl;
 
     float mean_arr[width * height * channel];
-    read_num = fread((void *) mean_arr, sizeof(float), (size_t)width * height * channel, pInputFile);
+    read_num = fread((void *) mean_arr, sizeof(float), (size_t) width * height * channel, pInputFile);
     print_head_from_arr(mean_arr, 20);
 
     if (width * height * channel != resized.rows * resized.cols * resized.channels()) {
@@ -206,7 +206,7 @@ void ex_pic(float *phead, int size) {
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
     }
 
-    float d_mean[width * height * channel];
+    cv::Mat d_mean(height, width, CV_32FC3);
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             unsigned char r = resized.at<cv::Vec3b>(y, x)[2];
@@ -218,15 +218,15 @@ void ex_pic(float *phead, int size) {
             unsigned char b = resized.at<cv::Vec3b>(y, x)[0];
             float mean_b = mean_arr[y * width + x + width * height * 2];
             float bs = (b - mean_b) / 255.0f;
-            d_mean[y * width + x] = rs;
-            d_mean[y * width + x + width * height] = gs;
-            d_mean[y * width + x + width * height * 2] = bs;
+            d_mean.at<cv::Vec3f>(y, x)[0] = rs;
+            d_mean.at<cv::Vec3f>(y, x)[1] = gs;
+            d_mean.at<cv::Vec3f>(y, x)[2] = bs;
             if (y == 0 && x < 10) {
                 printf("Calu the second tuple,(%hhu - %f)/255.0f= %f\n", r, mean_r, rs);
             }
         }
     }
-    print_head_from_arr(d_mean, 10);
+    print_image_head(d_mean, 10);
 
     exit(0);
 }
