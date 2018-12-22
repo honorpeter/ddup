@@ -301,9 +301,8 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
 //        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
         ex_pic(pInput);
-        print_head_from_arr(pInput2, 20);
         float sum = 0;
-        int offset = 224 * 224 * 3;
+        int offset = 224 * 224 * 3 * 0;
         for (int j = 0; j < 224 * 224 * 3; ++j) {
             sum += abs(pInput2[j] - pInput[offset + j]);
         }
