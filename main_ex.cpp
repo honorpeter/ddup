@@ -231,12 +231,12 @@ void ex_pic(float *phead, int size) {
     float crop_0_0[3 * 224 * 224]={0};
     float crop_11_0[3 * 224 * 224]={0};
     float crop_21_32[3 * 224 * 224]={0};
-    float crop_32_32[3 * 224 * 224]={0};
+//    float crop_32_32[3 * 224 * 224]={0};
     crop(d_mean, crop_0_0, 0, 0, 224, 224, 0);
     crop(d_mean, crop_11_0, 0, 11, 224, 224, 0);
     crop(d_mean, crop_21_32, 32, 21, 224, 224, 0);
 //    crop(d_mean, crop_32_32, 32, 32, 224, 224, 1);
-    print_head_from_arr(crop_32_32, 10);
+//    print_head_from_arr(crop_32_32, 10);
 
 
     exit(0);
