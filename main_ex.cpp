@@ -298,7 +298,7 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
         float pInput[8 * 224 * 224 * 3];
         float pInput2[8 * 224 * 224 * 3];
-        fread((void *) pInput2, sizeof(float), (size_t) 8 * 224 * 224 * 3, pInputFile);
+        int read = fread((void *) pInput2, sizeof(float), (size_t) 8 * 224 * 224 * 3, pInputFile);
         ex_pic(pInput);
         for (int j = 0; j < 8 * 224 * 224 * 3; ++j) {
             pInput2[j] = pInput2[j] - pInput[j];
