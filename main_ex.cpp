@@ -195,11 +195,11 @@ inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h, int debug
                 int line_index = x + c;
                 int rows = tuple_w * 3;
                 int mirror = rows - line_index - 1;
-                int src_index = y * tuple_w + line_index;
-                int dst_index = y * tuple_w + mirror;
+                int dst_index = y * tuple_w + line_index;
+                int src_index = y * tuple_w + mirror;
                 if (y == 0 && x < 10 && debug) {
-                    printf("line_row_mirror_src_dst_srcv_dstv:%d_%d_%d_%d_%d_%f_%f\n", line_index, rows, mirror,
-                           src_index, dst_index, *(pdst + src_index), *(psrc + dst_index));
+                    printf("line_row_mirror_dst_src_srcv_dstv:%d_%d_%d_%d_%d_%f_%f\n", line_index, rows, mirror,
+                           src_index, dst_index, *(psrc + dst_index), *(pdst + src_index));
                     fflush(stdout);
                 }
                 *(pdst + src_index) = *(psrc + dst_index);
