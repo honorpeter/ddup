@@ -305,6 +305,9 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         int offset = 224 * 224 * 3 * 0;
         for (int j = 0; j < 224 * 224 * 3; ++j) {
             sum += abs(pInput2[j] - pInput[offset + j]);
+            if (j % 10 == 0) {
+                printf("sum %f \n", sum);
+            }
         }
         printf("diff %f \n", sum / (224 * 224 * 3));
         exit(0);
