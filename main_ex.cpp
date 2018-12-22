@@ -171,7 +171,7 @@ void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
     }
 }
 
-inline void crop(const float *psrc, float *pdst, int x_offset, int y_offset, int width, int height, int debug) {
+inline void crop(const float *psrc, float *&pdst, int x_offset, int y_offset, int width, int height, int debug) {
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; x += 3) {
             for (int c = 0; c < 3; ++c) {
@@ -185,6 +185,7 @@ inline void crop(const float *psrc, float *pdst, int x_offset, int y_offset, int
             }
         }
     }
+    pdst += width * height * 3;
 }
 
 void ex_pic(float *phead, int size) {
@@ -228,13 +229,13 @@ void ex_pic(float *phead, int size) {
             d_mean[y * width + x + width * height * 2] = bs;
         }
     }
-    float crop_arr[3 * 224 * 224]={0};
-//    float crop_32_32[3 * 224 * 224]={0};
-    crop(d_mean, crop_arr, 0, 0, 224, 224, 0);
-    crop(d_mean, crop_arr, 0, 11, 224, 224, 0);
-    crop(d_mean, crop_arr, 32, 21, 224, 224, 0);
-    crop(d_mean, crop_arr, 32, 32, 224, 224, 1);
-    print_head_from_arr(crop_arr, 10);
+    resized.release();
+
+    crop(d_mean, phead, 0, 0, 224, 224, 0);
+    crop(d_mean, phead, 0, 11, 224, 224, 0);
+    crop(d_mean, phead, 32, 21, 224, 224, 0);
+    crop(d_mean, phead, 32, 32, 224, 224, 1);
+    print_head_from_arr(phead, 10);
 
 
     exit(0);
