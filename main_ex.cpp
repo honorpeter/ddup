@@ -293,7 +293,7 @@ void ex_pic(float *phead) {
     crop(d_mean, phead, 0, 11, 224, 224, 0);
     crop(d_mean, phead, 32, 21, 224, 224, 0);
     crop(d_mean, phead, 32, 32, 224, 224, 0);
-    flip(tmp, phead, 224, 224, 0);
+    flip(tmp, phead, 224, 224, 1);
     flip(tmp, phead, 224, 224, 0);
     flip(tmp, phead, 224, 224, 0);
     flip(tmp, phead, 224, 224, 0);
@@ -320,7 +320,7 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         int offset = 224 * 224 * 3 * 4;
         print_head_from_arr(pInput2, 21);
         print_head_from_arr(pInput, 21,offset);
-        for (int j = 0; j < 224 * 3; ++j) {
+        for (int j = 0; j < 224 * 224 * 3; ++j) {
             float tmp1 = pInput2[j];
             float tmp2 = pInput[offset + j];
             if (tmp1 < 0) {
