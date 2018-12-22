@@ -235,7 +235,7 @@ inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h, int debug
     pdst += tuple_w * tuple_h * 3;
 }
 
-void ex_pic(float *phead, int size) {
+void ex_pic(float *phead) {
     float *tmp = phead;
     slog::info << "Star to ex_pic" << slog::endl;
 
@@ -287,10 +287,6 @@ void ex_pic(float *phead, int size) {
     flip(tmp, phead, 224, 224, 0);
     flip(tmp, phead, 224, 224, 0);
     flip(tmp, phead, 224, 224, 0);
-//    print_head_from_arr(phead, 3*224);
-
-
-    exit(0);
 }
 
 void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
@@ -301,8 +297,13 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
 
         FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
         float pInput[8 * 224 * 224 * 3];
-        ex_pic(pInput, 8 * 224 * 224 * 3);
-        print_head_from_arr(pInput, 20);
+        float pInput2[8 * 224 * 224 * 3];
+        fread((void *) pInput2, sizeof(float), (size_t) 8 * 224 * 224 * 3, pInputFile);
+        ex_pic(pInput);
+        for (int j = 0; j < 8 * 224 * 224 * 3; ++j) {
+            pInput2[j] = pInput2[j] - pInput[j];
+        }
+        print_head_from_arr(pInput2, 20);
 
         auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
 
