@@ -193,7 +193,7 @@ inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h, int debug
         for (int x = 0; x < tuple_w * 3 / 2; x += 3) {
             for (int c = 0; c < 3; ++c) {
                 int line_index = x + c;
-                int rows = tuple_w * 3;
+                int rows = (tuple_w-1) * 3;
                 int mirror = rows - line_index - 1;
                 int dst_index = y * tuple_w + line_index;
                 int src_index = y * tuple_w + mirror;
