@@ -64,7 +64,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="8469" />
+          <entry key="cpp" value="8480" />
           <entry key="hpp" value="61" />
           <entry key="txt" value="98" />
         </counts>
@@ -73,7 +73,7 @@
         <counts>
           <entry key="CMakeLists.txt" value="81" />
           <entry key="Doxygen file" value="11" />
-          <entry key="ObjectiveC" value="8519" />
+          <entry key="ObjectiveC" value="8530" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
@@ -89,8 +89,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_ex.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="47" column="22" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
+            <state relative-caret-position="301">
+              <caret line="188" column="22" selection-start-line="188" selection-start-column="22" selection-end-line="188" selection-end-column="22" />
               <folding>
                 <element signature="e#45#63#0" expanded="true" />
               </folding>
@@ -315,21 +315,7 @@
       <updated>1544433512274</updated>
       <workItem from="1544433513616" duration="4032000" />
       <workItem from="1544502194028" duration="12064000" />
-      <workItem from="1544773942692" duration="72897000" />
-    </task>
-    <task id="LOCAL-00128" summary="多线程版本">
-      <created>1545396888210</created>
-      <option name="number" value="00128" />
-      <option name="presentableId" value="LOCAL-00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1545396888210</updated>
-    </task>
-    <task id="LOCAL-00129" summary="多线程版本">
-      <created>1545397012950</created>
-      <option name="number" value="00129" />
-      <option name="presentableId" value="LOCAL-00129" />
-      <option name="project" value="LOCAL" />
-      <updated>1545397012951</updated>
+      <workItem from="1544773942692" duration="73144000" />
     </task>
     <task id="LOCAL-00130" summary="多线程版本">
       <created>1545448534586</created>
@@ -660,11 +646,25 @@
       <option name="project" value="LOCAL" />
       <updated>1545464705623</updated>
     </task>
-    <option name="localTasksCounter" value="177" />
+    <task id="LOCAL-00177" summary="多线程版本">
+      <created>1545465162441</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1545465162442</updated>
+    </task>
+    <task id="LOCAL-00178" summary="多线程版本">
+      <created>1545465203128</created>
+      <option name="number" value="00178" />
+      <option name="presentableId" value="LOCAL-00178" />
+      <option name="project" value="LOCAL" />
+      <updated>1545465203128</updated>
+    </task>
+    <option name="localTasksCounter" value="179" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88993000" />
+    <option name="totallyTimeSpent" value="89240000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1071,8 +1071,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_ex.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="47" column="22" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
+        <state relative-caret-position="301">
+          <caret line="188" column="22" selection-start-line="188" selection-start-column="22" selection-end-line="188" selection-end-column="22" />
           <folding>
             <element signature="e#45#63#0" expanded="true" />
           </folding>
