@@ -175,7 +175,12 @@ inline void crop(const float *psrc, float *pdst, int x_offset, int y_offset, int
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             for (int c = 0; c < 3; ++c) {
-                *(pdst + y * width + x + c) = *(psrc + (y + y_offset) * width + x + x_offset + c * 256 * 256);
+                int src_index = y * width + x + c;
+                int offset_index = (y + y_offset) * width + x + x_offset + c * 256 * 256;
+                if (y == 0 && x < 10) {
+                    printf("src_dst_value:%d_%d_%f\n", src_index, offset_index,*(psrc + offset_index));
+                }
+                *(pdst + src_index) = *(psrc + offset_index);
             }
         }
     }
@@ -205,7 +210,6 @@ void ex_pic(float *phead, int size) {
 
     float mean_arr[width * height * channel];
     read_num = fread((void *) mean_arr, sizeof(float), (size_t) width * height * channel, pInputFile);
-    print_head_from_arr(mean_arr, 20);
 
     if (width * height * channel != resized.rows * resized.cols * resized.channels()) {
         slog::info << "dim error ! the mean file data length is not equal image size" << slog::endl;
