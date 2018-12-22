@@ -216,23 +216,21 @@ void ex_pic(float *phead, int size) {
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
     }
 
-    print_image_head(rgb, 5);
     /** 均值化 再减去 均值 **/
     float tmp[mean_data_size];
     for (int y = 0; y < 256; ++y) {
         for (int x = 0; x < 256; ++x) {
-//            if (y < 10 && x < 10) {
-//                printf("%d_%d %d: %hhu - %f \n", y, x, y * width + x, rgb.at<cv::Vec3b>(y, x)[0],
-//                       mean_arr[y * width + x]);
-//                printf("%d_%d %d: %hhu - %f \n", y, x, y * width + x + delta_green, rgb.at<cv::Vec3b>(y, x)[1],
-//                       mean_arr[y * width + x + delta_green]);
-//                printf("%d_%d %d: %hhu - %f \n", y, x, y * width + x + delta_blue, rgb.at<cv::Vec3b>(y, x)[2],
-//                       mean_arr[y * width + x + delta_blue]);
-//            }
-//            tmp[y * width + x] = (rgb.at<cv::Vec3b>(y, x)[0] - mean_arr[y * width + x]) / 255.0f;
-//            tmp[y * width + x + delta_green] = (rgb.at<cv::Vec3b>(y, x)[1] - mean_arr[y * width + x + delta_green]) / 255.0f;
-//            tmp[y * width + x + delta_blue] = (rgb.at<cv::Vec3b>(y, x)[2] - mean_arr[y * width + x + delta_blue]) / 255.0f;
-            (rgb.at<cv::Vec3b>(y, x)[0] - mean_arr[y * width + x]) / 255.0f;
+            if (y < 10 && x < 10) {
+                printf("%d_%d %d: %hhu - %f \n", y, x, y * width + x, rgb.at<cv::Vec3b>(y, x)[0],
+                       mean_arr[y * width + x]);
+                printf("%d_%d %d: %hhu - %f \n", y, x, y * width + x + delta_green, rgb.at<cv::Vec3b>(y, x)[1],
+                       mean_arr[y * width + x + delta_green]);
+                printf("%d_%d %d: %hhu - %f \n", y, x, y * width + x + delta_blue, rgb.at<cv::Vec3b>(y, x)[2],
+                       mean_arr[y * width + x + delta_blue]);
+            }
+            tmp[y * width + x] = (rgb.at<cv::Vec3b>(y, x)[0] - mean_arr[y * width + x]) / 255.0f;
+            tmp[y * width + x + delta_green] = (rgb.at<cv::Vec3b>(y, x)[1] - mean_arr[y * width + x + delta_green]) / 255.0f;
+            tmp[y * width + x + delta_blue] = (rgb.at<cv::Vec3b>(y, x)[2] - mean_arr[y * width + x + delta_blue]) / 255.0f;
             if (y < 10 && x < 10) {
                 print_head_from_arr(tmp, 10);
             }
