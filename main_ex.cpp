@@ -217,12 +217,12 @@ inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h, int debug
             int r_mirror = rows - rline_index - 1 - 2;
             int g_mirror = rows - rline_index - 1 - 1;
             int b_mirror = rows - rline_index - 1;
-            int pre_r_index = y * tuple_w + rline_index;
-            int pre_g_index = y * tuple_w + gline_index;
-            int pre_b_index = y * tuple_w + bline_index;
-            int last_r_index = y * tuple_w + r_mirror;
-            int last_g_index = y * tuple_w + g_mirror;
-            int last_b_index = y * tuple_w + b_mirror;
+            int pre_r_index = y * tuple_w*3 + rline_index;
+            int pre_g_index = y * tuple_w*3 + gline_index;
+            int pre_b_index = y * tuple_w*3 + bline_index;
+            int last_r_index = y * tuple_w*3 + r_mirror;
+            int last_g_index = y * tuple_w*3 + g_mirror;
+            int last_b_index = y * tuple_w*3 + b_mirror;
             if (y == 1 && debug) {
                 printf("x:%d rpre_last_value:%d_%d_%f_%f\n", x / 3, pre_r_index, last_r_index, *(psrc + pre_r_index),
                        *(psrc + last_r_index));
