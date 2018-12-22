@@ -299,11 +299,11 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         float pInput[8 * 224 * 224 * 3];
         float pInput2[224 * 224 * 3];
         size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
         ex_pic(pInput);
         print_head_from_arr(pInput2, 20);
-        print_head_from_arr(pInput, 20);
         for (int j = 0; j < 224 * 224 * 3; ++j) {
-            pInput2[j] = pInput2[j] - pInput[j];
+            pInput2[j] = pInput2[j] - pInput[224 * 224 * 3 + j];
         }
         print_head_from_arr(pInput2, 20);
         exit(0);
