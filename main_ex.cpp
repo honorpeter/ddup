@@ -260,7 +260,7 @@ void ex_pic(float *phead) {
 
     float mean_arr[width * height * channel];
     read_num = fread((void *) mean_arr, sizeof(float), (size_t) width * height * channel, pInputFile);
-
+    fclose(pInputFile);
     if (width * height * channel != resized.rows * resized.cols * resized.channels()) {
         slog::info << "dim error ! the mean file data length is not equal image size" << slog::endl;
         throw std::logic_error("dim error ! the mean file data length is not equal image size");
@@ -300,17 +300,19 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         float pInput2[224 * 224 * 3];
         size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
         ex_pic(pInput);
+        print_head_from_arr(pInput2, 20);
+        print_head_from_arr(pInput, 20);
         for (int j = 0; j < 224 * 224 * 3; ++j) {
             pInput2[j] = pInput2[j] - pInput[j];
         }
         print_head_from_arr(pInput2, 20);
-
-        auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
-
-        for (size_t i = 0; i < (8 * 224 * 224 * 3); ++i) {
-            data[i] = pInput[i];
-        }
-        fclose(pInputFile);
+        exit(0);
+//        auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
+//
+//        for (size_t i = 0; i < (8 * 224 * 224 * 3); ++i) {
+//            data[i] = pInput[i];
+//        }
+//        fclose(pInputFile);
     }
 }
 
