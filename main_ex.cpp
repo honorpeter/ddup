@@ -223,7 +223,7 @@ inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h, int debug
             int last_r_index = y * tuple_w + r_mirror;
             int last_g_index = y * tuple_w + g_mirror;
             int last_b_index = y * tuple_w + b_mirror;
-            if (y == 0 && debug) {
+            if (y == 50 && debug) {
                 printf("x:%d rpre_last_value:%d_%d_%f_%f\n", x / 3, pre_r_index, last_r_index, *(psrc + pre_r_index),
                        *(psrc + last_r_index));
                 printf("x:%d gpre_last_value:%d_%d_%f_%f\n", x / 3, pre_g_index, last_g_index, *(psrc + pre_g_index),
