@@ -228,8 +228,10 @@ void ex_pic(float *phead, int size) {
         }
     }
     float crop_0_0[3 * 224 * 224];
+    float crop_11_0[3 * 224 * 224];
     crop(d_mean, crop_0_0, 0, 0, 224, 224);
-    print_head_from_arr(crop_0_0, 10);
+    crop(d_mean, crop_11_0, 0, 11, 224, 224);
+    print_head_from_arr(crop_11_0, 10);
 
 
     exit(0);
