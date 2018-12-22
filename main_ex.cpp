@@ -299,13 +299,15 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         float pInput[8 * 224 * 224 * 3];
         float pInput2[224 * 224 * 3];
         size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
         ex_pic(pInput);
         print_head_from_arr(pInput2, 20);
+        float sum = 0;
+        int offset = 224 * 224 * 3;
         for (int j = 0; j < 224 * 224 * 3; ++j) {
-            pInput2[j] = pInput2[j] - pInput[224 * 224 * 3 + j];
+            sum += abs(pInput2[j] - pInput[offset + j]);
         }
-        print_head_from_arr(pInput2, 20);
+        printf("diff %f \n", sum / (224 * 224 * 3));
         exit(0);
 //        auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
 //
