@@ -52,6 +52,16 @@ void print_head_from_arr(float *head, int size) {
     slog::info << slog::endl;
 }
 
+void print_head_from_arr(float *head, int size,int offset) {
+    for (int j = offset; j < size + offset; ++j) {
+        slog::info << " " << *(head + j);
+        if (j % 3 == 2) {
+            slog::info << slog::endl;
+        }
+    }
+    slog::info << slog::endl;
+}
+
 void print_head_from_arr(unsigned char *head, int size) {
     for (int j = 0; j < size; ++j) {
         printf("%hhu ", *(head + j));
@@ -301,13 +311,21 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
 //        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
         ex_pic(pInput);
+
         float sum = 0;
         int offset = 224 * 224 * 3 * 0;
+        print_head_from_arr(pInput2, 21);
+        print_head_from_arr(pInput, 21,offset);
         for (int j = 0; j < 224 * 224 * 3; ++j) {
-            sum += abs(pInput2[j] - pInput[offset + j]);
-            if (j % 10 == 0) {
-                printf("sum %f \n", sum);
+            float tmp1 = pInput2[j];
+            float tmp2 = pInput[offset + j];
+            if (tmp1 < 0) {
+                tmp1 = -tmp1;
             }
+            if (tmp2 < 0) {
+                tmp2 = -tmp2;
+            }
+            sum += tmp1 - tmp2;
         }
         printf("diff %f \n", sum / (224 * 224 * 3));
         exit(0);
