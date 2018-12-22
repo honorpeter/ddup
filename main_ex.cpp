@@ -283,7 +283,10 @@ void ex_pic(float *phead, int size) {
     crop(d_mean, phead, 0, 11, 224, 224, 0);
     crop(d_mean, phead, 32, 21, 224, 224, 0);
     crop(d_mean, phead, 32, 32, 224, 224, 0);
-    flip(tmp, phead, 224, 224, 1);
+    flip(tmp, phead, 224, 224, 0);
+    flip(tmp, phead, 224, 224, 0);
+    flip(tmp, phead, 224, 224, 0);
+    flip(tmp, phead, 224, 224, 0);
 //    print_head_from_arr(phead, 3*224);
 
 
