@@ -16,13 +16,11 @@ static std::map<std::string, CNNNetReader *> readerMap;
  * @return 检查结果
  */
 inline int assertConfig(Config &config) {
-    printf("print model dir %s\n",config.modelDir.c_str()); // debug逻辑
     /** 检查模型文件路径 **/
     if (config.modelDir.empty()) {
         return 0;
     }
 
-    printf("print name dir %s\n",config.modelName.c_str()); // debug逻辑
     /** 检查模型名称**/
     if (config.modelName.empty()) {
         return 0;
@@ -343,7 +341,6 @@ void collectOutPut(InferRequest &inferRequest, Config &config, Output &output) {
  * 构建一个openvino的推断引擎
  */
 int create_inf_engine(Config &config) {
-    printf("Star to create engine\n"); // debug逻辑
 
     /** 参数检查 **/
     if (!assertConfig(config)) {
@@ -355,15 +352,14 @@ int create_inf_engine(Config &config) {
     CNNNetReader reader;
     ExecutableNetwork executableNetwork;
 
-    printf("Star to create plugin\n"); // debug逻辑
     /** 初始化插件 **/
     create_plugin(plugin, config);
     /** 读取配置文件,填充/覆盖 缺省配置 **/
-    printf("Star to read config\n"); // debug逻辑
     read_config(config);
     config.toString(); // debug逻辑
     /** 读取模型网络信息 **/
     read_net(reader, config);
+    printf("End to read net\n"); // debug逻辑
     /** 插件通过网络信息加载称可执行网络 **/
     executableNetwork = plugin.LoadNetwork(reader.getNetwork(), {});
     /** 将可执行网络注册至资源池 **/
@@ -372,6 +368,8 @@ int create_inf_engine(Config &config) {
     configMap.insert(std::map<std::string, Config *>::value_type(config.modelName, &config));
     /** 将网络信息注册至资源池 **/
     readerMap.insert(std::map<std::string, CNNNetReader *>::value_type(config.modelName, &reader));
+    printf("End to create engine\n"); // debug逻辑
+
     return 1;
 }
 
