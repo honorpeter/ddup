@@ -332,33 +332,33 @@ void Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigne
         Blob::Ptr input = inferRequest.GetBlob(item.first);
         auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
         ex_pic(data, config, pImageHead, imageW, imageH);
-//
-//        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
-//        float pInput2[224 * 224 * 3];
-//        size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//
-//        float sum = 0;
-//        int offset = 224 * 224 * 3 * 7;
-//        for (int j = 0; j < 224 * 224 * 3; ++j) {
-//            float tmp1 = pInput2[j];
-//            float tmp2 = data[offset + j];
-//            if (tmp1 < 0) {
-//                tmp1 = -tmp1;
-//            }
-//            if (tmp2 < 0) {
-//                tmp2 = -tmp2;
-//            }
-//            sum += tmp1 - tmp2;
-//        }
-//        printf("diff %f \n", sum / (224 * 224 * 3));
-//        fclose(pInputFile);
+
+        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
+        float pInput2[224 * 224 * 3];
+        size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+
+        float sum = 0;
+        int offset = 224 * 224 * 3 * 7;
+        for (int j = 0; j < 224 * 224 * 3; ++j) {
+            float tmp1 = pInput2[j];
+            float tmp2 = data[offset + j];
+            if (tmp1 < 0) {
+                tmp1 = -tmp1;
+            }
+            if (tmp2 < 0) {
+                tmp2 = -tmp2;
+            }
+            sum += tmp1 - tmp2;
+        }
+        printf("diff %f \n", sum / (224 * 224 * 3));
+        fclose(pInputFile);
     }
 }
 
