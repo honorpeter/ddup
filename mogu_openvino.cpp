@@ -282,7 +282,6 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(width, height));
     printf("\n");
-    print_image_head(resized, 5);
 
     /** 从资源池读取均值数组 **/
     if (meanArr) {
@@ -291,15 +290,15 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
                 float rs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 2, 0);
                 float gs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 1, 1);
                 float bs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 0, 2);
-                if (y == 0 && x < 5) {
-                    printf("x_y_rs_gs_bs:%d_%d_%f_%f_%f\n", x, y, rs, gs, bs);
-                }
+//                if (y == 0 && x < 5) {
+//                    printf("x_y_rs_gs_bs:%d_%d_%f_%f_%f\n", x, y, rs, gs, bs);
+//                }
                 d_mean[y * width + x] = rs;
                 d_mean[y * width + x + width * height] = gs;
                 d_mean[y * width + x + width * height * 2] = bs;
             }
         }
-        print_head_from_arr(d_mean, 20, 0);
+//        print_head_from_arr(d_mean, 20, 0);
     } else {
         for (int y = 0; y<resized.rows; ++y){
             for (int x = 0; x < resized.cols; ++x) {
