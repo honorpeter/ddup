@@ -249,7 +249,8 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
 
     /** 从资源池读取均值数组 **/
     if (meanArr) {
-        printf("Star to mean image...");
+        printf("Star to mean image...\n");
+        fflush(stdout);
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 float rs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 2, 0);
@@ -260,9 +261,11 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
                 d_mean[y * width + x + width * height * 2] = bs;
             }
         }
-        printf("End to build image...");
+        printf("End to build image...\n");
         fflush(stdout);
     } else {
+        printf("don't use to mean image...\n");
+        fflush(stdout);
         for (int y = 0; y<resized.rows; ++y){
             for (int x = 0; x < resized.cols; ++x) {
                 d_mean[y * resized.cols + x] = resized.at<cv::Vec3b>(y, x)[2] * 1.0f;
