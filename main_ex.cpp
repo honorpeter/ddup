@@ -258,42 +258,43 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
     for (const auto &item : inputInfo) {
         Blob::Ptr input = inferRequest.GetBlob(item.first);
 
-        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
         float pInput[8 * 224 * 224 * 3];
-        float pInput2[224 * 224 * 3];
-        size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
+//        float pInput2[224 * 224 * 3];
+//        size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//
+//        ex_pic(pInput);
+//
+//        float sum = 0;
+//        int offset = 224 * 224 * 3 * 7;
+//        print_head_from_arr(pInput2, 21);
+//        print_head_from_arr(pInput, 21,offset);
+//        for (int j = 0; j < 224 * 224 * 3; ++j) {
+//            float tmp1 = pInput2[j];
+//            float tmp2 = pInput[offset + j];
+//            if (tmp1 < 0) {
+//                tmp1 = -tmp1;
+//            }
+//            if (tmp2 < 0) {
+//                tmp2 = -tmp2;
+//            }
+//            sum += tmp1 - tmp2;
+//        }
+//        printf("diff %f \n", sum / (224 * 224 * 3));
+//        fclose(pInputFile);
 
-        ex_pic(pInput);
-
-        float sum = 0;
-        int offset = 224 * 224 * 3 * 7;
-        print_head_from_arr(pInput2, 21);
-        print_head_from_arr(pInput, 21,offset);
-        for (int j = 0; j < 224 * 224 * 3; ++j) {
-            float tmp1 = pInput2[j];
-            float tmp2 = pInput[offset + j];
-            if (tmp1 < 0) {
-                tmp1 = -tmp1;
-            }
-            if (tmp2 < 0) {
-                tmp2 = -tmp2;
-            }
-            sum += tmp1 - tmp2;
-        }
-        printf("diff %f \n", sum / (224 * 224 * 3));
         auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
 
         for (size_t i = 0; i < (8 * 224 * 224 * 3); ++i) {
             data[i] = pInput[i];
         }
-        fclose(pInputFile);
     }
 }
 
