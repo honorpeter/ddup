@@ -240,20 +240,18 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
 
     // todo RGB OR BGR 判断逻辑
 
-    printf("Star to build image...");
     /** 读取图片 **/
     cv::Mat image(imageH, imageW, CV_8UC3, pImageHead);
     printf("End to build image...");
-    fflush(stdout);
 
     /** 图片大小转换 **/
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(width, height));
 
     /** 从资源池读取均值数组 **/
-    auto meanIterator = meanMap.find(config.modelName);
-    float *meanArr = meanIterator->second;
     if (meanArr) {
+        printf("Star to mean image...");
+        fflush(stdout);
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 float rs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 2, 0);
@@ -265,6 +263,8 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
             }
         }
     } else {
+        printf("Use origin image...");
+        fflush(stdout);
         for (int y = 0; y<resized.rows; ++y){
             for (int x = 0; x < resized.cols; ++x) {
                 d_mean[y * resized.cols + x] = resized.at<cv::Vec3b>(y, x)[2] * 1.0f;
