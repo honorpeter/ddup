@@ -387,7 +387,6 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
     auto execIterator = execNetMap.find(modelName);
     pExecutableNetwork = execIterator->second;
     auto configIteator = configMap.find(modelName);
-    configIteator->second->toString();
     pConfig = configIteator->second;
 
     printf("End to find...\n");
@@ -397,7 +396,7 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
         fflush(stdout);
     }
     /** 创建请求 **/
-    InferRequest inferRequest = pExecutableNetwork->CreateInferRequest();
+    InferRequest inferRequest = execIterator->second->CreateInferRequest();
     printf("Star to fill_data\n"); // debug逻辑
     fflush(stdout);
 
