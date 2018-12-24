@@ -340,6 +340,8 @@ void collectOutPut(InferRequest &inferRequest, Config &config, Output &output) {
  * 构建一个openvino的推断引擎
  */
 int create_inf_engine(Config &config) {
+    printf("Star to create engine\n"); // debug逻辑
+
     /** 参数检查 **/
     if (!assertConfig(config)) {
         return 0;
@@ -353,7 +355,7 @@ int create_inf_engine(Config &config) {
     /** 初始化插件 **/
     create_plugin(plugin, config);
     /** 读取配置文件,填充/覆盖 缺省配置 **/
-    printf("Star to read config\n");
+    printf("Star to read config\n"); // debug逻辑
     read_config(config);
     config.toString(); // debug逻辑
     /** 读取模型网络信息 **/
