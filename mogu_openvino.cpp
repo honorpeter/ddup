@@ -258,6 +258,7 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
 
     /** 读取图片 **/
     cv::Mat image(imageH, imageW, CV_8UC3, pImageHead);
+    print_head_from_arr(pImageHead, 20);
     print_image_head(image, 20);
 
     /** 图片大小转换 **/
