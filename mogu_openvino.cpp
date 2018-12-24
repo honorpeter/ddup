@@ -392,6 +392,9 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
 
     printf("End to find...\n");
 
+    if (!pExecutableNetwork) {
+        printf("NULL ponit\n"); // debug逻辑
+    }
     /** 创建请求 **/
     InferRequest inferRequest = pExecutableNetwork->CreateInferRequest();
     printf("Star to fill_data\n"); // debug逻辑
