@@ -258,12 +258,17 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
                 printf("x_y_rs_gs_bs:%d_%d_%f_%f_%f \n", x, y, rs, gs, bs);
                 fflush(stdout);
                 d_mean[y * width + x] = rs;
+                printf("End to build image...\n");
+                fflush(stdout);
                 d_mean[y * width + x + width * height] = gs;
+                printf("End to build image...\n");
+                fflush(stdout);
                 d_mean[y * width + x + width * height * 2] = bs;
+                printf("End to build image...\n");
+                fflush(stdout);
             }
         }
-        printf("End to build image...\n");
-        fflush(stdout);
+
     } else {
         for (int y = 0; y<resized.rows; ++y){
             for (int x = 0; x < resized.cols; ++x) {
