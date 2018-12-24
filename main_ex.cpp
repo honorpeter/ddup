@@ -27,7 +27,7 @@ using namespace InferenceEngine;
 
 ConsoleErrorListener error_listener;
 
-inline float sub_mean(cv::Mat &image, float *mean_arr, int x, int y, int width, int c, int mean_delta_a) {
+inline float sub_mean(cv::Mat &image, const float *mean_arr, int x, int y, int width, int c, int mean_delta_a) {
     unsigned char r = image.at<cv::Vec3b>(y, x)[c];
     float mean_r = mean_arr[y * width + x + mean_delta_a * width * width];
     return (r - mean_r) / 255.0f;
@@ -168,22 +168,6 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
     return true;
 }
 
-void fill_image_2_arr(float *phead, cv::Mat &image, int offset) {
-
-    slog::info << "Star fill data offset#" << offset << slog::endl;
-
-    int delta_green = 224 * 224;
-    int delta_blue = 224 * 224 * 2;
-
-    for (int i = 0; i < image.rows; ++i) {
-        for (int z = 0; z < image.cols; ++z) {
-            *(phead + offset) = image.at<cv::Vec3f>(i, z)[0];
-            *(phead + offset + delta_green) = image.at<cv::Vec3f>(i, z)[1];
-            *(phead + offset + delta_blue) = image.at<cv::Vec3f>(i, z)[2];
-        }
-    }
-}
-
 inline void crop(const float *psrc, float *&pdst, int x_offset, int y_offset, int width, int height, int debug) {
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width * 3; x += 3) {
@@ -314,11 +298,12 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
         read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
         read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
         read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
 
         ex_pic(pInput);
 
         float sum = 0;
-        int offset = 224 * 224 * 3 * 5;
+        int offset = 224 * 224 * 3 * 6;
         print_head_from_arr(pInput2, 21);
         print_head_from_arr(pInput, 21,offset);
         for (int j = 0; j < 224 * 224 * 3; ++j) {
@@ -333,13 +318,12 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
             sum += tmp1 - tmp2;
         }
         printf("diff %f \n", sum / (224 * 224 * 3));
-        exit(0);
-//        auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
-//
-//        for (size_t i = 0; i < (8 * 224 * 224 * 3); ++i) {
-//            data[i] = pInput[i];
-//        }
-//        fclose(pInputFile);
+        auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
+
+        for (size_t i = 0; i < (8 * 224 * 224 * 3); ++i) {
+            data[i] = pInput[i];
+        }
+        fclose(pInputFile);
     }
 }
 
@@ -380,8 +364,8 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < NET_SIZE; i++) {
         int rc = pthread_create(&callThd[i], NULL, run, (void *) &inferRequest[NET_SIZE - 1 - i]);
     }
-    for (int i = 0; i < NET_SIZE; i++) {
-        pthread_join(callThd[i], NULL);
+    for (auto &i : callThd) {
+        pthread_join(i, NULL);
     }
 
     slog::info << "Execution successful" << slog::endl;
