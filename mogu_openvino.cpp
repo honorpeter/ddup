@@ -352,6 +352,7 @@ int create_inf_engine(Config &config) {
     CNNNetReader reader;
     ExecutableNetwork executableNetwork;
 
+    printf("Star to create plugin\n"); // debug逻辑
     /** 初始化插件 **/
     create_plugin(plugin, config);
     /** 读取配置文件,填充/覆盖 缺省配置 **/
