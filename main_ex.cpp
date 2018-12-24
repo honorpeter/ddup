@@ -206,6 +206,7 @@ void ex_pic(float *phead) {
     const char *img_dir = FLAGS_i.c_str();
     /** 读取图片 **/
     cv::Mat image = cv::imread(img_dir);
+    print_image_head(image, 20);
 
     cv::Mat resized;
     /** 图片大小转换 **/
