@@ -132,14 +132,14 @@ int read_config(Config &config) {
     }
 
     /** 读取图片翻转信息 **/
-    fscanf(pConfigFile, "flip=%d\n", &config.pImageInfo->flip);
+    readNum =fscanf(pConfigFile, "flip=%d\n", &config.pImageInfo->flip);
 
     /** 读取均值文件 **/
     // todo doudi
     char buffer[512];
     int meanSize;
     int meanH, meanW, meanC;
-    fscanf(pConfigFile, "meanFile=%s\n", buffer);
+    readNum = fscanf(pConfigFile, "meanFile=%s\n", buffer);
     std::string meanFileStr(buffer);
     if (!meanFileStr.empty()) {
         config.pImageInfo->meanFile = meanFileStr;
@@ -159,16 +159,16 @@ int read_config(Config &config) {
     }
 
     /** 读取归一化系数 **/
-    fscanf(pConfigFile, "scale=%f\n", &config.pImageInfo->scale);
+    readNum =fscanf(pConfigFile, "scale=%f\n", &config.pImageInfo->scale);
 
     /** 读取裁剪大小和数目 **/
-    fscanf(pConfigFile, "corpW_cropH_cropN=%d_%d_%d\n", &config.pImageInfo->corpSize_W, &config.pImageInfo->cropSize_H,
+    readNum =fscanf(pConfigFile, "corpW_cropH_cropN=%d_%d_%d\n", &config.pImageInfo->corpSize_W, &config.pImageInfo->cropSize_H,
            &config.pImageInfo->cropNum);
 
     /** 读取裁剪的起始点 **/
     int xPoint, yPoint;
     for (int i = 0; i < config.pImageInfo->cropNum; ++i) {
-        fscanf(pConfigFile, "x_y=%d_%d\n", &xPoint, &yPoint);
+        readNum =fscanf(pConfigFile, "x_y=%d_%d\n", &xPoint, &yPoint);
         config.pImageInfo->corpPoint[i][0] = xPoint;
         config.pImageInfo->corpPoint[i][1] = yPoint;
     }
