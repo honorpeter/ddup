@@ -387,6 +387,7 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
 
     /** 从资源池中寻找可执行网络和配置信息 **/
     auto execIterator = execNetMap.find(modelName);
+    printf("Get execNet %s\n", execIterator->first.c_str());
     pExecutableNetwork = execIterator->second;
     auto configIteator = configMap.find(modelName);
     pConfig = configIteator->second;
