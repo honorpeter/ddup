@@ -111,38 +111,7 @@ void readNet(CNNNetReader &networkReader) {
     }
 }
 
-void *run(void *p) {
 
-    InferRequest *infer_request = (InferRequest *) p;
-
-    // --------------------------- 7. Do inference ---------------------------------------------------------
-    slog::info << "Starting inference (" << FLAGS_ni << " iterations)" << slog::endl;
-
-    typedef std::chrono::high_resolution_clock Time;
-    typedef std::chrono::duration<double, std::ratio<1, 1000>> ms;
-    typedef std::chrono::duration<float> fsec;
-
-    double total = 0.0;
-    /** Start inference & calc performance **/
-    for (int iter = 0; iter < FLAGS_ni; ++iter) {
-        auto t0 = Time::now();
-        infer_request->Infer();
-        auto t1 = Time::now();
-        fsec fs = t1 - t0;
-        ms d = std::chrono::duration_cast<ms>(fs);
-        total += d.count();
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    std::cout << std::endl << "total inference time: " << total << std::endl;
-    std::cout << "Average running time of one iteration: " << total / static_cast<double>(FLAGS_ni) << " ms"
-              << std::endl;
-    std::cout << std::endl << "Throughput: " << 1000 * static_cast<double>(FLAGS_ni) * 8 / total << " FPS"
-              << std::endl;
-    std::cout << std::endl;
-
-    return 0;
-}
 
 bool ParseAndCheckCommandLine(int argc, char *argv[]) {
     // ---------------------------Parsing and validation of input args--------------------------------------
@@ -329,6 +298,42 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
 }
 
 const int NET_SIZE = 1;
+static CNNNetReader reader[NET_SIZE];
+
+void *run(void *p) {
+
+    ExecutableNetwork *executableNetwork = (ExecutableNetwork *) p;
+
+    InferRequest inferRequest = executableNetwork->CreateInferRequest();
+    fillData(inferRequest, reader[0]);
+    // --------------------------- 7. Do inference ---------------------------------------------------------
+    slog::info << "Starting inference (" << FLAGS_ni << " iterations)" << slog::endl;
+
+    typedef std::chrono::high_resolution_clock Time;
+    typedef std::chrono::duration<double, std::ratio<1, 1000>> ms;
+    typedef std::chrono::duration<float> fsec;
+
+    double total = 0.0;
+    /** Start inference & calc performance **/
+    for (int iter = 0; iter < FLAGS_ni; ++iter) {
+        auto t0 = Time::now();
+        inferRequest.Infer();
+        auto t1 = Time::now();
+        fsec fs = t1 - t0;
+        ms d = std::chrono::duration_cast<ms>(fs);
+        total += d.count();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    std::cout << std::endl << "total inference time: " << total << std::endl;
+    std::cout << "Average running time of one iteration: " << total / static_cast<double>(FLAGS_ni) << " ms"
+              << std::endl;
+    std::cout << std::endl << "Throughput: " << 1000 * static_cast<double>(FLAGS_ni) * 8 / total << " FPS"
+              << std::endl;
+    std::cout << std::endl;
+
+    return 0;
+}
 
 /**
  * 背景:在有两个物理核的服务器上,使用MKLDNNPlugin插件加载一个网络,在推断过程中发现只使用了一个物理核,另一个物理核处于空闲状态。
@@ -349,21 +354,19 @@ int main(int argc, char *argv[]) {
     ExecutableNetwork executableNetwork[NET_SIZE];
     InferRequest inferRequest[NET_SIZE];
     InferencePlugin plugin[NET_SIZE];
-    CNNNetReader reader[NET_SIZE];
-
 
     createPlugin(plugin[0]);
     readNet(reader[0]);
 
     for (int i = 0; i < NET_SIZE; i++) {
         executableNetwork[i] = plugin[0].LoadNetwork(reader[0].getNetwork(), {});
-        inferRequest[i] = executableNetwork[i].CreateInferRequest();
-        fillData(inferRequest[i], reader[0]);
+//        inferRequest[i] = executableNetwork[i].CreateInferRequest();
+//        fillData(inferRequest[i], reader[0]);
     }
 
     pthread_t callThd[NET_SIZE];
     for (int i = 0; i < NET_SIZE; i++) {
-        int rc = pthread_create(&callThd[i], NULL, run, (void *) &inferRequest[NET_SIZE - 1 - i]);
+        int rc = pthread_create(&callThd[i], NULL, run, (void *) &executableNetwork[0]);
     }
     for (auto &i : callThd) {
         pthread_join(i, NULL);
