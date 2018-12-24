@@ -347,7 +347,7 @@ void Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigne
         int offset = 224 * 224 * 3 * 7;
         for (int j = 0; j < 224 * 224 * 3; ++j) {
             float tmp1 = pInput2[j];
-            float tmp2 = data[offset + j];
+            float tmp2 = *(data + offset + j);
             if (tmp1 < 0) {
                 tmp1 = -tmp1;
             }
