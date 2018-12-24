@@ -379,18 +379,14 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
         return NULL;
     }
 
-    printf("Star to Inference\n"); // debug逻辑
-
     ExecutableNetwork *pExecutableNetwork;
     Config *pConfig;
     Output *output = NULL;
 
     /** 从资源池中寻找可执行网络和配置信息 **/
     auto execIterator = execNetMap.find(modelName);
-    printf("Get execNet %s\n", execIterator->first.c_str());
     pExecutableNetwork = execIterator->second;
     auto configIteator = configMap.find(modelName);
-    printf("Get config %s\n", configIteator->first.c_str());
     configIteator->second->toString();
     pConfig = configIteator->second;
 
@@ -401,12 +397,12 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
     printf("Star to fill_data\n"); // debug逻辑
     fflush(stdout);
 
-    /** 填充请求数据 **/
-    fill_data(inferRequest, *pConfig, pImageHead, imageW, imageH);
-    /** 进行推断 **/
-    inferRequest.Infer();
-    /** 收集输出层结果 **/
-    collectOutPut(inferRequest, *pConfig, *output);
+//    /** 填充请求数据 **/
+//    fill_data(inferRequest, *pConfig, pImageHead, imageW, imageH);
+//    /** 进行推断 **/
+//    inferRequest.Infer();
+//    /** 收集输出层结果 **/
+//    collectOutPut(inferRequest, *pConfig, *output);
     return output;
 }
 
