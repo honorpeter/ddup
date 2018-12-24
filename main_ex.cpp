@@ -206,11 +206,11 @@ void ex_pic(float *phead) {
     const char *img_dir = FLAGS_i.c_str();
     /** 读取图片 **/
     cv::Mat image = cv::imread(img_dir);
-    print_image_head(image, 20);
 
     cv::Mat resized;
     /** 图片大小转换 **/
     cv::resize(image, resized, cv::Size(256, 256));
+    print_image_head(resized, 20);
 
     /** 读取均值化文件 **/
     slog::info << "Star to load mean.bin file" << slog::endl;
