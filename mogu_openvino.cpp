@@ -272,7 +272,7 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
     /** 图片大小转换 **/
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(width, height));
-    print_image_head(image, 20);
+    print_image_head(resized, 20);
 
     /** 从资源池读取均值数组 **/
     if (meanArr) {
@@ -473,8 +473,6 @@ int main(int argc, char *argv[]){
             imageArr[y][x][2] = image.at<cv::Vec3b>(y, x)[2];
         }
     }
-    print_image_head(image, 20);
-    printf("\n");
     Output *output = net.inference(&imageArr[0][0][0], 256, 256);
 
 }
