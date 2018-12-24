@@ -30,9 +30,9 @@ ConsoleErrorListener error_listener;
 inline float sub_mean(cv::Mat &image, const float *mean_arr, int x, int y, int width, int c, int mean_delta_a) {
     unsigned char r = image.at<cv::Vec3b>(y, x)[c];
     float mean_r = mean_arr[y * width + x + mean_delta_a * width * width];
-    if (y == 0 && x < 5) {
-        printf("rs=(r-mean)/255 %f=(%hhu-%f)", ((r - mean_r) / 255.0f), r, mean_r);
-    }
+//    if (y == 0 && x < 5) {
+//        printf("rs=(r-mean)/255 %f=(%hhu-%f)", ((r - mean_r) / 255.0f), r, mean_r);
+//    }
     return (r - mean_r) / 255.0f;
 }
 
@@ -75,7 +75,6 @@ void print_head_from_arr(unsigned char *head, int size) {
 void print_image_head(cv::Mat &image, int size) {
     for (int y = 0; y < size; ++y) {
         for (int x = 0; x < size; ++x) {
-            printf("%d_%d: %hhu  \n", y, x, image.at<cv::Vec3b>(y, x)[0]);
             print_head_from_arr(&image.at<cv::Vec3b>(y, x)[0], 3);
         }
     }
@@ -149,7 +148,7 @@ inline void crop(const float *psrc, float *&pdst, int x_offset, int y_offset, in
             int r_offset_index = (y + y_offset) * 256 + x/3 + x_offset;
             int g_offset_index = (y + y_offset) * 256 + x/3 + x_offset + 256 * 256;
             int b_offset_index = (y + y_offset) * 256 + x/3 + x_offset + 256 * 256 * 2;
-            if (y == 0 && debug) {
+            if (y == 0 && debug && x < 21) {
                 printf("x:%d rsrc_dst_value:%d_%d_%f\n", x / 3, r_index, r_offset_index, *(psrc + r_offset_index));
                 printf("x:%d gsrc_dst_value:%d_%d_%f\n", x / 3, g_index, g_offset_index, *(psrc + g_offset_index));
                 printf("x:%d bsrc_dst_value:%d_%d_%f\n", x / 3, b_index, b_offset_index, *(psrc + b_offset_index));
@@ -214,7 +213,6 @@ void ex_pic(float *phead) {
     /** 图片大小转换 **/
     cv::resize(image, resized, cv::Size(256, 256));
     printf("\n");
-    print_image_head(resized, 5);
 
     /** 读取均值化文件 **/
     slog::info << "Star to load mean.bin file" << slog::endl;
@@ -240,19 +238,18 @@ void ex_pic(float *phead) {
             float rs = sub_mean(resized, mean_arr, x, y, width, 2, 0);
             float gs = sub_mean(resized, mean_arr, x, y, width, 1, 1);
             float bs = sub_mean(resized, mean_arr, x, y, width, 0, 2);
-            if (y == 0 && x < 5) {
-                printf("x_y_rs_gs_bs:%d_%d_%f_%f_%f\n", x, y, rs, gs, bs);
-            }
+//            if (y == 0 && x < 5) {
+//                printf("x_y_rs_gs_bs:%d_%d_%f_%f_%f\n", x, y, rs, gs, bs);
+//            }
             d_mean[y * width + x] = rs;
             d_mean[y * width + x + width * height] = gs;
             d_mean[y * width + x + width * height * 2] = bs;
         }
     }
-    print_head_from_arr(d_mean, 20, 0);
 
     resized.release();
 
-    crop(d_mean, phead, 0, 0, 224, 224, 0);
+    crop(d_mean, phead, 0, 0, 224, 224, 1);
     crop(d_mean, phead, 0, 11, 224, 224, 0);
     crop(d_mean, phead, 32, 21, 224, 224, 0);
     crop(d_mean, phead, 32, 32, 224, 224, 0);

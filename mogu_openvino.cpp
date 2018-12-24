@@ -60,9 +60,9 @@ inline float
 sub_mean(cv::Mat &image, const float *mean_arr, int x, int y, int width, float &scale, int c, int mean_delta_a) {
     unsigned char r = image.at<cv::Vec3b>(y, x)[c];
     float mean_r = mean_arr[y * width + x + mean_delta_a * width * width];
-    if (y == 0 && x < 5) {
-        printf("rs=(r-mean)/255 %f=(%hhu-%f)/255\n", ((r - mean_r) / 255.0f), r, mean_r);
-    }
+//    if (y == 0 && x < 5) {
+//        printf("rs=(r-mean)/255 %f=(%hhu-%f)/255\n", ((r - mean_r) / 255.0f), r, mean_r);
+//    }
     return (r - mean_r) / scale;
 }
 
@@ -79,6 +79,12 @@ crop(const float *psrc, float *&pdst, int &x_offset, int &y_offset, int &width, 
             int r_offset_index = (y + y_offset) * originW + x / 3 + x_offset;
             int g_offset_index = (y + y_offset) * originW + x / 3 + x_offset + originW * originH;
             int b_offset_index = (y + y_offset) * originW + x / 3 + x_offset + originW * originW * 2;
+            if (y == 0 && x < 21) {
+                printf("x:%d rsrc_dst_value:%d_%d_%f\n", x / 3, r_index, r_offset_index, *(psrc + r_offset_index));
+                printf("x:%d gsrc_dst_value:%d_%d_%f\n", x / 3, g_index, g_offset_index, *(psrc + g_offset_index));
+                printf("x:%d bsrc_dst_value:%d_%d_%f\n", x / 3, b_index, b_offset_index, *(psrc + b_offset_index));
+                fflush(stdout);
+            }
             *(pdst + r_index) = *(psrc + r_offset_index);
             *(pdst + g_index) = *(psrc + g_offset_index);
             *(pdst + b_index) = *(psrc + b_offset_index);
