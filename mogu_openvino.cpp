@@ -420,9 +420,12 @@ int main(int argc, char *argv[]){
 
     /** 图片路径 **/
     const char *img_dir = FLAGS_i.c_str();
+    config.toString();
     /** 读取图片 **/
     cv::Mat image = cv::imread(img_dir);
+    config.toString();
     unsigned char imageArr[256][256][3];
+    config.toString();
     Output *output = net.inference(&imageArr[0][0][0], 256, 256);
 
 }
