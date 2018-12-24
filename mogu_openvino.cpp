@@ -366,6 +366,7 @@ Output * Openvino_Net::inference(unsigned char *pImageHead, int imageW, int imag
     /** 创建请求 **/
     InferRequest inferRequest = executableNetwork.CreateInferRequest();
     /** 填充请求数据 **/
+    config.toString();
     fill_data(inferRequest, config, pImageHead, imageW, imageH);
     /** 进行推断 **/
     inferRequest.Infer();

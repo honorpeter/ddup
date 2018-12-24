@@ -122,7 +122,7 @@ struct Output {
 
 class Openvino_Net {
 public:
-    Openvino_Net(Config &config) : config(config), meanArr(NULL) {}
+    explicit Openvino_Net(Config &config) : config(config), meanArr(NULL) {}
 
     /**
     * 构建一个openvino的推断引擎
