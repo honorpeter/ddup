@@ -348,10 +348,8 @@ int Openvino_Net::create_inf_engine() {
     create_plugin(plugin, config);
     /** 读取配置文件,填充/覆盖 缺省配置 **/
     read_config();
-    config.toString(); // debug逻辑
     /** 读取模型网络信息 **/
     read_net();
-    config.toString();
     /** 插件通过网络信息加载称可执行网络 **/
     executableNetwork = plugin.LoadNetwork(reader.getNetwork(), {});
     config.toString();
@@ -417,14 +415,15 @@ int main(int argc, char *argv[]){
     ImageInfo imageInfo;
     config.pImageInfo = &imageInfo;
 
-    Openvino_Net net(config);
-    net.create_inf_engine();
-
     /** 图片路径 **/
     const char *img_dir = FLAGS_i.c_str();
     /** 读取图片 **/
     cv::Mat image = cv::imread(img_dir);
     unsigned char imageArr[256][256][3];
+
+    Openvino_Net net(config);
+    net.create_inf_engine();
+
     Output *output = net.inference(&imageArr[0][0][0], 256, 256);
 
 }
