@@ -268,8 +268,8 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
     int width = config.pImageInfo->height;
     int height = config.pImageInfo->width;
     int channel = config.pImageInfo->channel;
-    int targetW = width - config.pImageInfo->corpSize_W;
-    int targetH = height - config.pImageInfo->cropSize_H;
+    int targetW = config.pImageInfo->corpSize_W;
+    int targetH = config.pImageInfo->cropSize_H;
     int cropNum = config.pImageInfo->cropNum;
     float d_mean[width * height * channel];
 
