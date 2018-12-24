@@ -28,6 +28,7 @@ inline int assertConfig(Config &config) {
     if (!config.pImageInfo) {
         return 0;
     }
+    return 1;
 }
 
 /**
@@ -393,6 +394,7 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
     inferRequest.Infer();
     /** 收集输出层结果 **/
     collectOutPut(inferRequest, *pConfig, output);
+    return &output;
 }
 
 // --------------------------------------------------测试函数区-------------------------------------------------//
