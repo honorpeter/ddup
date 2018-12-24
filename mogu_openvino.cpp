@@ -387,12 +387,14 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
 
     /** 从资源池中寻找可执行网络和配置信息 **/
     auto execIterator = execNetMap.find(modelName);
-    printf("Get execNet %s\n", execIterator->first.c_str());
     pExecutableNetwork = execIterator->second;
     auto configIteator = configMap.find(modelName);
-    printf("Get config %s\n", configIteator->first.c_str());
     pConfig = configIteator->second;
 
+    if (!pExecutableNetwork) {
+        printf("Can't find the excNet");
+        return output;
+    }
     /** 创建请求 **/
     InferRequest inferRequest = pExecutableNetwork->CreateInferRequest();
     printf("Star to fill_data\n"); // debug逻辑
