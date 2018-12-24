@@ -30,6 +30,9 @@ ConsoleErrorListener error_listener;
 inline float sub_mean(cv::Mat &image, const float *mean_arr, int x, int y, int width, int c, int mean_delta_a) {
     unsigned char r = image.at<cv::Vec3b>(y, x)[c];
     float mean_r = mean_arr[y * width + x + mean_delta_a * width * width];
+    if (y == 0 && x < 5) {
+        printf("rs=(r-mean)/255 %f=(%hhu-%f)", ((r - mean_r) / 255.0f), r, mean_r);
+    }
     return (r - mean_r) / 255.0f;
 }
 
@@ -235,6 +238,9 @@ void ex_pic(float *phead) {
             float rs = sub_mean(resized, mean_arr, x, y, width, 2, 0);
             float gs = sub_mean(resized, mean_arr, x, y, width, 1, 1);
             float bs = sub_mean(resized, mean_arr, x, y, width, 0, 2);
+            if (y == 0 && x < 5) {
+                printf("x_y_rs_gs_bs:%d_%d_%f_%f_%f\n", x, y, rs, gs, bs);
+            }
             d_mean[y * width + x] = rs;
             d_mean[y * width + x + width * height] = gs;
             d_mean[y * width + x + width * height * 2] = bs;
