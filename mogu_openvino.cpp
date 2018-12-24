@@ -106,6 +106,8 @@ inline void create_plugin(InferencePlugin &plugin,Config &config) {
  * 读取配置文件
  */
 int Openvino_Net::read_config() {
+    printf("Star to read_config...\n"); // debug逻辑
+
     char configDir[config.modelDir.size() + config.modelName.size() + 8];
     sprintf(configDir, "%s/%s.config", config.modelDir.c_str(), config.modelName.c_str());
 
@@ -329,7 +331,6 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
  */
 
 int Openvino_Net::create_inf_engine() {
-    printf("Star to inference...\n"); // debug逻辑
     /** 参数检查 **/
     if (!assertConfig(config)) {
         return 0;
