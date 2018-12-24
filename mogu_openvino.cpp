@@ -249,7 +249,6 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
 
     /** 从资源池读取均值数组 **/
     if (meanArr) {
-        printf("Star to mean image...\n");
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 float rs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 2, 0);
@@ -260,8 +259,6 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
                 d_mean[y * width + x + width * height * 2] = bs;
             }
         }
-        printf("End to build image...\n");
-        fflush(stdout);
     } else {
         for (int y = 0; y<resized.rows; ++y){
             for (int x = 0; x < resized.cols; ++x) {
@@ -277,10 +274,13 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
 
     /** 裁剪逻辑 **/
     if (cropNum > 0) {
+        printf("Star to mean image...\n");
         for (int i = 0; i < cropNum; ++i) {
             crop(d_mean, phead, config.pImageInfo->corpPoint[i][0], config.pImageInfo->corpPoint[i][1], targetW,
                  targetH, width, height);
         }
+        printf("End to build image...\n");
+        fflush(stdout);
     }
 
     /** 翻转逻辑 **/
