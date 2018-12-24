@@ -163,6 +163,7 @@ int Openvino_Net::read_config() {
 
     /** 读取裁剪的起始点 **/
     int xPoint, yPoint;
+    //todo cropNum 上限为10
     for (int i = 0; i < config.pImageInfo->cropNum; ++i) {
         readNum =fscanf(pConfigFile, "x_y=%d_%d\n", &xPoint, &yPoint);
         config.pImageInfo->corpPoint[i][0] = xPoint;

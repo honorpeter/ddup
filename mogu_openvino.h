@@ -54,7 +54,7 @@ struct ImageInfo {
     /**
      * 剪裁左上角点坐标
      */
-    int corpPoint[][2];
+    int corpPoint[10][2];
 };
 
 struct Config {
@@ -117,7 +117,8 @@ struct Output {
     /**
      * 输出shape
      */
-    int shape[];
+    int shape[4];
+
 };
 
 class Openvino_Net {
