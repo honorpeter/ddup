@@ -467,6 +467,13 @@ int main(int argc, char *argv[]){
     /** 读取图片 **/
     cv::Mat image = cv::imread(img_dir);
     unsigned char imageArr[256][256][3];
+    for (int y = 0; y < 256; ++y) {
+        for (int x = 0; x < 256; ++x) {
+            imageArr[y][x][0] = image.at<cv::Vec3b>(y, x)[0];
+            imageArr[y][x][1] = image.at<cv::Vec3b>(y, x)[1];
+            imageArr[y][x][2] = image.at<cv::Vec3b>(y, x)[2];
+        }
+    }
     Output *output = net.inference(&imageArr[0][0][0], 256, 256);
 
 }
