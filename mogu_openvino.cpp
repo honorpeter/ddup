@@ -6,6 +6,16 @@
 
 static std::map<std::string, float *> meanMap;
 
+void print_head_from_arr(float *head, int size,int offset) {
+    for (int j = offset; j < size + offset; ++j) {
+        slog::info << " " << *(head + j);
+        if (j % 3 == 2) {
+            slog::info << slog::endl;
+        }
+    }
+    slog::info << slog::endl;
+}
+
 void print_head_from_arr(unsigned char *head, int size) {
     for (int j = 0; j < size; ++j) {
         printf("%hhu ", *(head + j));
