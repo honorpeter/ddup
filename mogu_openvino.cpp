@@ -394,7 +394,8 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
     configIteator->second->toString();
     pConfig = configIteator->second;
 
-    printf("End to find...");
+    printf("End to find...\n");
+    fflush(stdout);
 
     /** 创建请求 **/
     InferRequest inferRequest = pExecutableNetwork->CreateInferRequest();
