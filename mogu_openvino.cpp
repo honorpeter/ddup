@@ -60,6 +60,9 @@ inline float
 sub_mean(cv::Mat &image, const float *mean_arr, int x, int y, int width, float &scale, int c, int mean_delta_a) {
     unsigned char r = image.at<cv::Vec3b>(y, x)[c];
     float mean_r = mean_arr[y * width + x + mean_delta_a * width * width];
+    if (y == 0 && x < 5) {
+        printf("rs=(r-mean)/255 %f=(%hhu-%f)", ((r - mean_r) / 255.0f), r, mean_r);
+    }
     return (r - mean_r) / scale;
 }
 
@@ -280,6 +283,9 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
                 float rs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 2, 0);
                 float gs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 1, 1);
                 float bs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 0, 2);
+                if (y == 0 && x < 5) {
+                    printf("x_y_rs_gs_bs:%d_%d_%f_%f_%f\n", x, y, rs, gs, bs);
+                }
                 d_mean[y * width + x] = rs;
                 d_mean[y * width + x + width * height] = gs;
                 d_mean[y * width + x + width * height * 2] = bs;
