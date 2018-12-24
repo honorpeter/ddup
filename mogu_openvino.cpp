@@ -272,7 +272,6 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
     /** 图片大小转换 **/
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(width, height));
-    print_image_head(resized, 20);
 
     /** 从资源池读取均值数组 **/
     if (meanArr) {
@@ -286,6 +285,7 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
                 d_mean[y * width + x + width * height * 2] = bs;
             }
         }
+        print_head_from_arr(d_mean, 20, 0);
     } else {
         for (int y = 0; y<resized.rows; ++y){
             for (int x = 0; x < resized.cols; ++x) {

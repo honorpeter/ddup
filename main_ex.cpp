@@ -210,7 +210,6 @@ void ex_pic(float *phead) {
     cv::Mat resized;
     /** 图片大小转换 **/
     cv::resize(image, resized, cv::Size(256, 256));
-    print_image_head(resized, 20);
 
     /** 读取均值化文件 **/
     slog::info << "Star to load mean.bin file" << slog::endl;
@@ -241,6 +240,8 @@ void ex_pic(float *phead) {
             d_mean[y * width + x + width * height * 2] = bs;
         }
     }
+    print_head_from_arr(d_mean, 20, 0);
+
     resized.release();
 
     crop(d_mean, phead, 0, 0, 224, 224, 0);
