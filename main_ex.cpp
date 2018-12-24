@@ -213,6 +213,8 @@ void ex_pic(float *phead) {
     cv::Mat resized;
     /** 图片大小转换 **/
     cv::resize(image, resized, cv::Size(256, 256));
+    printf("\n");
+    print_image_head(resized, 5);
 
     /** 读取均值化文件 **/
     slog::info << "Star to load mean.bin file" << slog::endl;

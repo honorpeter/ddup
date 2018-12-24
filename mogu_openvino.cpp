@@ -61,7 +61,7 @@ sub_mean(cv::Mat &image, const float *mean_arr, int x, int y, int width, float &
     unsigned char r = image.at<cv::Vec3b>(y, x)[c];
     float mean_r = mean_arr[y * width + x + mean_delta_a * width * width];
     if (y == 0 && x < 5) {
-        printf("rs=(r-mean)/255 %f=(%hhu-%f)", ((r - mean_r) / 255.0f), r, mean_r);
+        printf("rs=(r-mean)/255 %f=(%hhu-%f)/255\n", ((r - mean_r) / 255.0f), r, mean_r);
     }
     return (r - mean_r) / scale;
 }
@@ -275,6 +275,8 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
     /** 图片大小转换 **/
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(width, height));
+    printf("\n");
+    print_image_head(resized, 5);
 
     /** 从资源池读取均值数组 **/
     if (meanArr) {
