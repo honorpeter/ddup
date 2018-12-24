@@ -16,7 +16,6 @@ void print_head_from_arr(unsigned char *head, int size) {
 void print_image_head(cv::Mat &image, int size) {
     for (int y = 0; y < size; ++y) {
         for (int x = 0; x < size; ++x) {
-            printf("%d_%d: %hhu  \n", y, x, image.at<cv::Vec3b>(y, x)[0]);
             print_head_from_arr(&image.at<cv::Vec3b>(y, x)[0], 3);
         }
     }
