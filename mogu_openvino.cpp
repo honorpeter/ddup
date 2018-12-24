@@ -391,6 +391,7 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
     pExecutableNetwork = execIterator->second;
     auto configIteator = configMap.find(modelName);
     printf("Get config %s\n", configIteator->first.c_str());
+    configIteator->second->toString();
     pConfig = configIteator->second;
 
     printf("End to find...");
