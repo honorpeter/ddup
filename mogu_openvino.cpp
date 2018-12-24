@@ -239,7 +239,6 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
     int cropNum = config.pImageInfo->cropNum;
     float d_mean[width * height * channel];
 
-    config.toString();
     // todo RGB OR BGR 判断逻辑
 
     /** 读取图片 **/
@@ -276,8 +275,6 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
 
     /** 裁剪逻辑 **/
     if (cropNum > 0) {
-        printf("Star to crop image...\n");
-        fflush(stdout);
         int x, y;
         for (int i = 0; i < cropNum; ++i) {
             x = config.pImageInfo->corpPoint[i][0];
@@ -285,8 +282,6 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
             printf("x_y:%d_%d\n", x, y);
             crop(d_mean, phead, x, y, targetW, targetH, width, height);
         }
-        printf("End to crop image...\n");
-        fflush(stdout);
     }
 
     /** 翻转逻辑 **/
@@ -295,9 +290,6 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
             flip(tmp, phead, targetW, targetH);
         }
     }
-
-    printf("End ex_image...\n");
-    fflush(stdout);
 }
 
 /**
@@ -314,6 +306,33 @@ void Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigne
         Blob::Ptr input = inferRequest.GetBlob(item.first);
         auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
         ex_pic(data, config, pImageHead, imageW, imageH);
+
+        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
+        float pInput2[224 * 224 * 3];
+        size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+
+        float sum = 0;
+        int offset = 224 * 224 * 3 * 7;
+        for (int j = 0; j < 224 * 224 * 3; ++j) {
+            float tmp1 = pInput2[j];
+            float tmp2 = data[offset + j];
+            if (tmp1 < 0) {
+                tmp1 = -tmp1;
+            }
+            if (tmp2 < 0) {
+                tmp2 = -tmp2;
+            }
+            sum += tmp1 - tmp2;
+        }
+        printf("diff %f \n", sum / (224 * 224 * 3));
+        fclose(pInputFile);
     }
 }
 
@@ -353,7 +372,6 @@ int Openvino_Net::create_inf_engine() {
     read_net();
     /** 插件通过网络信息加载称可执行网络 **/
     executableNetwork = plugin.LoadNetwork(reader.getNetwork(), {});
-    config.toString();
     return 1;
 }
 
@@ -362,7 +380,6 @@ int Openvino_Net::create_inf_engine() {
  */
 Output * Openvino_Net::inference(unsigned char *pImageHead, int imageW, int imageH) {
 
-    config.toString();
     Output *output = NULL;
 
     /** 创建请求 **/
@@ -421,12 +438,9 @@ int main(int argc, char *argv[]){
 
     /** 图片路径 **/
     const char *img_dir = FLAGS_i.c_str();
-    config.toString();
     /** 读取图片 **/
     cv::Mat image = cv::imread(img_dir);
-    config.toString();
     unsigned char imageArr[256][256][3];
-    config.toString();
     Output *output = net.inference(&imageArr[0][0][0], 256, 256);
 
 }
