@@ -274,8 +274,6 @@ void fillData(InferRequest &inferRequest, CNNNetReader &reader) {
           ex_pic(pInput);
         float sum = 0;
         int offset = 224 * 224 * 3 * 7;
-        print_head_from_arr(pInput2, 21);
-        print_head_from_arr(pInput, 21,offset);
         for (int j = 0; j < 224 * 224 * 3; ++j) {
             float tmp1 = pInput2[j];
             float tmp2 = pInput[offset + j];
