@@ -4,7 +4,6 @@
 
 #include "mogu_openvino.h"
 
-static ExecutableNetwork executableNetwork;
 static std::map<std::string, ExecutableNetwork *> execNetMap;
 static std::map<std::string, Config *> configMap;
 static std::map<std::string, float *> meanMap;
@@ -351,7 +350,6 @@ int create_inf_engine(Config &config) {
     InferencePlugin *pPlugin = new InferencePlugin();
     CNNNetReader *pReader = new CNNNetReader();
 
-
     /** 初始化插件 **/
     create_plugin(*pPlugin, config);
     /** 读取配置文件,填充/覆盖 缺省配置 **/
@@ -360,7 +358,7 @@ int create_inf_engine(Config &config) {
     /** 读取模型网络信息 **/
     read_net(*pReader, config);
     /** 插件通过网络信息加载称可执行网络 **/
-    executableNetwork = pPlugin->LoadNetwork(pReader->getNetwork(), {});
+    ExecutableNetwork executableNetwork = pPlugin->LoadNetwork(pReader->getNetwork(), {});
     /** 将可执行网络注册至资源池 **/
     execNetMap.insert(std::map<std::string, ExecutableNetwork *>::value_type(config.modelName, &executableNetwork));
     /** 将配置信息注册至资源池 **/
