@@ -227,6 +227,8 @@ int Openvino_Net::read_net() {
  * 图片增强逻辑
  */
 void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHead, int imageW, int imageH) {
+    printf("Star to ex_pic...");
+    fflush(stdout);
     float *tmp = phead;
 
     int width = config.pImageInfo->height;
@@ -334,11 +336,8 @@ int Openvino_Net::create_inf_engine() {
     if (!assertConfig(config)) {
         return 0;
     }
-    printf("Star to crate plugin");
     /** 初始化插件 **/
     create_plugin(plugin, config);
-    printf("End to crate plugin");
-    fflush(stdout);
     /** 读取配置文件,填充/覆盖 缺省配置 **/
     read_config();
     config.toString(); // debug逻辑
@@ -356,12 +355,8 @@ Output * Openvino_Net::inference(unsigned char *pImageHead, int imageW, int imag
 
     Output *output = NULL;
 
-    printf("End to find...\n"); // debug逻辑
     /** 创建请求 **/
     InferRequest inferRequest = executableNetwork.CreateInferRequest();
-    printf("Star to fill_data\n"); // debug逻辑
-    fflush(stdout);
-
     /** 填充请求数据 **/
     fill_data(inferRequest, config, pImageHead, imageW, imageH);
     /** 进行推断 **/
