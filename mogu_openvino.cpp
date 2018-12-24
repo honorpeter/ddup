@@ -329,6 +329,7 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
  */
 
 int Openvino_Net::create_inf_engine() {
+    printf("Star to inference...\n"); // debug逻辑
     /** 参数检查 **/
     if (!assertConfig(config)) {
         return 0;
