@@ -334,9 +334,11 @@ int Openvino_Net::create_inf_engine() {
     if (!assertConfig(config)) {
         return 0;
     }
+    printf("Star to crate plugin");
     /** 初始化插件 **/
     create_plugin(*pPlugin, config);
     printf("End to crate plugin");
+    fflush(stdout);
     /** 读取配置文件,填充/覆盖 缺省配置 **/
     read_config();
     config.toString(); // debug逻辑
