@@ -238,6 +238,7 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
     int cropNum = config.pImageInfo->cropNum;
     float d_mean[width * height * channel];
 
+    config.toString();
     // todo RGB OR BGR 判断逻辑
 
     /** 读取图片 **/
