@@ -305,19 +305,21 @@ void *run(void *p) {
 
     ExecutableNetwork *executableNetwork = (ExecutableNetwork *) p;
 
+    typedef std::chrono::high_resolution_clock Time;
+    typedef std::chrono::duration<double, std::ratio<1, 1000>> ms;
+    typedef std::chrono::duration<float> fsec;
+    auto t0 = Time::now();
+
     InferRequest inferRequest = executableNetwork->CreateInferRequest();
     fillData(inferRequest, reader[0]);
     // --------------------------- 7. Do inference ---------------------------------------------------------
     slog::info << "Starting inference (" << FLAGS_ni << " iterations)" << slog::endl;
 
-    typedef std::chrono::high_resolution_clock Time;
-    typedef std::chrono::duration<double, std::ratio<1, 1000>> ms;
-    typedef std::chrono::duration<float> fsec;
+
 
     double total = 0.0;
     /** Start inference & calc performance **/
     for (int iter = 0; iter < FLAGS_ni; ++iter) {
-        auto t0 = Time::now();
         inferRequest.Infer();
         auto t1 = Time::now();
         fsec fs = t1 - t0;
