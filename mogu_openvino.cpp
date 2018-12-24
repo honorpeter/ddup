@@ -6,6 +6,22 @@
 
 static std::map<std::string, float *> meanMap;
 
+void print_head_from_arr(unsigned char *head, int size) {
+    for (int j = 0; j < size; ++j) {
+        printf("%hhu ", *(head + j));
+    }
+    printf("\n ");
+}
+
+void print_image_head(cv::Mat &image, int size) {
+    for (int y = 0; y < size; ++y) {
+        for (int x = 0; x < size; ++x) {
+            printf("%d_%d: %hhu  \n", y, x, image.at<cv::Vec3b>(y, x)[0]);
+            print_head_from_arr(&image.at<cv::Vec3b>(y, x)[0], 3);
+        }
+    }
+}
+
 /**
  * 检查配置信息是否完整
  * @param config  配置信息
@@ -243,6 +259,7 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
 
     /** 读取图片 **/
     cv::Mat image(imageH, imageW, CV_8UC3, pImageHead);
+    print_image_head(image, 20);
 
     /** 图片大小转换 **/
     cv::Mat resized;
@@ -279,7 +296,6 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
         for (int i = 0; i < cropNum; ++i) {
             x = config.pImageInfo->corpPoint[i][0];
             y = config.pImageInfo->corpPoint[i][1];
-            printf("x_y:%d_%d\n", x, y);
             crop(d_mean, phead, x, y, targetW, targetH, width, height);
         }
     }
@@ -306,33 +322,33 @@ void Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigne
         Blob::Ptr input = inferRequest.GetBlob(item.first);
         auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
         ex_pic(data, config, pImageHead, imageW, imageH);
-
-        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
-        float pInput2[224 * 224 * 3];
-        size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-
-        float sum = 0;
-        int offset = 224 * 224 * 3 * 7;
-        for (int j = 0; j < 224 * 224 * 3; ++j) {
-            float tmp1 = pInput2[j];
-            float tmp2 = data[offset + j];
-            if (tmp1 < 0) {
-                tmp1 = -tmp1;
-            }
-            if (tmp2 < 0) {
-                tmp2 = -tmp2;
-            }
-            sum += tmp1 - tmp2;
-        }
-        printf("diff %f \n", sum / (224 * 224 * 3));
-        fclose(pInputFile);
+//
+//        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
+//        float pInput2[224 * 224 * 3];
+//        size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+//
+//        float sum = 0;
+//        int offset = 224 * 224 * 3 * 7;
+//        for (int j = 0; j < 224 * 224 * 3; ++j) {
+//            float tmp1 = pInput2[j];
+//            float tmp2 = data[offset + j];
+//            if (tmp1 < 0) {
+//                tmp1 = -tmp1;
+//            }
+//            if (tmp2 < 0) {
+//                tmp2 = -tmp2;
+//            }
+//            sum += tmp1 - tmp2;
+//        }
+//        printf("diff %f \n", sum / (224 * 224 * 3));
+//        fclose(pInputFile);
     }
 }
 
