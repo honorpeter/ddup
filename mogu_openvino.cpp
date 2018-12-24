@@ -394,6 +394,7 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
 
     if (!pExecutableNetwork) {
         printf("NULL ponit\n"); // debug逻辑
+        fflush(stdout);
     }
     /** 创建请求 **/
     InferRequest inferRequest = pExecutableNetwork->CreateInferRequest();
