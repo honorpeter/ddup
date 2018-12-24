@@ -395,11 +395,12 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
     pConfig = configIteator->second;
 
     printf("End to find...\n");
-    fflush(stdout);
 
     /** 创建请求 **/
     InferRequest inferRequest = pExecutableNetwork->CreateInferRequest();
     printf("Star to fill_data\n"); // debug逻辑
+    fflush(stdout);
+
     /** 填充请求数据 **/
     fill_data(inferRequest, *pConfig, pImageHead, imageW, imageH);
     /** 进行推断 **/
