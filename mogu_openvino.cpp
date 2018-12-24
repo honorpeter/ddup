@@ -351,8 +351,10 @@ int Openvino_Net::create_inf_engine() {
     config.toString(); // debug逻辑
     /** 读取模型网络信息 **/
     read_net();
+    config.toString();
     /** 插件通过网络信息加载称可执行网络 **/
     executableNetwork = plugin.LoadNetwork(reader.getNetwork(), {});
+    config.toString();
     return 1;
 }
 
@@ -361,12 +363,12 @@ int Openvino_Net::create_inf_engine() {
  */
 Output * Openvino_Net::inference(unsigned char *pImageHead, int imageW, int imageH) {
 
+    config.toString();
     Output *output = NULL;
 
     /** 创建请求 **/
     InferRequest inferRequest = executableNetwork.CreateInferRequest();
     /** 填充请求数据 **/
-    config.toString();
     fill_data(inferRequest, config, pImageHead, imageW, imageH);
     /** 进行推断 **/
     inferRequest.Infer();
