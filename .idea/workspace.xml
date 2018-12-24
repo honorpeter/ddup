@@ -15,7 +15,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50bfea4d-0ef2-49cf-b3e0-d0f6fdde8009" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mogu_openvino.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/mogu_openvino.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -70,8 +69,8 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="15366" />
-          <entry key="h" value="1763" />
+          <entry key="cpp" value="15427" />
+          <entry key="h" value="1767" />
           <entry key="hpp" value="61" />
           <entry key="txt" value="98" />
         </counts>
@@ -80,7 +79,7 @@
         <counts>
           <entry key="CMakeLists.txt" value="81" />
           <entry key="Doxygen file" value="77" />
-          <entry key="ObjectiveC" value="17113" />
+          <entry key="ObjectiveC" value="17178" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
@@ -96,8 +95,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mogu_openvino.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="339" column="19" selection-start-line="339" selection-start-column="19" selection-end-line="339" selection-end-column="19" />
+            <state relative-caret-position="290">
+              <caret line="230" column="19" selection-start-line="230" selection-start-column="19" selection-end-line="230" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -105,8 +104,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/cpp/ie_plugin_cpp.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="85" column="32" selection-start-line="85" selection-start-column="15" selection-end-line="85" selection-end-column="32" />
+            <state relative-caret-position="260">
+              <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -186,8 +185,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mogu_openvino.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="141" column="21" selection-start-line="141" selection-start-column="21" selection-end-line="141" selection-end-column="21" />
+            <state relative-caret-position="197">
+              <caret line="145" column="23" selection-start-line="145" selection-start-column="17" selection-end-line="145" selection-end-column="23" />
               <folding>
                 <element signature="e#103#121#0" expanded="true" />
               </folding>
@@ -331,21 +330,7 @@
       <updated>1544433512274</updated>
       <workItem from="1544433513616" duration="4032000" />
       <workItem from="1544502194028" duration="12064000" />
-      <workItem from="1544773942692" duration="105734000" />
-    </task>
-    <task id="LOCAL-00194" summary="多线程版本">
-      <created>1545467348616</created>
-      <option name="number" value="00194" />
-      <option name="presentableId" value="LOCAL-00194" />
-      <option name="project" value="LOCAL" />
-      <updated>1545467348617</updated>
-    </task>
-    <task id="LOCAL-00195" summary="多线程版本">
-      <created>1545467608420</created>
-      <option name="number" value="00195" />
-      <option name="presentableId" value="LOCAL-00195" />
-      <option name="project" value="LOCAL" />
-      <updated>1545467608420</updated>
+      <workItem from="1544773942692" duration="106054000" />
     </task>
     <task id="LOCAL-00196" summary="多线程版本">
       <created>1545467685520</created>
@@ -676,11 +661,25 @@
       <option name="project" value="LOCAL" />
       <updated>1545651059932</updated>
     </task>
-    <option name="localTasksCounter" value="243" />
+    <task id="LOCAL-00243" summary="多线程版本">
+      <created>1545651486748</created>
+      <option name="number" value="00243" />
+      <option name="presentableId" value="LOCAL-00243" />
+      <option name="project" value="LOCAL" />
+      <updated>1545651486748</updated>
+    </task>
+    <task id="LOCAL-00244" summary="多线程版本">
+      <created>1545651697203</created>
+      <option name="number" value="00244" />
+      <option name="presentableId" value="LOCAL-00244" />
+      <option name="project" value="LOCAL" />
+      <updated>1545651697203</updated>
+    </task>
+    <option name="localTasksCounter" value="245" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="121830000" />
+    <option name="totallyTimeSpent" value="122150000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1037,16 +1036,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4498">
-          <caret line="240" column="108" lean-forward="true" selection-start-line="239" selection-start-column="14" selection-end-line="240" selection-end-column="108" />
-          <folding>
-            <element signature="e#606#624#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/string">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="251">
@@ -1080,15 +1069,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/include/cpp/ie_plugin_cpp.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="85" column="32" selection-start-line="85" selection-start-column="15" selection-end-line="85" selection-end-column="32" />
+        <state relative-caret-position="260">
+          <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4498">
+          <caret line="240" column="108" lean-forward="true" selection-start-line="239" selection-start-column="14" selection-end-line="240" selection-end-column="108" />
+          <folding>
+            <element signature="e#606#624#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mogu_openvino.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="141" column="21" selection-start-line="141" selection-start-column="21" selection-end-line="141" selection-end-column="21" />
+        <state relative-caret-position="197">
+          <caret line="145" column="23" selection-start-line="145" selection-start-column="17" selection-end-line="145" selection-end-column="23" />
           <folding>
             <element signature="e#103#121#0" expanded="true" />
           </folding>
@@ -1097,8 +1096,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mogu_openvino.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="339" column="19" selection-start-line="339" selection-start-column="19" selection-end-line="339" selection-end-column="19" />
+        <state relative-caret-position="290">
+          <caret line="230" column="19" selection-start-line="230" selection-start-column="19" selection-end-line="230" selection-end-column="19" />
         </state>
       </provider>
     </entry>

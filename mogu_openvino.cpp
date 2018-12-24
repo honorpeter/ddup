@@ -227,8 +227,7 @@ int Openvino_Net::read_net() {
  * 图片增强逻辑
  */
 void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHead, int imageW, int imageH) {
-    printf("Star to ex_pic...");
-    fflush(stdout);
+
     float *tmp = phead;
 
     int width = config.pImageInfo->height;
@@ -241,8 +240,11 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
 
     // todo RGB OR BGR 判断逻辑
 
+    printf("Star to build image...");
     /** 读取图片 **/
     cv::Mat image(imageH, imageW, CV_8UC3, pImageHead);
+    printf("End to build image...");
+    fflush(stdout);
 
     /** 图片大小转换 **/
     cv::Mat resized;
