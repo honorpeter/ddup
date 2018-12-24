@@ -93,7 +93,7 @@ struct Config {
      */
     InferenceEngine::Precision outputPrecision = InferenceEngine::Precision::FP32;
 
-    void toString(){
+    void toString() {
         printf("Config information:\n"
                "modelDir:%s\n"
                "modelName:%s\n"
@@ -117,15 +117,62 @@ struct Output {
     int shape[];
 };
 
-/**
- * 构建一个openvino的推断引擎
- */
-extern "C" int create_inf_engine(Config &config);
+class Openvino_Net {
+public:
+    Openvino_Net(Config &config) : config(config), pPlugin(NULL), pReader(NULL), meanArr(NULL) {}
 
-/**
- * 推断
- */
-extern "C" Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW, int imageH);
+    /**
+    * 构建一个openvino的推断引擎
+    */
+    int create_inf_engine();
 
+    /**
+     * 推断
+     */
+    Output *inference(unsigned char *pImageHead, int imageW, int imageH);
+
+private:
+    /**
+     * 可执行网络结构
+     */
+    ExecutableNetwork executableNetwork;
+    /**
+     * 插件
+     */
+    InferencePlugin *pPlugin;
+    /**
+     * 模型网络信息
+     */
+    CNNNetReader *pReader;
+    /**
+     * 配置信息
+     */
+    Config config;
+    /**
+     * 均值数组头指针
+     */
+    float *meanArr;
+
+    /**
+    * 读取配置文件
+    */
+    int read_config();
+    /**
+    * 读取模型网络信息
+    */
+    int read_net();
+    /**
+    * 填充请求数据
+    */
+    void fill_data(InferRequest &inferRequest, Config &config, unsigned char *pImageHead, int imageW, int imageH);
+    /**
+    * 收集推断结果
+    */
+    void collectOutPut(InferRequest &inferRequest, Config &config, Output &output);
+    /**
+    * 图片增强逻辑
+    */
+    void ex_pic(float *phead, Config &config, unsigned char *pImageHead, int imageW, int imageH);
+};
 
 #endif //DDUP_MOGU_OPENVINO_H
