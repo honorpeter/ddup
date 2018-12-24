@@ -188,9 +188,9 @@ int Openvino_Net::read_net() {
     std::string binDirStr(binDir);
 
     /** 读取模型文件 **/
-    pReader->ReadNetwork(xmlDirStr);
-    pReader->ReadWeights(binDirStr);
-    CNNNetwork network = pReader->getNetwork();
+    reader.ReadNetwork(xmlDirStr);
+    reader.ReadWeights(binDirStr);
+    CNNNetwork network =  reader.getNetwork();
 
     /** 设置输入精度和布局 **/
     InputsDataMap inputInfo = network.getInputsInfo();
@@ -296,7 +296,7 @@ void Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigne
     InputsDataMap inputInfo;
 
     /** 获取网络信息 **/
-    inputInfo = pReader->getNetwork().getInputsInfo();
+    inputInfo = reader.getNetwork().getInputsInfo();
 
     /** 遍历输入层信息,进行数据填充 **/
     for (const auto &item : inputInfo) {
@@ -313,7 +313,7 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
     OutputsDataMap outputInfo;
 
     /** 获取网络信息 **/
-    outputInfo = pReader->getNetwork().getOutputsInfo();
+    outputInfo =  reader.getNetwork().getOutputsInfo();
 
     /** 遍历输出层信息,进行结果填充 **/
     for (const auto &item : outputInfo) {
@@ -336,7 +336,7 @@ int Openvino_Net::create_inf_engine() {
     }
     printf("Star to crate plugin");
     /** 初始化插件 **/
-    create_plugin(*pPlugin, config);
+    create_plugin(plugin, config);
     printf("End to crate plugin");
     fflush(stdout);
     /** 读取配置文件,填充/覆盖 缺省配置 **/
@@ -345,7 +345,7 @@ int Openvino_Net::create_inf_engine() {
     /** 读取模型网络信息 **/
     read_net();
     /** 插件通过网络信息加载称可执行网络 **/
-    executableNetwork = pPlugin->LoadNetwork(pReader->getNetwork(), {});
+    executableNetwork = plugin.LoadNetwork(reader.getNetwork(), {});
     return 1;
 }
 

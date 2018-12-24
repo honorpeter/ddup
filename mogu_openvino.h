@@ -119,7 +119,7 @@ struct Output {
 
 class Openvino_Net {
 public:
-    Openvino_Net(Config &config) : config(config), pPlugin(NULL), pReader(NULL), meanArr(NULL) {}
+    Openvino_Net(Config &config) : config(config), meanArr(NULL) {}
 
     /**
     * 构建一个openvino的推断引擎
@@ -139,11 +139,11 @@ private:
     /**
      * 插件
      */
-    InferencePlugin *pPlugin;
+    InferencePlugin plugin;
     /**
      * 模型网络信息
      */
-    CNNNetReader *pReader;
+    CNNNetReader reader;
     /**
      * 配置信息
      */
