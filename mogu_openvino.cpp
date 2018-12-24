@@ -359,7 +359,6 @@ int create_inf_engine(Config &config) {
     config.toString(); // debug逻辑
     /** 读取模型网络信息 **/
     read_net(reader, config);
-    printf("End to read net\n"); // debug逻辑
     /** 插件通过网络信息加载称可执行网络 **/
     executableNetwork = plugin.LoadNetwork(reader.getNetwork(), {});
     /** 将可执行网络注册至资源池 **/
@@ -368,7 +367,6 @@ int create_inf_engine(Config &config) {
     configMap.insert(std::map<std::string, Config *>::value_type(config.modelName, &config));
     /** 将网络信息注册至资源池 **/
     readerMap.insert(std::map<std::string, CNNNetReader *>::value_type(config.modelName, &reader));
-    printf("End to create engine\n"); // debug逻辑
 
     return 1;
 }
@@ -380,6 +378,8 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
     if (modelName.empty()) {
         return NULL;
     }
+
+    printf("Star to Inference\n"); // debug逻辑
 
     ExecutableNetwork *pExecutableNetwork;
     Config *pConfig;
@@ -393,6 +393,7 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
 
     /** 创建请求 **/
     InferRequest inferRequest = pExecutableNetwork->CreateInferRequest();
+    printf("Star to fill_data\n"); // debug逻辑
     /** 填充请求数据 **/
     fill_data(inferRequest, *pConfig, pImageHead, imageW, imageH);
     /** 进行推断 **/
