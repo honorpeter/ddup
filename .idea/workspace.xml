@@ -70,7 +70,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="15018" />
+          <entry key="cpp" value="15136" />
           <entry key="h" value="1510" />
           <entry key="hpp" value="61" />
           <entry key="txt" value="98" />
@@ -80,7 +80,7 @@
         <counts>
           <entry key="CMakeLists.txt" value="81" />
           <entry key="Doxygen file" value="59" />
-          <entry key="ObjectiveC" value="16530" />
+          <entry key="ObjectiveC" value="16648" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
@@ -96,8 +96,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mogu_openvino.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="396" column="28" selection-start-line="396" selection-start-column="28" selection-end-line="396" selection-end-column="28" />
+            <state relative-caret-position="46">
+              <caret line="350" column="52" selection-start-line="350" selection-start-column="52" selection-end-line="350" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -105,7 +105,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/cpp/ie_executable_network.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="260">
               <caret line="75" column="17" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
             </state>
           </provider>
@@ -135,7 +135,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/cpp/ie_cnn_net_reader.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-420">
+            <state relative-caret-position="260">
               <caret line="35" column="6" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
             </state>
           </provider>
@@ -331,49 +331,7 @@
       <updated>1544433512274</updated>
       <workItem from="1544433513616" duration="4032000" />
       <workItem from="1544502194028" duration="12064000" />
-      <workItem from="1544773942692" duration="101421000" />
-    </task>
-    <task id="LOCAL-00181" summary="多线程版本">
-      <created>1545465549838</created>
-      <option name="number" value="00181" />
-      <option name="presentableId" value="LOCAL-00181" />
-      <option name="project" value="LOCAL" />
-      <updated>1545465549838</updated>
-    </task>
-    <task id="LOCAL-00182" summary="多线程版本">
-      <created>1545466190013</created>
-      <option name="number" value="00182" />
-      <option name="presentableId" value="LOCAL-00182" />
-      <option name="project" value="LOCAL" />
-      <updated>1545466190014</updated>
-    </task>
-    <task id="LOCAL-00183" summary="多线程版本">
-      <created>1545466203729</created>
-      <option name="number" value="00183" />
-      <option name="presentableId" value="LOCAL-00183" />
-      <option name="project" value="LOCAL" />
-      <updated>1545466203729</updated>
-    </task>
-    <task id="LOCAL-00184" summary="多线程版本">
-      <created>1545466327433</created>
-      <option name="number" value="00184" />
-      <option name="presentableId" value="LOCAL-00184" />
-      <option name="project" value="LOCAL" />
-      <updated>1545466327433</updated>
-    </task>
-    <task id="LOCAL-00185" summary="多线程版本">
-      <created>1545466397551</created>
-      <option name="number" value="00185" />
-      <option name="presentableId" value="LOCAL-00185" />
-      <option name="project" value="LOCAL" />
-      <updated>1545466397551</updated>
-    </task>
-    <task id="LOCAL-00186" summary="多线程版本">
-      <created>1545466611098</created>
-      <option name="number" value="00186" />
-      <option name="presentableId" value="LOCAL-00186" />
-      <option name="project" value="LOCAL" />
-      <updated>1545466611099</updated>
+      <workItem from="1544773942692" duration="102048000" />
     </task>
     <task id="LOCAL-00187" summary="多线程版本">
       <created>1545466650787</created>
@@ -676,11 +634,53 @@
       <option name="project" value="LOCAL" />
       <updated>1545642589861</updated>
     </task>
-    <option name="localTasksCounter" value="230" />
+    <task id="LOCAL-00230" summary="多线程版本">
+      <created>1545642708115</created>
+      <option name="number" value="00230" />
+      <option name="presentableId" value="LOCAL-00230" />
+      <option name="project" value="LOCAL" />
+      <updated>1545642708115</updated>
+    </task>
+    <task id="LOCAL-00231" summary="多线程版本">
+      <created>1545642745540</created>
+      <option name="number" value="00231" />
+      <option name="presentableId" value="LOCAL-00231" />
+      <option name="project" value="LOCAL" />
+      <updated>1545642745540</updated>
+    </task>
+    <task id="LOCAL-00232" summary="多线程版本">
+      <created>1545642851518</created>
+      <option name="number" value="00232" />
+      <option name="presentableId" value="LOCAL-00232" />
+      <option name="project" value="LOCAL" />
+      <updated>1545642851518</updated>
+    </task>
+    <task id="LOCAL-00233" summary="多线程版本">
+      <created>1545642909884</created>
+      <option name="number" value="00233" />
+      <option name="presentableId" value="LOCAL-00233" />
+      <option name="project" value="LOCAL" />
+      <updated>1545642909884</updated>
+    </task>
+    <task id="LOCAL-00234" summary="多线程版本">
+      <created>1545642924659</created>
+      <option name="number" value="00234" />
+      <option name="presentableId" value="LOCAL-00234" />
+      <option name="project" value="LOCAL" />
+      <updated>1545642924659</updated>
+    </task>
+    <task id="LOCAL-00235" summary="多线程版本">
+      <created>1545642977804</created>
+      <option name="number" value="00235" />
+      <option name="presentableId" value="LOCAL-00235" />
+      <option name="project" value="LOCAL" />
+      <updated>1545642977804</updated>
+    </task>
+    <option name="localTasksCounter" value="236" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117517000" />
+    <option name="totallyTimeSpent" value="118144000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1037,13 +1037,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/cpp/ie_cnn_net_reader.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-420">
-          <caret line="35" column="6" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/malloc/_malloc.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="535">
@@ -1078,13 +1071,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/cpp/ie_executable_network.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="75" column="17" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mogu_openvino.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
@@ -1095,10 +1081,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/include/cpp/ie_executable_network.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="75" column="17" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/cpp/ie_cnn_net_reader.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="35" column="6" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mogu_openvino.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="396" column="28" selection-start-line="396" selection-start-column="28" selection-end-line="396" selection-end-column="28" />
+        <state relative-caret-position="46">
+          <caret line="350" column="52" selection-start-line="350" selection-start-column="52" selection-end-line="350" selection-end-column="52" />
         </state>
       </provider>
     </entry>

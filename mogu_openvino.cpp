@@ -4,7 +4,7 @@
 
 #include "mogu_openvino.h"
 
-
+static ExecutableNetwork executableNetwork;
 static std::map<std::string, ExecutableNetwork *> execNetMap;
 static std::map<std::string, Config *> configMap;
 static std::map<std::string, float *> meanMap;
@@ -348,25 +348,25 @@ int create_inf_engine(Config &config) {
     }
 
     // 生命周期验证
-    InferencePlugin plugin;
-    CNNNetReader reader;
-    ExecutableNetwork executableNetwork;
+    InferencePlugin *pPlugin = new InferencePlugin();
+    CNNNetReader *pReader = new CNNNetReader();
+
 
     /** 初始化插件 **/
-    create_plugin(plugin, config);
+    create_plugin(*pPlugin, config);
     /** 读取配置文件,填充/覆盖 缺省配置 **/
     read_config(config);
     config.toString(); // debug逻辑
     /** 读取模型网络信息 **/
-    read_net(reader, config);
+    read_net(*pReader, config);
     /** 插件通过网络信息加载称可执行网络 **/
-    executableNetwork = plugin.LoadNetwork(reader.getNetwork(), {});
+    executableNetwork = pPlugin->LoadNetwork(pReader->getNetwork(), {});
     /** 将可执行网络注册至资源池 **/
     execNetMap.insert(std::map<std::string, ExecutableNetwork *>::value_type(config.modelName, &executableNetwork));
     /** 将配置信息注册至资源池 **/
     configMap.insert(std::map<std::string, Config *>::value_type(config.modelName, &config));
     /** 将网络信息注册至资源池 **/
-    readerMap.insert(std::map<std::string, CNNNetReader *>::value_type(config.modelName, &reader));
+    readerMap.insert(std::map<std::string, CNNNetReader *>::value_type(config.modelName, pReader));
 
     return 1;
 }
@@ -396,7 +396,7 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
         fflush(stdout);
     }
     /** 创建请求 **/
-    InferRequest inferRequest = execIterator->second->CreateInferRequest();
+    InferRequest inferRequest = pExecutableNetwork->CreateInferRequest();
     printf("Star to fill_data\n"); // debug逻辑
     fflush(stdout);
 
