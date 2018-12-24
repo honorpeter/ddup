@@ -125,7 +125,7 @@ int Openvino_Net::read_config() {
     if (width > 0 && height > 0 && channel > 0) {
         config.pImageInfo->width = width;
         config.pImageInfo->height = height;
-        config.pImageInfo->height = height;
+        config.pImageInfo->channel = channel;
     }
 
     /** 读取图片翻转信息 **/
@@ -255,20 +255,13 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
                 float rs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 2, 0);
                 float gs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 1, 1);
                 float bs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 0, 2);
-                printf("x_y_rs_gs_bs:%d_%d_%f_%f_%f \n", x, y, rs, gs, bs);
-                fflush(stdout);
                 d_mean[y * width + x] = rs;
-                printf("End to build image...\n");
-                fflush(stdout);
                 d_mean[y * width + x + width * height] = gs;
-                printf("End to build image...\n");
-                fflush(stdout);
                 d_mean[y * width + x + width * height * 2] = bs;
-                printf("End to build image...\n");
-                fflush(stdout);
             }
         }
-
+        printf("End to build image...\n");
+        fflush(stdout);
     } else {
         for (int y = 0; y<resized.rows; ++y){
             for (int x = 0; x < resized.cols; ++x) {
