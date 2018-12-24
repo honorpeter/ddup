@@ -105,6 +105,9 @@ struct Config {
                pImageInfo->height, pImageInfo->channel, pImageInfo->flip, pImageInfo->meanFile.c_str(),
                pImageInfo->scale,
                pImageInfo->corpSize_W, pImageInfo->cropSize_H, pImageInfo->cropNum);
+        for (int i = 0; i < pImageInfo->cropNum; ++i) {
+            printf("x_y:%d_%d\n", pImageInfo->corpPoint[i][0], pImageInfo->corpPoint[i][1]);
+        }
     }
 };
 
