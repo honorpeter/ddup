@@ -274,12 +274,13 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
 
     /** 裁剪逻辑 **/
     if (cropNum > 0) {
-        printf("Star to mean image...\n");
+        printf("Star to crop image...\n");
+        fflush(stdout);
         for (int i = 0; i < cropNum; ++i) {
             crop(d_mean, phead, config.pImageInfo->corpPoint[i][0], config.pImageInfo->corpPoint[i][1], targetW,
                  targetH, width, height);
         }
-        printf("End to build image...\n");
+        printf("End to crop image...\n");
         fflush(stdout);
     }
 
@@ -289,6 +290,9 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
             flip(tmp, phead, targetW, targetH);
         }
     }
+
+    printf("End ex_image...\n");
+    fflush(stdout);
 }
 
 /**
