@@ -390,6 +390,7 @@ Output *inference(std::string &modelName, unsigned char *pImageHead, int imageW,
     printf("Get execNet %s\n", execIterator->first.c_str());
     pExecutableNetwork = execIterator->second;
     auto configIteator = configMap.find(modelName);
+    printf("Get config %s\n", configIteator->first.c_str());
     pConfig = configIteator->second;
 
     /** 创建请求 **/
