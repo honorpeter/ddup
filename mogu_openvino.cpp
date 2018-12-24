@@ -16,10 +16,13 @@ static std::map<std::string, CNNNetReader *> readerMap;
  * @return 检查结果
  */
 inline int assertConfig(Config &config) {
+    printf("print model dir %s\n",config.modelDir.c_str()); // debug逻辑
     /** 检查模型文件路径 **/
     if (config.modelDir.empty()) {
         return 0;
     }
+
+    printf("print name dir %s\n",config.modelName.c_str()); // debug逻辑
     /** 检查模型名称**/
     if (config.modelName.empty()) {
         return 0;
