@@ -353,6 +353,7 @@ int create_inf_engine(Config &config) {
     /** 初始化插件 **/
     create_plugin(plugin, config);
     /** 读取配置文件,填充/覆盖 缺省配置 **/
+    printf("Star to read config\n");
     read_config(config);
     config.toString(); // debug逻辑
     /** 读取模型网络信息 **/
