@@ -441,7 +441,8 @@ int main(int argc, char *argv[]){
     Config config;
     config.modelDir = FLAGS_m;
     config.modelName = std::string("dl_model_tmp");
-
+    ImageInfo imageInfo;
+    config.pImageInfo = &imageInfo;
     create_inf_engine(config);
 
     /** 图片路径 **/
