@@ -309,9 +309,10 @@ void Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigne
  * 收集推断结果
  */
 void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Output &output) {
-    OutputsDataMap outputInfo;
 
+    printf("Star to collect output\n");
     /** 获取网络信息 **/
+    OutputsDataMap outputInfo;
     outputInfo =  reader.getNetwork().getOutputsInfo();
 
     /** 遍历输出层信息,进行结果填充 **/
