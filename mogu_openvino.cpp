@@ -432,7 +432,7 @@ int main(int argc, char *argv[]) {
             imageArr[y][x][2] = image.at<cv::Vec3b>(y, x)[2];
         }
     }
-    Output *output = new Output();
+    auto output = new Output();
     net.inference(*output, &imageArr[0][0][0], image.cols, image.rows);
 
     /** 读取结果 */
