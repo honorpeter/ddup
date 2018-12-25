@@ -18,9 +18,9 @@ JNIEXPORT jint JNICALL Java_com_mogujie_algo_openvino_jni_MoguOpenvino_create
 /*
  * Class:     com_mogujie_algo_openvino_jni_MoguOpenvino
  * Method:    inference
- * Signature: (Ljava/lang/String;[CIII)Lcom/mogujie/algo/openvino/jni/MoguOpenvino/OutputBlob;
+ * Signature: (Ljava/lang/String;[CIII)[F
  */
-JNIEXPORT jobject JNICALL Java_com_mogujie_algo_openvino_jni_MoguOpenvino_inference
+JNIEXPORT jfloatArray JNICALL Java_com_mogujie_algo_openvino_jni_MoguOpenvino_inference
   (JNIEnv *, jclass, jstring, jcharArray, jint, jint, jint);
 
 /*
