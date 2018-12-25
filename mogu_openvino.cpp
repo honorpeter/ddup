@@ -310,8 +310,6 @@ void Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigne
  */
 void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Output &output) {
 
-    printf("Star to collect output\n");
-    fflush(stdout);
     /** 获取网络信息 **/
     OutputsDataMap outputInfo;
     outputInfo =  reader.getNetwork().getOutputsInfo();
@@ -325,6 +323,8 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
         const float *outputBuffer = memLocker.as<PrecisionTrait<Precision::FP32>::value_type *>();
         output.data = outputBuffer;
 
+        printf("Star to collect shape\n");
+        fflush(stdout);
         SizeVector shapesVector = outputBlob->getTensorDesc().getDims();
         int i = 0;
         for (auto shapeIteator = shapesVector.begin(); shapeIteator != shapesVector.end(); ++shapeIteator, ++i){
