@@ -122,7 +122,14 @@ struct Config {
     }
 };
 
-struct Output {
+class Output {
+public:
+    Output() : data(nullptr){}
+    ~Output(){
+        if (data) {
+            free(data);
+        }
+    }
     /**
      * 输出shape
      */
@@ -130,13 +137,17 @@ struct Output {
     /**
      * 输出头指针
      */
-    float *data = nullptr;
+    float *data;
 };
 
 class Openvino_Net {
 public:
     explicit Openvino_Net(Config &config) : config(config), meanArr(NULL) {}
-
+    ~Openvino_Net(){
+        if (meanArr) {
+            free(meanArr);
+        }
+    }
     /**
     * 构建一个openvino的推断引擎
     */

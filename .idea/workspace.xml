@@ -17,6 +17,7 @@
     <list default="true" id="50bfea4d-0ef2-49cf-b3e0-d0f6fdde8009" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mogu_openvino.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/mogu_openvino.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mogu_openvino.h" beforeDir="false" afterPath="$PROJECT_DIR$/mogu_openvino.h" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -71,8 +72,8 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="16951" />
-          <entry key="h" value="2036" />
+          <entry key="cpp" value="17007" />
+          <entry key="h" value="2119" />
           <entry key="hpp" value="62" />
           <entry key="txt" value="98" />
         </counts>
@@ -80,8 +81,8 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="81" />
-          <entry key="Doxygen file" value="88" />
-          <entry key="ObjectiveC" value="18961" />
+          <entry key="Doxygen file" value="89" />
+          <entry key="ObjectiveC" value="19099" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
@@ -97,8 +98,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mogu_openvino.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="322" selection-start-line="322" selection-end-line="322" />
+            <state relative-caret-position="677">
+              <caret line="444" column="20" selection-start-line="444" selection-start-column="20" selection-end-line="444" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -184,8 +185,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mogu_openvino.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="153" column="39" selection-start-line="153" selection-start-column="22" selection-end-line="153" selection-end-column="39" />
+            <state relative-caret-position="391">
+              <caret line="131" column="5" selection-start-line="131" selection-start-column="5" selection-end-line="131" selection-end-column="5" />
               <folding>
                 <element signature="e#103#121#0" expanded="true" />
               </folding>
@@ -336,35 +337,7 @@
       <updated>1544433512274</updated>
       <workItem from="1544433513616" duration="4032000" />
       <workItem from="1544502194028" duration="12064000" />
-      <workItem from="1544773942692" duration="118736000" />
-    </task>
-    <task id="LOCAL-00259" summary="多线程版本">
-      <created>1545653060062</created>
-      <option name="number" value="00259" />
-      <option name="presentableId" value="LOCAL-00259" />
-      <option name="project" value="LOCAL" />
-      <updated>1545653060062</updated>
-    </task>
-    <task id="LOCAL-00260" summary="多线程版本">
-      <created>1545653126164</created>
-      <option name="number" value="00260" />
-      <option name="presentableId" value="LOCAL-00260" />
-      <option name="project" value="LOCAL" />
-      <updated>1545653126164</updated>
-    </task>
-    <task id="LOCAL-00261" summary="多线程版本">
-      <created>1545653312694</created>
-      <option name="number" value="00261" />
-      <option name="presentableId" value="LOCAL-00261" />
-      <option name="project" value="LOCAL" />
-      <updated>1545653312696</updated>
-    </task>
-    <task id="LOCAL-00262" summary="多线程版本">
-      <created>1545653364304</created>
-      <option name="number" value="00262" />
-      <option name="presentableId" value="LOCAL-00262" />
-      <option name="project" value="LOCAL" />
-      <updated>1545653364306</updated>
+      <workItem from="1544773942692" duration="120203000" />
     </task>
     <task id="LOCAL-00263" summary="多线程版本">
       <created>1545653482914</created>
@@ -681,11 +654,39 @@
       <option name="project" value="LOCAL" />
       <updated>1545709764631</updated>
     </task>
-    <option name="localTasksCounter" value="308" />
+    <task id="LOCAL-00308" summary="多线程版本">
+      <created>1545709826319</created>
+      <option name="number" value="00308" />
+      <option name="presentableId" value="LOCAL-00308" />
+      <option name="project" value="LOCAL" />
+      <updated>1545709826319</updated>
+    </task>
+    <task id="LOCAL-00309" summary="多线程版本">
+      <created>1545709957399</created>
+      <option name="number" value="00309" />
+      <option name="presentableId" value="LOCAL-00309" />
+      <option name="project" value="LOCAL" />
+      <updated>1545709957399</updated>
+    </task>
+    <task id="LOCAL-00310" summary="多线程版本">
+      <created>1545710028276</created>
+      <option name="number" value="00310" />
+      <option name="presentableId" value="LOCAL-00310" />
+      <option name="project" value="LOCAL" />
+      <updated>1545710028277</updated>
+    </task>
+    <task id="LOCAL-00311" summary="多线程版本">
+      <created>1545710060144</created>
+      <option name="number" value="00311" />
+      <option name="presentableId" value="LOCAL-00311" />
+      <option name="project" value="LOCAL" />
+      <updated>1545710060144</updated>
+    </task>
+    <option name="localTasksCounter" value="312" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="134832000" />
+    <option name="totallyTimeSpent" value="136299000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1082,8 +1083,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mogu_openvino.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="153" column="39" selection-start-line="153" selection-start-column="22" selection-end-line="153" selection-end-column="39" />
+        <state relative-caret-position="391">
+          <caret line="131" column="5" selection-start-line="131" selection-start-column="5" selection-end-line="131" selection-end-column="5" />
           <folding>
             <element signature="e#103#121#0" expanded="true" />
           </folding>
@@ -1092,8 +1093,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mogu_openvino.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="322" selection-start-line="322" selection-end-line="322" />
+        <state relative-caret-position="677">
+          <caret line="444" column="20" selection-start-line="444" selection-start-column="20" selection-end-line="444" selection-end-column="20" />
         </state>
       </provider>
     </entry>

@@ -432,15 +432,16 @@ int main(int argc, char *argv[]) {
             imageArr[y][x][2] = image.at<cv::Vec3b>(y, x)[2];
         }
     }
-    Output output;
-    net.inference(output, &imageArr[0][0][0], image.cols, image.rows);
+    Output *output = new Output();
+    net.inference(*output, &imageArr[0][0][0], image.cols, image.rows);
 
     /** 读取结果 */
-    printf("shape:n_c: %ld_%ld", output.shape[0], output.shape[1]);
+    printf("shape:n_c: %ld_%ld", output->shape[0], output->shape[1]);
     printf("fea:\n");
-    for (int i = 0; i < output.shape[0] * output.shape[1]; ++i) {
-        printf("%f ", *(output.data + i));
+    for (int i = 0; i < output->shape[0] * output->shape[1]; ++i) {
+        printf("%f ", *(output->data + i));
     }
     printf("\n");
+    delete (output);
 
 }
