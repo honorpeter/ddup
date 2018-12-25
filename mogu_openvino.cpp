@@ -335,6 +335,8 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
             }
         }
     }
+    printf("End to collect output\n");
+    fflush(stdout);
 }
 
 /**
@@ -368,8 +370,6 @@ Output * Openvino_Net::inference(unsigned char *pImageHead, int imageW, int imag
     InferRequest inferRequest = executableNetwork.CreateInferRequest();
     /** 填充请求数据 **/
     fill_data(inferRequest, config, pImageHead, imageW, imageH);
-    printf("Star to Inf \n");
-    fflush(stdout);
     /** 进行推断 **/
     inferRequest.Infer();
     /** 收集输出层结果 **/
