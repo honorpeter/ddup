@@ -348,16 +348,16 @@ void Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigne
         FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
         float pInput2[224 * 224 * 3];
         size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-//        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
+        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
 
         float sum = 0;
-        int offset = 224 * 224 * 3 * 0;
+        int offset = 224 * 224 * 3 * 7;
         for (int j = 0; j < 224 * 224 * 3; ++j) {
             float tmp1 = pInput2[j];
             float tmp2 = *(data + offset + j);
