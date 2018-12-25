@@ -294,9 +294,9 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
  */
 void
 Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigned char *pImageHead, int imageW, int imageH) {
-    InputsDataMap inputInfo;
 
     /** 获取网络信息 **/
+    InputsDataMap inputInfo;
     inputInfo = reader.getNetwork().getInputsInfo();
 
     /** 遍历输入层信息,进行数据填充 **/
@@ -323,7 +323,7 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
             Blob::Ptr outputBlob = inferRequest.GetBlob(item.first);
             SizeVector shapesVector = outputBlob->getTensorDesc().getDims();
             int i = 0;
-            size_t dim = 0;
+            size_t dim = 1;
             for (auto shapeIteator = shapesVector.begin(); shapeIteator != shapesVector.end(); ++shapeIteator, ++i) {
                 dim = dim * *shapeIteator;
                 if (i > 3) {
