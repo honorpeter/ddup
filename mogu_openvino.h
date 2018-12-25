@@ -126,7 +126,7 @@ struct Output {
     /**
      * 输出头指针
      */
-    const float *data = nullptr;
+    float *data = nullptr;
     /**
      * 输出shape
      */
