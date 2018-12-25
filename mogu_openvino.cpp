@@ -4,33 +4,6 @@
 
 #include "mogu_openvino.h"
 
-static std::map<std::string, float *> meanMap;
-
-void print_head_from_arr(float *head, int size,int offset) {
-    for (int j = offset; j < size + offset; ++j) {
-        slog::info << " " << *(head + j);
-        if (j % 3 == 2) {
-            slog::info << slog::endl;
-        }
-    }
-    slog::info << slog::endl;
-}
-
-void print_head_from_arr(unsigned char *head, int size) {
-    for (int j = 0; j < size; ++j) {
-        printf("%hhu ", *(head + j));
-    }
-    printf("\n ");
-}
-
-void print_image_head(cv::Mat &image, int size) {
-    for (int y = 0; y < size; ++y) {
-        for (int x = 0; x < size; ++x) {
-            print_head_from_arr(&image.at<cv::Vec3b>(y, x)[0], 3);
-        }
-    }
-}
-
 /**
  * 检查配置信息是否完整
  * @param config  配置信息
@@ -60,9 +33,6 @@ inline float
 sub_mean(cv::Mat &image, const float *mean_arr, int x, int y, int width, float &scale, int c, int mean_delta_a) {
     unsigned char r = image.at<cv::Vec3b>(y, x)[c];
     float mean_r = mean_arr[y * width + x + mean_delta_a * width * width];
-//    if (y == 0 && x < 5) {
-//        printf("rs=(r-mean)/255 %f=(%hhu-%f)/255\n", ((r - mean_r) / 255.0f), r, mean_r);
-//    }
     return (r - mean_r) / scale;
 }
 
@@ -79,12 +49,6 @@ crop(const float *psrc, float *&pdst, int &x_offset, int &y_offset, int &width, 
             int r_offset_index = (y + y_offset) * originW + x / 3 + x_offset;
             int g_offset_index = (y + y_offset) * originW + x / 3 + x_offset + originW * originH;
             int b_offset_index = (y + y_offset) * originW + x / 3 + x_offset + originW * originW * 2;
-            if (y == 0 && x < 256) {
-                printf("x:%d rsrc_dst_value:%d_%d_%f\n", x / 3, r_index, r_offset_index, *(psrc + r_offset_index));
-                printf("x:%d gsrc_dst_value:%d_%d_%f\n", x / 3, g_index, g_offset_index, *(psrc + g_offset_index));
-                printf("x:%d bsrc_dst_value:%d_%d_%f\n", x / 3, b_index, b_offset_index, *(psrc + b_offset_index));
-                fflush(stdout);
-            }
             *(pdst + r_index) = *(psrc + r_offset_index);
             *(pdst + g_index) = *(psrc + g_offset_index);
             *(pdst + b_index) = *(psrc + b_offset_index);
@@ -145,7 +109,7 @@ int Openvino_Net::read_config() {
     sprintf(configDir, "%s/%s.config", config.modelDir.c_str(), config.modelName.c_str());
 
     FILE *pConfigFile = fopen(configDir, "r");
-    if (pConfigFile == NULL) {
+    if (!pConfigFile) {
         return 1;
     }
 
@@ -264,7 +228,6 @@ int Openvino_Net::read_net() {
 void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHead, int imageW, int imageH) {
 
     float *tmp = phead;
-
     int width = config.pImageInfo->height;
     int height = config.pImageInfo->width;
     int channel = config.pImageInfo->channel;
@@ -273,32 +236,26 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
     int cropNum = config.pImageInfo->cropNum;
     float d_mean[width * height * channel];
 
-    // todo RGB OR BGR 判断逻辑
-
     /** 读取图片 **/
     cv::Mat image(imageH, imageW, CV_8UC3, pImageHead);
 
     /** 图片大小转换 **/
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(width, height));
-    printf("\n");
 
     /** 从资源池读取均值数组 **/
     if (meanArr) {
+        // todo 待完善均值,来源图片,网络所需图片三者之间的通道差异
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 float rs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 2, 0);
                 float gs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 1, 1);
                 float bs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 0, 2);
-//                if (y == 0 && x < 5) {
-//                    printf("x_y_rs_gs_bs:%d_%d_%f_%f_%f\n", x, y, rs, gs, bs);
-//                }
                 d_mean[y * width + x] = rs;
                 d_mean[y * width + x + width * height] = gs;
                 d_mean[y * width + x + width * height * 2] = bs;
             }
         }
-//        print_head_from_arr(d_mean, 20, 0);
     } else {
         for (int y = 0; y<resized.rows; ++y){
             for (int x = 0; x < resized.cols; ++x) {
@@ -342,35 +299,9 @@ void Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigne
     /** 遍历输入层信息,进行数据填充 **/
     for (const auto &item : inputInfo) {
         Blob::Ptr input = inferRequest.GetBlob(item.first);
+        // todo 将来可能需要使用泛型来指定精度
         auto data = input->buffer().as<PrecisionTrait<Precision::FP32>::value_type *>();
         ex_pic(data, config, pImageHead, imageW, imageH);
-
-        FILE *pInputFile = fopen("/home/topn-demo/test_input.bin", "rb");
-        float pInput2[224 * 224 * 3];
-        size_t read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-        read = fread((void *) pInput2, sizeof(float), (size_t) 224 * 224 * 3, pInputFile);
-
-        float sum = 0;
-        int offset = 224 * 224 * 3 * 7;
-        for (int j = 0; j < 224 * 224 * 3; ++j) {
-            float tmp1 = pInput2[j];
-            float tmp2 = *(data + offset + j);
-            if (tmp1 < 0) {
-                tmp1 = -tmp1;
-            }
-            if (tmp2 < 0) {
-                tmp2 = -tmp2;
-            }
-            sum += tmp1 - tmp2;
-        }
-        printf("diff %f \n", sum / (224 * 224 * 3));
-        fclose(pInputFile);
     }
 }
 
@@ -384,12 +315,23 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
     outputInfo =  reader.getNetwork().getOutputsInfo();
 
     /** 遍历输出层信息,进行结果填充 **/
+    // todo 当前版本只允许有一个输出...
     for (const auto &item : outputInfo) {
         Blob::Ptr outputBlob = inferRequest.GetBlob(item.first);
         const LockedMemory<const void> memLocker = outputBlob->cbuffer();
+        // todo 将来可能需要使用泛型来指定精度
         const float *outputBuffer = memLocker.as<PrecisionTrait<Precision::FP32>::value_type *>();
-        size_t batchSize = outputBlob->getTensorDesc().getDims()[0];
-        size_t dim = outputBlob->getTensorDesc().getDims()[1];
+        output.data = outputBuffer;
+
+        SizeVector shapesVector = outputBlob->getTensorDesc().getDims();
+        int i = 0;
+        for (auto shapeIteator = shapesVector.begin(); shapeIteator != shapesVector.end(); ++shapeIteator, ++i){
+            if (i > 3) {
+                break;
+            } else {
+                output.shape[i] = *shapeIteator;
+            }
+        }
     }
 }
 
@@ -418,7 +360,7 @@ int Openvino_Net::create_inf_engine() {
  */
 Output * Openvino_Net::inference(unsigned char *pImageHead, int imageW, int imageH) {
 
-    Output *output = NULL;
+    Output *output = nullptr;
 
     /** 创建请求 **/
     InferRequest inferRequest = executableNetwork.CreateInferRequest();
@@ -487,5 +429,12 @@ int main(int argc, char *argv[]){
         }
     }
     Output *output = net.inference(&imageArr[0][0][0], image.cols, image.rows);
+
+    /** 读取结果 */
+    printf("shape:n_c: %ld_%ld", output->shape[0], output->shape[1]);
+    printf("fea:\n");
+    for (int i = 0; i < output->shape[0] * output->shape[1]; ++i) {
+        printf("%f ", *(output->data + i));
+    }
 
 }

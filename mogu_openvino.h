@@ -27,6 +27,10 @@
 #include "classification_sample.h"
 
 using namespace InferenceEngine;
+enum ChanelType : u_int8_t {
+    BGR,
+    RGB,
+};
 /**
  * 输入层图片信息(必须)
  */
@@ -59,7 +63,6 @@ struct ImageInfo {
 
 struct Config {
     // ----------------------------------------必须参数--------------------------------//
-
     /**
      * 模型存放路径,模型名
      */
@@ -69,8 +72,16 @@ struct Config {
      */
     ImageInfo *pImageInfo;
 
-    // ----------------------------------------必须但默认参数---------------------------//
 
+    // ----------------------------------------必须但默认参数---------------------------//
+    /**
+    * 来源图片的色彩通道顺序
+    */
+    ChanelType srcImgCType = ChanelType::BGR;
+    /**
+     * 输入网络图片的色彩通道顺序
+     */
+    ChanelType dstImgCType = ChanelType::RGB;
     /**
      * 驱动设备
      * 关系到推断引擎加载相对应的plugin
@@ -112,13 +123,14 @@ struct Config {
 };
 
 struct Output {
-
-    float *data;
+    /**
+     * 输出头指针
+     */
+    const float *data;
     /**
      * 输出shape
      */
-    int shape[4];
-
+    size_t shape[4];
 };
 
 class Openvino_Net {
@@ -161,18 +173,22 @@ private:
     * 读取配置文件
     */
     int read_config();
+
     /**
     * 读取模型网络信息
     */
     int read_net();
+
     /**
     * 填充请求数据
     */
     void fill_data(InferRequest &inferRequest, Config &config, unsigned char *pImageHead, int imageW, int imageH);
+
     /**
     * 收集推断结果
     */
     void collectOutPut(InferRequest &inferRequest, Config &config, Output &output);
+
     /**
     * 图片增强逻辑
     */
