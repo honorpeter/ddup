@@ -338,7 +338,8 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
 
             output.data = (float *) malloc(sizeof(float) * dim);
             for (int j = 0; j < dim; ++j) {
-                *(output.data + j) = *(data + j);
+                printf("%f ", *(data + j));
+                * (output.data + j) = *(data + j);
             }
         }
 }
@@ -435,12 +436,12 @@ int main(int argc, char *argv[]) {
     Output output;
     net.inference(output, &imageArr[0][0][0], image.cols, image.rows);
 
-    /** 读取结果 */
-    printf("shape:n_c: %ld_%ld", output.shape[0], output.shape[1]);
-    printf("fea:\n");
-    for (int i = 0; i < output.shape[0] * output.shape[1]; ++i) {
-        printf("%f ", *(output.data + i));
-    }
+//    /** 读取结果 */
+//    printf("shape:n_c: %ld_%ld", output.shape[0], output.shape[1]);
+//    printf("fea:\n");
+//    for (int i = 0; i < output.shape[0] * output.shape[1]; ++i) {
+//        printf("%f ", *(output.data + i));
+//    }
     printf("\n");
 
 }
