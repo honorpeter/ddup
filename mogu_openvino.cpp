@@ -322,8 +322,9 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
         Blob::Ptr outputBlob = inferRequest.GetBlob(item.first);
         const LockedMemory<const void> memLocker = outputBlob->cbuffer();
         // todo 将来可能需要使用泛型来指定精度
-        const float *outputBuffer = memLocker.as<PrecisionTrait<Precision::FP32>::value_type *>();
-        output.data = outputBuffer;
+        printf("Star to collect data\n");
+        fflush(stdout);
+        output.data  = memLocker.as<PrecisionTrait<Precision::FP32>::value_type *>();
 
         SizeVector shapesVector = outputBlob->getTensorDesc().getDims();
         int i = 0;
