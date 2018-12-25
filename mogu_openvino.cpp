@@ -1,5 +1,5 @@
 //
-// Created by Tom Wang on 2018/12/23.
+// Created by adai on 2018/12/23.
 //
 
 #include "mogu_openvino.h"

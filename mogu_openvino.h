@@ -1,5 +1,5 @@
 //
-// Created by Tom Wang on 2018/12/23.
+// Created by adai on 2018/12/23.
 //
 
 #ifndef DDUP_MOGU_OPENVINO_H
@@ -64,6 +64,9 @@ struct ImageInfo {
 };
 
 struct Config {
+    Config() {
+        pImageInfo = (ImageInfo *)malloc(sizeof(ImageInfo));
+    }
     // ----------------------------------------必须参数--------------------------------//
     /**
      * 模型存放路径,模型名
@@ -76,14 +79,6 @@ struct Config {
 
 
     // ----------------------------------------必须但默认参数---------------------------//
-    /**
-    * 来源图片的色彩通道顺序
-    */
-    ChanelType srcImgCType = ChanelType::BGR;
-    /**
-     * 输入网络图片的色彩通道顺序
-     */
-    ChanelType dstImgCType = ChanelType::RGB;
     /**
      * 驱动设备
      * 关系到推断引擎加载相对应的plugin
@@ -135,16 +130,24 @@ public:
     /**
      * 输出shape
      */
-    size_t shape[4]={0};
+    size_t shape[4]={1};
     /**
      * 输出头指针
      */
     float *data;
+
+    int getTotalDim(){
+        int dim = 1;
+        for (unsigned long i : shape) {
+            dim = static_cast<int>(dim * i);
+        }
+        return dim;
+    }
 };
 
 class Openvino_Net {
 public:
-    explicit Openvino_Net(Config &config) : config(config), meanArr(NULL) {}
+    explicit Openvino_Net(Config &config) : config(config), meanArr(nullptr) {}
     ~Openvino_Net(){
         if (meanArr) {
             free(meanArr);
