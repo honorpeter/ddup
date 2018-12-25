@@ -40,7 +40,8 @@ sub_mean(cv::Mat &image, const float *mean_arr, int x, int y, int width, float &
  * 剪裁图片
  */
 inline void
-crop(const float *psrc, float *&pdst, int &x_offset, int &y_offset, int &width, int &height, int &originW, int &originH) {
+crop(const float *psrc, float *&pdst, int &x_offset, int &y_offset, int &width, int &height, int &originW,
+     int &originH) {
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width * 3; x += 3) {
             int r_index = y * width * 3 + x;
@@ -92,7 +93,7 @@ inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h) {
  * 构建插件
  * @param plugin 插件
  */
-inline void create_plugin(InferencePlugin &plugin,Config &config) {
+inline void create_plugin(InferencePlugin &plugin, Config &config) {
     // todo 绝对路径
     InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(
             config.targetDevice);
@@ -127,7 +128,7 @@ int Openvino_Net::read_config() {
     }
 
     /** 读取图片翻转信息 **/
-    readNum =fscanf(pConfigFile, "flip=%d\n", &config.pImageInfo->flip);
+    readNum = fscanf(pConfigFile, "flip=%d\n", &config.pImageInfo->flip);
 
     /** 读取均值文件 **/
     // todo doudi
@@ -147,23 +148,24 @@ int Openvino_Net::read_config() {
 
         //todo malloc
         meanArr = (float *) malloc(sizeof(float) * meanSize);
-        if (fread((void *) meanArr, sizeof(float), (size_t)meanSize, pMeanFile) != meanSize) {
+        if (fread((void *) meanArr, sizeof(float), (size_t) meanSize, pMeanFile) != meanSize) {
             return 0;
         }
     }
 
     /** 读取归一化系数 **/
-    readNum =fscanf(pConfigFile, "scale=%f\n", &config.pImageInfo->scale);
+    readNum = fscanf(pConfigFile, "scale=%f\n", &config.pImageInfo->scale);
 
     /** 读取裁剪大小和数目 **/
-    readNum =fscanf(pConfigFile, "corpW_cropH_cropN=%d_%d_%d\n", &config.pImageInfo->corpSize_W, &config.pImageInfo->cropSize_H,
-           &config.pImageInfo->cropNum);
+    readNum = fscanf(pConfigFile, "corpW_cropH_cropN=%d_%d_%d\n", &config.pImageInfo->corpSize_W,
+                     &config.pImageInfo->cropSize_H,
+                     &config.pImageInfo->cropNum);
 
     /** 读取裁剪的起始点 **/
     int xPoint, yPoint;
     //todo cropNum 上限为10
     for (int i = 0; i < config.pImageInfo->cropNum; ++i) {
-        readNum =fscanf(pConfigFile, "x_y=%d_%d\n", &xPoint, &yPoint);
+        readNum = fscanf(pConfigFile, "x_y=%d_%d\n", &xPoint, &yPoint);
         config.pImageInfo->corpPoint[i][0] = xPoint;
         config.pImageInfo->corpPoint[i][1] = yPoint;
     }
@@ -189,7 +191,7 @@ int Openvino_Net::read_net() {
     /** 读取模型文件 **/
     reader.ReadNetwork(xmlDirStr);
     reader.ReadWeights(binDirStr);
-    CNNNetwork network =  reader.getNetwork();
+    CNNNetwork network = reader.getNetwork();
 
     /** 设置输入精度和布局 **/
     InputsDataMap inputInfo = network.getInputsInfo();
@@ -248,16 +250,16 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
         // todo 待完善均值,来源图片,网络所需图片三者之间的通道差异
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
-                float rs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 2, 0);
-                float gs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 1, 1);
-                float bs = sub_mean(resized, meanArr, x, y, width,config.pImageInfo->scale, 0, 2);
+                float rs = sub_mean(resized, meanArr, x, y, width, config.pImageInfo->scale, 2, 0);
+                float gs = sub_mean(resized, meanArr, x, y, width, config.pImageInfo->scale, 1, 1);
+                float bs = sub_mean(resized, meanArr, x, y, width, config.pImageInfo->scale, 0, 2);
                 d_mean[y * width + x] = rs;
                 d_mean[y * width + x + width * height] = gs;
                 d_mean[y * width + x + width * height * 2] = bs;
             }
         }
     } else {
-        for (int y = 0; y<resized.rows; ++y){
+        for (int y = 0; y < resized.rows; ++y) {
             for (int x = 0; x < resized.cols; ++x) {
                 d_mean[y * resized.cols + x] = resized.at<cv::Vec3b>(y, x)[2] * 1.0f;
                 d_mean[y * width + x + width * height] = resized.at<cv::Vec3b>(y, x)[1] * 1.0f;
@@ -290,7 +292,8 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
 /**
  * 填充请求数据
  */
-void Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigned char *pImageHead, int imageW, int imageH) {
+void
+Openvino_Net::fill_data(InferRequest &inferRequest, Config &config, unsigned char *pImageHead, int imageW, int imageH) {
     InputsDataMap inputInfo;
 
     /** 获取网络信息 **/
@@ -312,32 +315,38 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
 
     /** 获取网络信息 **/
     OutputsDataMap outputInfo;
-    outputInfo =  reader.getNetwork().getOutputsInfo();
+    outputInfo = reader.getNetwork().getOutputsInfo();
 
     /** 遍历输出层信息,进行结果填充 **/
     // todo 当前版本只允许有一个输出...
-    for (const auto &item : outputInfo) {
-        printf("Star to collect shape\n");
-        fflush(stdout);
-        Blob::Ptr outputBlob = inferRequest.GetBlob(item.first);
-        LockedMemory<void> memLocker = outputBlob->buffer();
-        // todo 将来可能需要使用泛型来指定精度
-        printf("Star to collect shape\n");
-        fflush(stdout);
-        output.data = memLocker.as<PrecisionTrait<Precision::FP32>::value_type *>();
-        printf("End to collect output\n");
-        fflush(stdout);
-
-        SizeVector shapesVector = outputBlob->getTensorDesc().getDims();
-        int i = 0;
-        for (auto shapeIteator = shapesVector.begin(); shapeIteator != shapesVector.end(); ++shapeIteator, ++i){
-            if (i > 3) {
-                break;
-            } else {
-                output.shape[i] = *shapeIteator;
+        for (const auto &item : outputInfo) {
+            printf("Star to collect shape\n");
+            fflush(stdout);
+            Blob::Ptr outputBlob = inferRequest.GetBlob(item.first);
+            SizeVector shapesVector = outputBlob->getTensorDesc().getDims();
+            int i = 0;
+            size_t dim = 0;
+            for (auto shapeIteator = shapesVector.begin(); shapeIteator != shapesVector.end(); ++shapeIteator, ++i) {
+                dim = dim * *shapeIteator;
+                if (i > 3) {
+                    break;
+                } else {
+                    output.shape[i] = *shapeIteator;
+                }
             }
+            // todo 将来可能需要使用泛型来指定精度
+            LockedMemory<void> memLocker = outputBlob->buffer();
+            auto data = memLocker.as<PrecisionTrait<Precision::FP32>::value_type *>();
+
+            printf("Star to collect shape:%ld\n",dim);
+            fflush(stdout);
+            output.data = (float *) malloc(sizeof(float) * dim);
+            for (int j = 0; j < dim; ++j) {
+                *(output.data + j) = *(data + j);
+            }
+            printf("End to collect output\n");
+            fflush(stdout);
         }
-    }
 }
 
 /**
@@ -363,10 +372,7 @@ int Openvino_Net::create_inf_engine() {
 /**
  * 推断
  */
-Output * Openvino_Net::inference(unsigned char *pImageHead, int imageW, int imageH) {
-
-    Output *output = nullptr;
-
+void Openvino_Net::inference(Output &output, unsigned char *pImageHead, int imageW, int imageH) {
     /** 创建请求 **/
     InferRequest inferRequest = executableNetwork.CreateInferRequest();
     /** 填充请求数据 **/
@@ -374,8 +380,7 @@ Output * Openvino_Net::inference(unsigned char *pImageHead, int imageW, int imag
     /** 进行推断 **/
     inferRequest.Infer();
     /** 收集输出层结果 **/
-    collectOutPut(inferRequest, config, *output);
-    return output;
+    collectOutPut(inferRequest, config, output);
 }
 
 // --------------------------------------------------测试函数区-------------------------------------------------//
@@ -404,7 +409,7 @@ bool ParseAndCheckCommandLine(int argc, char *argv[]) {
     return true;
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
     slog::info << "InferenceEngine: " << GetInferenceEngineVersion() << slog::endl;
 
     /** 参数转换/验证 */
@@ -433,13 +438,14 @@ int main(int argc, char *argv[]){
             imageArr[y][x][2] = image.at<cv::Vec3b>(y, x)[2];
         }
     }
-    Output *output = net.inference(&imageArr[0][0][0], image.cols, image.rows);
+    Output output;
+    net.inference(output, &imageArr[0][0][0], image.cols, image.rows);
 
     /** 读取结果 */
-    printf("shape:n_c: %ld_%ld", output->shape[0], output->shape[1]);
+    printf("shape:n_c: %ld_%ld", output.shape[0], output.shape[1]);
     printf("fea:\n");
-    for (int i = 0; i < output->shape[0] * output->shape[1]; ++i) {
-        printf("%f ", *(output->data + i));
+    for (int i = 0; i < output.shape[0] * output.shape[1]; ++i) {
+        printf("%f ", *(output.data + i));
     }
 
 }

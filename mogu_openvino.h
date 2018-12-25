@@ -124,13 +124,13 @@ struct Config {
 
 struct Output {
     /**
+     * 输出shape
+     */
+    size_t shape[4]={0};
+    /**
      * 输出头指针
      */
     float *data = nullptr;
-    /**
-     * 输出shape
-     */
-    size_t shape[4];
 };
 
 class Openvino_Net {
@@ -145,7 +145,7 @@ public:
     /**
      * 推断
      */
-    Output *inference(unsigned char *pImageHead, int imageW, int imageH);
+    void inference(Output &output, unsigned char *pImageHead, int imageW, int imageH);
 
 private:
     /**
