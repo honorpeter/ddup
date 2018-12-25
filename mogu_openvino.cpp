@@ -243,7 +243,12 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
 
     /** 图片大小转换 **/
     cv::Mat resized;
-    cv::resize(image, resized, cv::Size(width, height));
+    if (imageW != width || imageH != height) {
+        cv::resize(image, resized, cv::Size(width, height));
+    } else {
+        resized = image;
+    }
+
 
     /** 从资源池读取均值数组 **/
     if (meanArr) {
@@ -269,6 +274,7 @@ void Openvino_Net::ex_pic(float *phead, Config &config, unsigned char *pImageHea
     }
 
     /** 释放大小转换的中间数据 **/
+    image.release();
     resized.release();
 
     /** 裁剪逻辑 **/

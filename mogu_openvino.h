@@ -11,6 +11,8 @@
 #include <memory>
 #include <string>
 #include <unistd.h>
+#include <iostream>
+#include <string>
 
 #include <inference_engine.hpp>
 #include <ext_list.hpp>
