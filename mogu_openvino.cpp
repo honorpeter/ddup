@@ -317,13 +317,14 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
     /** 遍历输出层信息,进行结果填充 **/
     // todo 当前版本只允许有一个输出...
     for (const auto &item : outputInfo) {
+        printf("Star to collect shape\n");
+        fflush(stdout);
         Blob::Ptr outputBlob = inferRequest.GetBlob(item.first);
         const LockedMemory<const void> memLocker = outputBlob->cbuffer();
         // todo 将来可能需要使用泛型来指定精度
         const float *outputBuffer = memLocker.as<PrecisionTrait<Precision::FP32>::value_type *>();
         output.data = outputBuffer;
-
-        printf("Star to collect shape\n");
+        printf("End to collect output\n");
         fflush(stdout);
         SizeVector shapesVector = outputBlob->getTensorDesc().getDims();
         int i = 0;
@@ -335,8 +336,6 @@ void Openvino_Net::collectOutPut(InferRequest &inferRequest, Config &config, Out
             }
         }
     }
-    printf("End to collect output\n");
-    fflush(stdout);
 }
 
 /**
