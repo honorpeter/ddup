@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     com_mogujie_algo_openvino_jni_MoguOpenvino
  * Method:    create
- * Signature: (Lcom/mogujie/algo/openvino/jni/MoguOpenvino/OpenvinoCfg;)I
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)I
  */
 JNIEXPORT jint JNICALL Java_com_mogujie_algo_openvino_jni_MoguOpenvino_create
-  (JNIEnv *, jclass, jobject);
+  (JNIEnv *, jclass, jstring, jstring);
 
 /*
  * Class:     com_mogujie_algo_openvino_jni_MoguOpenvino

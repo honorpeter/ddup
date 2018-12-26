@@ -6,28 +6,24 @@
 
 static std::map<std::string, Openvino_Net *> netPool;
 
-inline void get_string_from_obj(JNIEnv *env, jclass &cls, jobject &obj, std::string &str) {
-    jfieldID filedId = env->GetFieldID(cls, "modelDir", "Ljava/lang/String;");
-    if (filedId) {
-        auto jstr = (jstring) env->GetObjectField(obj, filedId);
-        const char *pJstr = env->GetStringUTFChars(jstr, nullptr);
-        str = std::string(pJstr);
-        env->ReleaseStringUTFChars(jstr, pJstr);
-    }
+inline void get_string(JNIEnv *env, jstring jstr, std::string &str) {
+    const char *pJstr = env->GetStringUTFChars(jstr, nullptr);
+    str = std::string(pJstr);
+    env->ReleaseStringUTFChars(jstr, pJstr);
 }
 
 /*
  * Class:     com_mogujie_algo_openvino_jni_MoguOpenvino
  * Method:    create
- * Signature: (Lcom/mogujie/algo/openvino/jni/MoguOpenvino/OpenvinoCfg;)I
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)I
  */
 JNIEXPORT jint JNICALL Java_com_mogujie_algo_openvino_jni_MoguOpenvino_create
-        (JNIEnv *env, jclass cls, jobject cfgObj){
+        (JNIEnv *env, jclass cls, jstring jModelDir, jstring jModelName){
 
     std::string modelDirStr;
     std::string modelNameStr;
-    get_string_from_obj(env, cls, cfgObj, modelDirStr);
-    get_string_from_obj(env, cls, cfgObj, modelNameStr);
+    get_string(env, jModelDir, modelDirStr);
+    get_string(env, jModelName, modelNameStr);
     Config config;
     config.modelDir = modelDirStr;
     config.modelName = modelNameStr;
@@ -75,7 +71,13 @@ JNIEXPORT jfloatArray JNICALL Java_com_mogujie_algo_openvino_jni_MoguOpenvino_in
  * Signature: (Ljava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_com_mogujie_algo_openvino_jni_MoguOpenvino_release
-        (JNIEnv *env, jclass, jstring){
+        (JNIEnv *env, jclass, jstring jstr){
 
+    std::string modelName;
+    get_string(env, jstr, modelName);
+    Openvino_Net *pNet = netPool.find(modelName)->second;
+    if (pNet) {
+        delete (pNet);
+    }
 }
 
