@@ -385,69 +385,69 @@ void Openvino_Net::inference(Output &output, unsigned char *pImageHead, int imag
 
 // --------------------------------------------------测试函数区-------------------------------------------------//
 
-bool ParseAndCheckCommandLine(int argc, char *argv[]) {
-    // ---------------------------Parsing and validation of input args--------------------------------------
-    gflags::ParseCommandLineNonHelpFlags(&argc, &argv, true);
-    if (FLAGS_h) {
-        showUsage();
-        return false;
-    }
-    slog::info << "Parsing input parameters" << slog::endl;
-
-    if (FLAGS_ni < 1) {
-        throw std::logic_error("Parameter -ni should be greater than zero (default 1)");
-    }
-
-    if (FLAGS_i.empty()) {
-        throw std::logic_error("Parameter -i is not set");
-    }
-
-    if (FLAGS_m.empty()) {
-        throw std::logic_error("Parameter -m is not set");
-    }
-
-    return true;
-}
-
-int main(int argc, char *argv[]) {
-    slog::info << "InferenceEngine: " << GetInferenceEngineVersion() << slog::endl;
-
-    /** 参数转换/验证 */
-    if (!ParseAndCheckCommandLine(argc, argv)) {
-        return 0;
-    }
-
-    Config config;
-    config.modelDir = FLAGS_m;
-    config.modelName = std::string("dl_model_tmp");
-    ImageInfo imageInfo;
-    config.pImageInfo = &imageInfo;
-
-    Openvino_Net net(config);
-    net.create_inf_engine();
-
-    /** 图片路径 **/
-    const char *img_dir = FLAGS_i.c_str();
-    /** 读取图片 **/
-    cv::Mat image = cv::imread(img_dir);
-    unsigned char imageArr[image.rows][image.cols][image.channels()];
-    for (int y = 0; y < image.rows; ++y) {
-        for (int x = 0; x < image.cols; ++x) {
-            imageArr[y][x][0] = image.at<cv::Vec3b>(y, x)[0];
-            imageArr[y][x][1] = image.at<cv::Vec3b>(y, x)[1];
-            imageArr[y][x][2] = image.at<cv::Vec3b>(y, x)[2];
-        }
-    }
-    auto output = new Output();
-    net.inference(*output, &imageArr[0][0][0], image.cols, image.rows);
-
-    /** 读取结果 */
-    printf("shape:n_c: %ld_%ld", output->shape[0], output->shape[1]);
-    printf("fea:\n");
-    for (int i = 0; i < output->shape[0] * output->shape[1]; ++i) {
-        printf("%f ", *(output->data + i));
-    }
-    printf("\n");
-    delete (output);
-
-}
+//bool ParseAndCheckCommandLine(int argc, char *argv[]) {
+//    // ---------------------------Parsing and validation of input args--------------------------------------
+//    gflags::ParseCommandLineNonHelpFlags(&argc, &argv, true);
+//    if (FLAGS_h) {
+//        showUsage();
+//        return false;
+//    }
+//    slog::info << "Parsing input parameters" << slog::endl;
+//
+//    if (FLAGS_ni < 1) {
+//        throw std::logic_error("Parameter -ni should be greater than zero (default 1)");
+//    }
+//
+//    if (FLAGS_i.empty()) {
+//        throw std::logic_error("Parameter -i is not set");
+//    }
+//
+//    if (FLAGS_m.empty()) {
+//        throw std::logic_error("Parameter -m is not set");
+//    }
+//
+//    return true;
+//}
+//
+//int main(int argc, char *argv[]) {
+//    slog::info << "InferenceEngine: " << GetInferenceEngineVersion() << slog::endl;
+//
+//    /** 参数转换/验证 */
+//    if (!ParseAndCheckCommandLine(argc, argv)) {
+//        return 0;
+//    }
+//
+//    Config config;
+//    config.modelDir = FLAGS_m;
+//    config.modelName = std::string("dl_model_tmp");
+//    ImageInfo imageInfo;
+//    config.pImageInfo = &imageInfo;
+//
+//    Openvino_Net net(config);
+//    net.create_inf_engine();
+//
+//    /** 图片路径 **/
+//    const char *img_dir = FLAGS_i.c_str();
+//    /** 读取图片 **/
+//    cv::Mat image = cv::imread(img_dir);
+//    unsigned char imageArr[image.rows][image.cols][image.channels()];
+//    for (int y = 0; y < image.rows; ++y) {
+//        for (int x = 0; x < image.cols; ++x) {
+//            imageArr[y][x][0] = image.at<cv::Vec3b>(y, x)[0];
+//            imageArr[y][x][1] = image.at<cv::Vec3b>(y, x)[1];
+//            imageArr[y][x][2] = image.at<cv::Vec3b>(y, x)[2];
+//        }
+//    }
+//    auto output = new Output();
+//    net.inference(*output, &imageArr[0][0][0], image.cols, image.rows);
+//
+//    /** 读取结果 */
+//    printf("shape:n_c: %ld_%ld", output->shape[0], output->shape[1]);
+//    printf("fea:\n");
+//    for (int i = 0; i < output->shape[0] * output->shape[1]; ++i) {
+//        printf("%f ", *(output->data + i));
+//    }
+//    printf("\n");
+//    delete (output);
+//
+//}

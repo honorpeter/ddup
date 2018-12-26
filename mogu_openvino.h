@@ -16,7 +16,6 @@
 
 #include <inference_engine.hpp>
 #include <ext_list.hpp>
-#include <format_reader_ptr.h>
 
 #include <opencv2/opencv.hpp>
 #include <samples/common.hpp>
@@ -24,9 +23,7 @@
 #include <samples/args_helper.hpp>
 #include <pthread.h>
 #include <sched.h>
-#include<ctype.h>
-
-#include "classification_sample.h"
+#include <ctype.h>
 
 using namespace InferenceEngine;
 enum ChanelType : u_int8_t {
