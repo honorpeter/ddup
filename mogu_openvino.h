@@ -20,7 +20,6 @@
 #include <opencv2/opencv.hpp>
 #include <samples/common.hpp>
 #include <samples/slog.hpp>
-#include <samples/args_helper.hpp>
 #include <pthread.h>
 #include <sched.h>
 #include <ctype.h>

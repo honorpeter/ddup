@@ -95,7 +95,7 @@ inline void flip(float *&psrc, float *&pdst, int tuple_w, int tuple_h) {
  */
 inline void create_plugin(InferencePlugin &plugin, Config &config) {
     // todo 绝对路径
-    InferenceEnginePluginPtr engine_ptr = PluginDispatcher({FLAGS_pp, "../../../lib/intel64", ""}).getSuitablePlugin(
+    InferenceEnginePluginPtr engine_ptr = PluginDispatcher({"", "../../../lib/intel64", ""}).getSuitablePlugin(
             config.targetDevice);
     plugin = InferencePlugin(engine_ptr);
     plugin.SetConfig({{PluginConfigParams::KEY_CPU_BIND_THREAD, PluginConfigParams::YES}});

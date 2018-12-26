@@ -35,6 +35,7 @@ JNIEXPORT jint JNICALL Java_com_mogujie_algo_openvino_jni_MoguOpenvino_create
     auto *net = new Openvino_Net(config);
     net->create_inf_engine();
     netPool.insert(std::map<std::string, Openvino_Net *>::value_type(modelNameStr, net));
+    return 1;
 }
 
 /*
